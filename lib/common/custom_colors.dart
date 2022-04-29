@@ -49,6 +49,24 @@ class CustomColors {
     },
   );
 
+  
+
+static const MaterialColor beige = const MaterialColor(
+    0xFFFFEEE1,
+    const <int, Color>{
+      50: const Color(0xFFFFEEE1),
+      100: const Color(0xFFFFEEE1),
+      200: const Color(0xFFFFEEE1),
+      300: const Color(0xFFFFEEE1),
+      400: const Color(0xFFFFEEE1),
+      500: const Color(0xFFFFEEE1),
+      600: const Color(0xFFFFEEE1),
+      700: const Color(0xFFFFEEE1),
+      800: const Color(0xFFFFEEE1),
+      900: const Color(0xFFFFEEE1),
+    },
+  );
+
   static const MaterialColor mainYellow = const MaterialColor(
     0xFFFFC500,
     const <int, Color>{
@@ -58,10 +76,10 @@ class CustomColors {
       300: const Color(0xFFFFC500),
       400: const Color(0xFFFFC500),
       500: const Color(0xFFFFC500),
-      600: const Color(0xFFFF9000),
-      700: const Color(0xFFFF9600),
-      800: const Color(0xFFFF9600),
-      900: const Color(0xFFFF9600),
+      600: const Color(0xFFFFC500),
+      700: const Color(0xFFFFC500),
+      800: const Color(0xFFFFC500),
+      900: const Color(0xFFFFC500),
     },
   );
 
@@ -208,7 +226,7 @@ class CustomColors {
 
   //Info Card Colors in Metrics section
 
-  static const Color lightOrange = const Color(0xffE0B57A);
+  static const Color lightOrange = const Color(0xffFFECBF);
   static const Color lightishOrange = const Color(0xff816E4F);
   static const Color midOrange = const Color(0xff956C2F);
   static const Color midOrange2 = const Color(0xffD6A154);

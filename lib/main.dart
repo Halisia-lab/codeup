@@ -16,10 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SAV Reddit',
+      title: 'CodeUp',
+      
       theme: ThemeData(
         //backgroundColor: Colors.white,
         primarySwatch: CustomColors.mainYellow,
+        secondaryHeaderColor: CustomColors.mainYellow
       ),
       home: MyHomePage(title: 'SAV Reddit Home Page'),
     );

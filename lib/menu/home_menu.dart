@@ -35,15 +35,40 @@ class HomeMenu extends StatelessWidget {
             ),
             child: HomeMenuProfile(),
           ),
-          HomeMenuOption("Friends", Icons.person, () => print("friends page")),
-          HomeMenuOption("Favorites", Icons.bookmark_border, () => print("favorites page")),
-          HomeMenuOption("About us", Icons.book_online, () => print("about us page")),
+          HomeMenuOption("Friends", Icons.person, () => _getFriendsPage()),
+          HomeMenuOption("Favorites", Icons.bookmark_border, () => _getFavoritesPage()),
+          HomeMenuOption("About us", Icons.book_online, () => _getAboutUsPage()),
           Container(margin: EdgeInsets.only(top:5, bottom: 10),height: 1, width: MediaQuery.of(context).size.width, decoration: BoxDecoration(color: CustomColors.lightGrey3),),
-          //HomeMenuOption("Logout", Icons.logout, () => print("logout page")),
-          CustomButton(Colors.orange, "Log in", () => print("sign in page")),
-          CustomButton(CustomColors.mainYellow, "Sign up", () => print("sign up page")),
+          //HomeMenuOption("Logout", Icons.logout, () => _logOut()),
+          CustomButton(CustomColors.mainYellow, "Log in", () => _logIn()),
+          CustomButton(Colors.orange, "Sign up", () => _signUp()),
         ],
       ),
     );
   }
+}
+
+_signUp() {
+  print("write sign up");
+}
+
+_logIn() {
+
+  print("write log in");
+}
+
+_logOut() {
+  print("write log out");
+}
+
+_getAboutUsPage() {
+  print("write about us page");
+}
+
+_getFavoritesPage() {
+  print("write favorites page");
+}
+
+_getFriendsPage() {
+  print("write friends page");
 }
