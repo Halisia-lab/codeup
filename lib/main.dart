@@ -1,77 +1,91 @@
-import 'package:codeup/common/custom_colors.dart';
+import 'package:codeup/ui/authentication/sign_in/sign_in_screen.dart';
+import 'package:codeup/ui/home/home_screen.dart';
+import 'package:codeup/ui/common/custom_colors.dart';
 import 'package:flutter/material.dart';
-import 'components/post_list.dart';
 
-import 'Authentication.dart';
-import 'components/AppSearchBar.dart';
-import 'home/home_screen.dart';
-import 'models/Question.dart';
-import 'services/QuestionService.dart';
+import 'ui/authentication/sign_up/sign_up_screen.dart';
+import 'ui/forums/forum_page/forum_page_screen.dart';
+import 'ui/forums/forums_screen.dart';
+import 'ui/friends/friends_screen.dart';
+import 'ui/profile/profile_screen.dart';
+import 'ui/saved_posts/saved_posts_screen.dart';
+import 'ui/search/search_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp("sign-in"));
 }
 
 class MyApp extends StatelessWidget {
+  final String launchRoute;
+
+  const MyApp(this.launchRoute);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CodeUp',
-      
-      theme: ThemeData(
-        //backgroundColor: Colors.white,
-        primarySwatch: CustomColors.mainYellow,
-        secondaryHeaderColor: CustomColors.mainYellow
-      ),
-      home: MyHomePage(title: 'SAV Reddit Home Page'),
-    );
+        title: 'CodeUp',
+        theme: ThemeData(
+          
+          primarySwatch: CustomColors.darkText,
+          secondaryHeaderColor: CustomColors.mainYellow,
+        ),
+        home: SignInScreen(),
+        initialRoute: launchRoute,
+        routes: {
+          HomeScreen.routeName: (ctx) => HomeScreen(),
+          SignInScreen.routeName: (ctx) => SignInScreen(),
+          SignUpScreen.routeName: (ctx) => SignUpScreen(),
+          SearchScreen.routeName: (ctx) => SearchScreen(),
+          ForumsScreen.routeName: (ctx) => ForumsScreen(),
+          FriendsScreen.routeName: (ctx) => FriendsScreen(),
+          SavedPostsScreen.routeName: (ctx) => SavedPostsScreen(),
+          ForumPageScreen.routeName: (ctx) => ForumPageScreen(),
+          ProfileScreen.routeName: (ctx) => ProfileScreen(),
+        });
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final QuestionService _questionService = QuestionService();
-  List<Question> questions = [];
-  String valueSearchBar = "";
-  setValueSearchBar(String value) {
+  int _counter = 0;
+
+  void _incrementCounter() {
     setState(() {
-      valueSearchBar = value;
+      _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    //return PostList();
-    print(valueSearchBar);
-    print(questions);
-    /* return FutureBuilder(
-      future: authStateFalse.getUserdata(userId: getModel?.userId),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) { */
-    return HomeScreen();
-    /* } else if ((snapshot.connectionState == ConnectionState.waiting ||
-            snapshot.connectionState == ConnectionState.active)) {
-          return SizedBox(
-              // itutuloy function if loading
-              );
-        } else {
-          return SizedBox();
-        }
-      },
-    ); */
-  }
-
-  void getQuestions() async {
-    // try{
-    questions = await _questionService.getQuestions();
-    //List<TableRow> tableRows = [];
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 }
