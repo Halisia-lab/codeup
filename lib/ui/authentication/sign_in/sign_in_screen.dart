@@ -23,7 +23,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
   final AuthService authService = AuthService(signInFieldsVm: _signInFieldsVm);
 
-    final navBarTitle = Text("Log In", textAlign: TextAlign.center);
+    final navBarTitle = Text("Sign In", textAlign: TextAlign.center);
     final appBar = AppBar(
       title: Center(
         child: navBarTitle,

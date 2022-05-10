@@ -1,3 +1,4 @@
+import 'package:codeup/entities/post.dart';
 import 'package:codeup/ui/forums/forums_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -19,11 +20,14 @@ class TestData {
     Person(1, "Thomas Lemaire", "thomas.thomas@gmail.com", "***", "test",
         "https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg")
   ];
+  
   var currentUser = TestData.personnes[1];
   static List<HomePost> posts = [
-          /*   HomePost("Nouveau post", "Title",
-                [LanguageValue.C, LanguageValue.JAVA], TestData.personnes[0], 4, false),
-            HomePost(
+    
+    HomePost(Post(1,"Title", "Nouveau post", "JAVA", 1, 1), [LanguageValue.C, LanguageValue.JAVA], 4, false, TestData.personnes[1] ),
+             HomePost(Post(1,"Title", "Nouveau post", "JAVA", 1, 1),
+                [LanguageValue.C, LanguageValue.JAVA], 4, true, TestData.personnes[0]),
+           /* HomePost(
                 "hello this is my post. hello this is my post, hello this is my post, hello this is my post. hello this is my post. hello this is my post, hello this is my post, hello this is my post. hello this is my post. hello this is my post, hello this is my post, hello this is my post. ",
                 "I have a problem while launching java. ",
                 [LanguageValue.JAVA],

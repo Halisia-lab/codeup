@@ -6,8 +6,9 @@ import '../common/test_data.dart';
 import '../home/home_post.dart';
 
 class SavedPostList extends StatefulWidget {
-  const SavedPostList({ Key? key }) : super(key: key);
 
+  static List<HomePost> savedPosts = [];
+  SavedPostList();
   @override
   _SavedPostListState createState() => _SavedPostListState();
 }
@@ -17,6 +18,10 @@ class _SavedPostListState extends State<SavedPostList> {
   Widget build(BuildContext context) {
     Person currentUser = TestData.personnes[1];
     List<HomePost> posts = TestData.posts;
+    for(HomePost post in posts) {
+      if (post.isSaved) 
+        SavedPostList.savedPosts.add(post);
+    } 
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(
@@ -25,9 +30,8 @@ class _SavedPostListState extends State<SavedPostList> {
             child: Column(
           children: [
             
-            for(HomePost post in posts) 
-            if(post.isSaved)
-            post
+            for(HomePost post in SavedPostList.savedPosts)
+              post
           ],
         )
             /* child: Column(

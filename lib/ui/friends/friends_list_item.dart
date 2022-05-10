@@ -1,4 +1,5 @@
 import 'package:codeup/ui/common/test_data.dart';
+import 'package:codeup/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/Person.dart';
@@ -11,17 +12,32 @@ class FriendsListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ListTile(
-        title: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(friend.photoUrl),
-                radius: 20,
-              ),
+        title: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(7)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade400.withOpacity(0.1),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
             ),
-            Text(friend.name),
-          ],
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(friend.photoUrl),
+                  radius: 20,
+                ),
+              ),
+              Text(friend.name),
+            ],
+          ),
         ),
         onTap: () => _getFriendPage(context, friend),
       ),
@@ -29,6 +45,6 @@ class FriendsListItem extends StatelessWidget {
   }
 
   _getFriendPage(BuildContext context, Person friend) {
-    print("go to friend page");
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProfileScreen(friend)));
   }
 }

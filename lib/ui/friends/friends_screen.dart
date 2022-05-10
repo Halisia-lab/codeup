@@ -1,4 +1,5 @@
 import 'package:codeup/ui/common/test_data.dart';
+import 'package:codeup/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/Person.dart';
@@ -16,7 +17,7 @@ class FriendsScreen extends StatefulWidget {
 }
 
 class _FriendsScreenState extends State<FriendsScreen> {
-  final background_color = CustomColors.white;
+  final background_color = CustomColors.lightGrey3;
   @override
   Widget build(BuildContext context) {
      return Scaffold(

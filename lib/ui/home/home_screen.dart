@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final background_color = CustomColors.lightGrey3;
   @override
   Widget build(BuildContext context) {
-    postService.getPosts();
+    //postService.getPosts();
     return Scaffold(
       backgroundColor: background_color,
       drawer: HomeMenu(),

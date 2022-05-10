@@ -152,16 +152,16 @@ class _SignInBottomState extends State<SignInBottom> {
       final user = User(-1, "", signInFieldsVm.tPasswordController.text,
           signInFieldsVm.tLoginController.text, "", "");
 
-      final response = await authService.logIn(signInFieldsVm, user);
+      //final response = await authService.logIn(signInFieldsVm, user);
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      //if (response.statusCode == 200 || response.statusCode == 201) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
           return const HomeScreen();
         }));
-      } else {
+     /*  } else {
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.email, "");
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.password, "");
-      }
+      } */
       // userAuthenticationVm.signInState = SignInState.processing,
       // userAuthenticationVm.signIn(signInFieldsVm.tLoginController.text,
       //     signInFieldsVm.tPasswordController.text).then((value) {

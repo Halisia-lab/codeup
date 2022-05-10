@@ -1,4 +1,6 @@
+import 'package:codeup/entities/Person.dart';
 import 'package:codeup/ui/authentication/sign_in/sign_in_screen.dart';
+import 'package:codeup/ui/common/test_data.dart';
 import 'package:codeup/ui/home/home_screen.dart';
 import 'package:codeup/ui/common/custom_colors.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +14,14 @@ import 'ui/saved_posts/saved_posts_screen.dart';
 import 'ui/search/search_screen.dart';
 
 void main() {
-  runApp(const MyApp("sign-in"));
+  runApp(MyApp("sign-in"));
 }
 
 class MyApp extends StatelessWidget {
   final String launchRoute;
+  Person currentUser = TestData.personnes[0];
 
-  const MyApp(this.launchRoute);
+  MyApp(this.launchRoute);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,7 +42,7 @@ class MyApp extends StatelessWidget {
           FriendsScreen.routeName: (ctx) => FriendsScreen(),
           SavedPostsScreen.routeName: (ctx) => SavedPostsScreen(),
           ForumPageScreen.routeName: (ctx) => ForumPageScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(),
+          ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser),
         });
   }
 }

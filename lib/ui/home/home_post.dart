@@ -1,6 +1,7 @@
 
 import 'package:codeup/services/auth_service.dart';
 import 'package:codeup/ui/common/test_data.dart';
+import 'package:codeup/ui/saved_posts/saved_post_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/Person.dart';
@@ -19,11 +20,12 @@ class HomePost extends StatefulWidget {
   final List<LanguageValue> languages;
   int votes;
   bool isSaved;
-  HomePost(this.post, this.languages, this.votes, this.isSaved);
+  Person commiter;
+  HomePost(this.post, this.languages, this.votes, this.isSaved, this.commiter);
 
   @override
   _HomePostState createState() =>
-      _HomePostState(this.post, this.languages, this.votes, this.isSaved);
+      _HomePostState(this.post, this.languages, this.votes, this.isSaved, this.commiter);
 }
 
 class _HomePostState extends State<HomePost> {
@@ -32,8 +34,9 @@ class _HomePostState extends State<HomePost> {
   final List<LanguageValue> languages;
   int votes;
   bool isSaved;
+  Person commiter;
 //this.text, this.title, this.languages, this.commiter, this.votes, this.isSaved
-  _HomePostState(this.post, this.languages, this.votes, this.isSaved);
+  _HomePostState(this.post, this.languages, this.votes, this.isSaved, this.commiter);
 
   Future<User> getCommiter() async {
     
@@ -76,12 +79,12 @@ class _HomePostState extends State<HomePost> {
                             height: 40,
                             child: CircleAvatar(
                                 backgroundImage:
-                                    NetworkImage(TestData.personnes[0].photoUrl),
+                                    NetworkImage(this.commiter.photoUrl),
                                     
                                 radius: 30),
                           ),
                         ),
-                    Text("coucou", style: TextStyle(fontSize: 17),),
+                    Text(this.commiter.name, style: TextStyle(fontSize: 17),),
                   ],
                 ),
                 
@@ -121,10 +124,12 @@ _save() {
   setState(() {
     if(isSaved) {
     isSaved = false;
-    TestData.posts.remove(this.widget);
+    SavedPostList.savedPosts.remove(this.widget);
   } else {
     isSaved = true;
-    TestData.posts.add(this.widget);
+    if(!SavedPostList.savedPosts.contains(this.widget)) {
+      SavedPostList.savedPosts.add(this.widget);
+    }
   }
   });
   

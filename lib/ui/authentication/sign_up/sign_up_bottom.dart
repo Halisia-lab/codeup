@@ -1,11 +1,8 @@
-import 'package:codeup/backend/model/user_list.dart';
 import 'package:codeup/ui/authentication/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../backend/http_service.dart';
 import '../../../utils/custom_colors.dart';
-import '../../../utils/custom_dialog.dart';
 import '../../../utils/sign_in_field_enum.dart';
 import '../../component/adaptive_button.dart';
 import '../../home/home_screen.dart';

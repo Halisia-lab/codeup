@@ -15,7 +15,7 @@ class SavedPostsScreen extends StatefulWidget {
 }
 
 class _SavedPostsScreenState extends State<SavedPostsScreen> {
-  final background_color = CustomColors.lightGrey2;
+  final background_color = CustomColors.lightGrey3;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
