@@ -8,27 +8,27 @@ import '../../entities/Person.dart';
 import '../../entities/post.dart';
 import '../../entities/user.dart';
 import '../common/language_enum.dart';
-import 'home_language_text.dart';
-import 'home_post_action.dart';
+import 'post_language_text.dart';
+import 'post_box_action.dart';
 import 'text_viewer.dart';
 import 'votes_counter.dart';
 
 
 
-class HomePost extends StatefulWidget {
+class PostBox extends StatefulWidget {
   Post post;
   final List<LanguageValue> languages;
   int votes;
   bool isSaved;
   Person commiter;
-  HomePost(this.post, this.languages, this.votes, this.isSaved, this.commiter);
+  PostBox(this.post, this.languages, this.votes, this.isSaved, this.commiter);
 
   @override
-  _HomePostState createState() =>
-      _HomePostState(this.post, this.languages, this.votes, this.isSaved, this.commiter);
+  _PostBoxState createState() =>
+      _PostBoxState(this.post, this.languages, this.votes, this.isSaved, this.commiter);
 }
 
-class _HomePostState extends State<HomePost> {
+class _PostBoxState extends State<PostBox> {
   AuthService authService = AuthService();
   Post post;
   final List<LanguageValue> languages;
@@ -36,7 +36,7 @@ class _HomePostState extends State<HomePost> {
   bool isSaved;
   Person commiter;
 //this.text, this.title, this.languages, this.commiter, this.votes, this.isSaved
-  _HomePostState(this.post, this.languages, this.votes, this.isSaved, this.commiter);
+  _PostBoxState(this.post, this.languages, this.votes, this.isSaved, this.commiter);
 
   Future<User> getCommiter() async {
     
@@ -94,7 +94,7 @@ class _HomePostState extends State<HomePost> {
                 ),
                 Row(children: [
                   for (LanguageValue language in languages)
-                    HomeLanguageText(language),
+                    PostLanguageText(language),
                     
                 ]),
                 Row(
@@ -105,9 +105,9 @@ class _HomePostState extends State<HomePost> {
                 ),
                  Row(
                   children: <Widget>[
-                    GestureDetector(child: HomePostAction(Icons.comment_outlined, "3 comments ", () => _openComments()), onTap: () => _openComments(),),
-                    GestureDetector(child: HomePostAction(this.isSaved ? Icons.bookmark : Icons.bookmark_border, "Save", () => _save()), onTap: () => _save(),),
-                    GestureDetector(child: HomePostAction(Icons.share_outlined, "Share", () => _share()), onTap: () => _share()),
+                    GestureDetector(child: PostBoxAction(Icons.comment_outlined, "3 comments ", () => _openComments()), onTap: () => _openComments(),),
+                    GestureDetector(child: PostBoxAction(this.isSaved ? Icons.bookmark : Icons.bookmark_border, "Save", () => _save()), onTap: () => _save(),),
+                    GestureDetector(child: PostBoxAction(Icons.share_outlined, "Share", () => _share()), onTap: () => _share()),
                     
                   ],
                 ),  

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../services/auth_service.dart';
 import '../common/custom_colors.dart';
 import './home_post_list.dart';
-import '../menu/home_menu.dart';
+import '../menu/menu.dart';
 import 'home_top.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //postService.getPosts();
     return Scaffold(
       backgroundColor: background_color,
-      drawer: HomeMenu(),
+      drawer: Menu(),
       body: /* Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: FutureBuilder(
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                decoration: BoxDecoration(color: background_color),
                 height: MediaQuery.of(context).size.height * 4/5,
-                /**/child: HomePostList(),
+                /**/child: PostBoxList(),
               ),
               /* Container(
                 height: 1000,
@@ -63,9 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     /* Scaffold(
       backgroundColor: CustomColors.lightGrey2,
-      drawer: HomeMenu(),
+      drawer: Menu(),
       appBar: _getAppBar(),
-      body: Container(child: HomePostList(),),
+      body: Container(child: PostBoxList(),),
       
     ); */
   }

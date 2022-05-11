@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../common/custom_colors.dart';
 
-class HomeMenuOption extends StatelessWidget {
+class MenuOption extends StatelessWidget {
   final String text;
   final IconData icon;
   final action;
-  const HomeMenuOption(this.text, this.icon, this.action);
+  const MenuOption(this.text, this.icon, this.action);
 
   @override
   Widget build(BuildContext context) {

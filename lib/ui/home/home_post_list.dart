@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 
 import '../../entities/Person.dart';
 import '../common/test_data.dart';
-import 'home_post.dart';
+import '../post/post_box.dart';
 
-class HomePostList extends StatefulWidget {
-  const HomePostList({ Key? key }) : super(key: key);
+class PostBoxList extends StatefulWidget {
+  const PostBoxList({ Key? key }) : super(key: key);
 
   @override
-  _HomePostListState createState() => _HomePostListState();
+  _PostBoxListState createState() => _PostBoxListState();
 }
 
-class _HomePostListState extends State<HomePostList> {
+class _PostBoxListState extends State<PostBoxList> {
   @override
   Widget build(BuildContext context) {
     Person currentUser = TestData.personnes[1];
-    List<HomePost> posts = TestData.posts;
+    List<PostBox> posts = TestData.posts;
     return Container(
       child: Padding(
         padding: const EdgeInsets.only(
@@ -25,12 +25,12 @@ class _HomePostListState extends State<HomePostList> {
             child: Column(
           children: [
             
-             for(HomePost post in posts) 
+             for(PostBox post in posts) 
             post
           ],
         )
             /* child: Column(
-            children: [HomePost("Nouveau post", "Title", [LanguageEnum.C, LanguageEnum.JAVA], currentUser), HomePost("bonjour", "Le titre de mon post est", [LanguageEnum.C, LanguageEnum.JAVA, LanguageEnum.PYTHON], currentUser), HomePost("hello this is my post", "I have a problem while launching java", [LanguageEnum.JAVA], currentUser)],
+            children: [PostBox("Nouveau post", "Title", [LanguageEnum.C, LanguageEnum.JAVA], currentUser), PostBox("bonjour", "Le titre de mon post est", [LanguageEnum.C, LanguageEnum.JAVA, LanguageEnum.PYTHON], currentUser), PostBox("hello this is my post", "I have a problem while launching java", [LanguageEnum.JAVA], currentUser)],
           ), */
             ),
       ),

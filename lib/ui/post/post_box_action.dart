@@ -1,11 +1,11 @@
 import '../common/custom_colors.dart';
 import 'package:flutter/material.dart';
 
-class HomePostAction extends StatelessWidget {
+class PostBoxAction extends StatelessWidget {
   final IconData icon;
   final String text;
   final action;
-  const HomePostAction(this.icon, this.text, this.action);
+  const PostBoxAction(this.icon, this.text, this.action);
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
-import '../menu/home_menu.dart';
+import '../menu/menu.dart';
 
 class ForumsScreen extends StatefulWidget {
   static const routeName = "/forum-screen";
@@ -21,7 +21,7 @@ class _ForumsScreenState extends State<ForumsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: background_color,
-      drawer: HomeMenu(),
+      drawer: Menu(),
       body: CustomScrollView(
         slivers: [
           CustomAppBar("Forums", true),

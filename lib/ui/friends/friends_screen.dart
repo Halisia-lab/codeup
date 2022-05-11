@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../entities/Person.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
-import '../menu/home_menu.dart';
+import '../menu/menu.dart';
 import 'friends_list_item.dart';
 
 class FriendsScreen extends StatefulWidget {
@@ -22,7 +22,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
   Widget build(BuildContext context) {
      return Scaffold(
       backgroundColor: background_color,
-      drawer: HomeMenu(),
+      drawer: Menu(),
       body: CustomScrollView(
         slivers: [
           CustomAppBar("Friends", true),

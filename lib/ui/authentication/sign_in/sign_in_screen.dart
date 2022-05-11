@@ -3,7 +3,7 @@ import 'package:codeup/ui/authentication/sign_in/sign_in_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../menu/home_menu.dart';
+import '../../menu/menu.dart';
 import 'sign_in_body.dart';
 import '../viewModel/sign_in_fields_view_model.dart';
 import '../viewModel/soft_keyboard_view_model.dart';
@@ -43,7 +43,7 @@ class _SignInScreenState extends State<SignInScreen> {
       }),
     ));
     return Scaffold(
-      drawer: const HomeMenu(),
+      drawer: const Menu(),
       appBar: appBar,
       body: body,
     );

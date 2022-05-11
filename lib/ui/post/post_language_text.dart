@@ -2,9 +2,9 @@ import '../common/custom_colors.dart';
 import '../common/language_enum.dart';
 import 'package:flutter/material.dart';
 
-class HomeLanguageText extends StatelessWidget {
+class PostLanguageText extends StatelessWidget {
   final LanguageValue languageValue;
-  const HomeLanguageText(this.languageValue);
+  const PostLanguageText(this.languageValue);
 
   @override
   Widget build(BuildContext context) {

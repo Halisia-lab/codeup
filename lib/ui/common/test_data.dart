@@ -3,7 +3,7 @@ import 'package:codeup/ui/forums/forums_list_item.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/Person.dart';
-import '../home/home_post.dart';
+import '../post/post_box.dart';
 import './language_enum.dart';
 
 class TestData {
@@ -22,24 +22,24 @@ class TestData {
   ];
   
   var currentUser = TestData.personnes[1];
-  static List<HomePost> posts = [
+  static List<PostBox> posts = [
     
-    HomePost(Post(1,"Title", "Nouveau post", "JAVA", 1, 1), [LanguageValue.C, LanguageValue.JAVA], 4, false, TestData.personnes[1] ),
-             HomePost(Post(1,"Title", "Nouveau post", "JAVA", 1, 1),
+    PostBox(Post(1,"Title", "Nouveau post", "JAVA", 1, 1), [LanguageValue.C, LanguageValue.JAVA], 4, false, TestData.personnes[1] ),
+             PostBox(Post(1,"Title", "Nouveau post", "JAVA", 1, 1),
                 [LanguageValue.C, LanguageValue.JAVA], 4, true, TestData.personnes[0]),
-           /* HomePost(
+           /* PostBox(
                 "hello this is my post. hello this is my post, hello this is my post, hello this is my post. hello this is my post. hello this is my post, hello this is my post, hello this is my post. hello this is my post. hello this is my post, hello this is my post, hello this is my post. ",
                 "I have a problem while launching java. ",
                 [LanguageValue.JAVA],
                 TestData.personnes[1],
                 33, false),
-           /*  HomePost(
+           /*  PostBox(
                 "bonjour",
                 "Le titre de mon post est",
                 [LanguageValue.C, LanguageValue.JAVA, LanguageValue.PYTHON],
                 TestData.personnes[1],
                 -1), */
-            HomePost(
+            PostBox(
                 "hello this is my post",
                 "I have a problem while launching java",
                 [LanguageValue.JAVA],

@@ -10,7 +10,7 @@ import '../authentication/viewModel/soft_keyboard_view_model.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
 import '../home/home_screen.dart';
-import '../menu/home_menu.dart';
+import '../menu/menu.dart';
 
 class ProfileUnLoggedBody extends StatefulWidget {
   static const routeName = "/profile-screen";
@@ -62,7 +62,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
       }),
     ));
     return Scaffold(
-        backgroundColor: background_color, drawer: const HomeMenu(), body: body);
+        backgroundColor: background_color, drawer: const Menu(), body: body);
   }
 
   Widget _getBody() {

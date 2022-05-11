@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../common/custom_colors.dart';
 import '../common/test_data.dart';
 
-class HomeMenuProfile extends StatelessWidget {
-  const HomeMenuProfile({Key? key}) : super(key: key);
+class MenuProfile extends StatelessWidget {
+  const MenuProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

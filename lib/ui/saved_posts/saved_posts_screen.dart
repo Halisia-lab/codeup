@@ -3,8 +3,7 @@ import 'package:codeup/ui/saved_posts/saved_post_list.dart';
 import 'package:flutter/material.dart';
 
 import '../common/custom_colors.dart';
-import '../home/home_post_list.dart';
-import '../menu/home_menu.dart';
+import '../menu/menu.dart';
 
 class SavedPostsScreen extends StatefulWidget {
   static const routeName = "/savedPosts-screen";
@@ -20,7 +19,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: background_color,
-      drawer: HomeMenu(),
+      drawer: Menu(),
       body: CustomScrollView(
         slivers: [
           CustomAppBar("Saved Posts", true),

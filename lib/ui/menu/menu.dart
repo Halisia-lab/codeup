@@ -11,11 +11,11 @@ import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
 import '../common/test_data.dart';
 import '../profile/profile_screen.dart';
-import 'home_menu_option.dart';
-import 'home_menu_profile.dart';
+import 'menu_option.dart';
+import 'menu_profile.dart';
 
-class HomeMenu extends StatelessWidget {
-  const HomeMenu({Key? key}) : super(key: key);
+class Menu extends StatelessWidget {
+  const Menu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +60,12 @@ class HomeMenu extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom:15.0),
                     child: Text(currentUser.email, style: TextStyle(fontSize: 15, color: Colors.grey),),
                   )),
-          HomeMenuOption("Home", Icons.home, () => _getHomePage(context)),
-          HomeMenuOption("Friends", Icons.person, () => _getFriendsPage(context)),
-          HomeMenuOption("Saved Posts", Icons.bookmark, () => _getFavoritesPage(context)),
-          HomeMenuOption("Forums", Icons.chat_bubble_outline_sharp, () => _getForumsPage(context)),
+          MenuOption("Home", Icons.home, () => _getHomePage(context)),
+          MenuOption("Friends", Icons.person, () => _getFriendsPage(context)),
+          MenuOption("Saved Posts", Icons.bookmark, () => _getFavoritesPage(context)),
+          MenuOption("Forums", Icons.chat_bubble_outline_sharp, () => _getForumsPage(context)),
           Container(margin: EdgeInsets.only(top:5, bottom: 10),height: 1, width: MediaQuery.of(context).size.width, decoration: BoxDecoration(color: CustomColors.lightGrey1),),
-          //HomeMenuOption("Logout", Icons.logout, () => _logOut(context)),
+          //MenuOption("Logout", Icons.logout, () => _logOut(context)),
           AuthService.currentUser != null ? CustomButton(CustomColors.mainYellow, "Log out", () => _logOut(context)) : 
           CustomButton(CustomColors.mainYellow, "Log in", () => _logIn(context)),
           if(AuthService.currentUser == null)
