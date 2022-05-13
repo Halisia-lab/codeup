@@ -19,12 +19,12 @@ class PostBoxAction extends StatelessWidget {
                   padding: const EdgeInsets.only(right:5.0),
                   child: Icon(
                     this.icon,
-                    color: Colors.grey,
+                    color: CustomColors.darkText,
                   ),
                 ),
                 Text(
                   this.text,
-                  style: TextStyle(color: CustomColors.lightGrey6),
+                  style: TextStyle(color: CustomColors.lightGrey6, fontSize: 15),
                 )
               ],
             )

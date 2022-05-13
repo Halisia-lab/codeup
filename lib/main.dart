@@ -1,5 +1,6 @@
 import 'package:codeup/entities/Person.dart';
 import 'package:codeup/ui/authentication/sign_in/sign_in_screen.dart';
+import 'package:codeup/ui/comment/comment_list_screen.dart';
 import 'package:codeup/ui/common/test_data.dart';
 import 'package:codeup/ui/home/home_screen.dart';
 import 'package:codeup/ui/common/custom_colors.dart';
@@ -19,7 +20,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final String launchRoute;
-  Person currentUser = TestData.personnes[0];
+  Person currentUser = TestData.currentUser;
 
   MyApp(this.launchRoute);
   @override
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: CustomColors.darkText,
           secondaryHeaderColor: CustomColors.mainYellow,
         ),
-        home: SignInScreen(),
+        home: const HomeScreen(),
         initialRoute: launchRoute,
         routes: {
           HomeScreen.routeName: (ctx) => HomeScreen(),
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           SavedPostsScreen.routeName: (ctx) => SavedPostsScreen(),
           ForumPageScreen.routeName: (ctx) => ForumPageScreen(),
           ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser),
+          //CommentList.routeName: (ctx) => ProfileScreen(currentUser),
         });
   }
 }

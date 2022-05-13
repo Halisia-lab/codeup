@@ -6,74 +6,97 @@ import 'package:codeup/ui/home/home_screen.dart';
 import 'package:codeup/ui/saved_posts/saved_posts_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../backend/model/user.dart';
+import '../../entities/Person.dart';
 import '../authentication/sign_up/sign_up_screen.dart';
 import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
 import '../common/test_data.dart';
 import '../profile/profile_screen.dart';
 import 'menu_option.dart';
-import 'menu_profile.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-  final currentUser = TestData.personnes[1];
+    final currentUser = TestData.currentUser;
     return Drawer(
       backgroundColor: Colors.white,
-      child: ListView(
-        
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.white
-              /* gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              stops: [
-                0.1,
-                0.9,
-              ],
-              colors: [
-                CustomColors.mainYellow,
-                Colors.orange
-              ],
-            ), */
-            ),
-            child:  
-          AuthService.currentUser != null ? GestureDetector(
-            onTap: () => _getProfilePage(context),
-            child: Padding(
-              padding: const EdgeInsets.only(top:0.0),
-              child: Image.network(
-                  "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-                  height: 100, 
-                
-                  ),
-            ),
-          ) : SizedBox(height: 400,),
-          ),
-         if(AuthService.currentUser != null)
-          Center(child: Padding(
-                    padding: const EdgeInsets.only(bottom:15.0),
-                    child: Text(currentUser.email, style: TextStyle(fontSize: 15, color: Colors.grey),),
-                  )),
-          MenuOption("Home", Icons.home, () => _getHomePage(context)),
-          MenuOption("Friends", Icons.person, () => _getFriendsPage(context)),
-          MenuOption("Saved Posts", Icons.bookmark, () => _getFavoritesPage(context)),
-          MenuOption("Forums", Icons.chat_bubble_outline_sharp, () => _getForumsPage(context)),
-          Container(margin: EdgeInsets.only(top:5, bottom: 10),height: 1, width: MediaQuery.of(context).size.width, decoration: BoxDecoration(color: CustomColors.lightGrey1),),
-          //MenuOption("Logout", Icons.logout, () => _logOut(context)),
-          AuthService.currentUser != null ? CustomButton(CustomColors.mainYellow, "Log out", () => _logOut(context)) : 
-          CustomButton(CustomColors.mainYellow, "Log in", () => _logIn(context)),
-          if(AuthService.currentUser == null)
-          CustomButton(Colors.orange, "Sign up", () => _signUp(context)),
-        ],
-      ),
+      child: AuthService.currentUser != null
+          ? _loggedMenuOptions(context, currentUser)
+          : _loggedMenuOptions(context, currentUser),
     );
   }
+}
+
+Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
+  return ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      DrawerHeader(
+          decoration: const BoxDecoration(color: Colors.white),
+          child: GestureDetector(
+            onTap: () => _getProfilePage(context),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: Image.network(
+                currentUser.photoUrl,
+                height: 100,
+              ),
+            ),
+          )),
+      Center(
+          child: Padding(
+        padding: const EdgeInsets.only(bottom: 15.0),
+        child: Text(
+          currentUser.email,
+          style: const TextStyle(fontSize: 15, color: Colors.grey),
+        ),
+      )),
+      MenuOption("Home", Icons.home, () => _getHomePage(context)),
+      MenuOption("Friends", Icons.person, () => _getFriendsPage(context)),
+      MenuOption(
+          "Saved Posts", Icons.bookmark, () => _getFavoritesPage(context)),
+      MenuOption("Forums", Icons.chat_bubble_outline_sharp,
+          () => _getForumsPage(context)),
+      Container(
+        margin: const EdgeInsets.only(top: 5, bottom: 10, left: 8, right: 8),
+        height: 1,
+        decoration: const BoxDecoration(color: CustomColors.lightGrey3),
+      ),
+      //MenuOption("Logout", Icons.logout, () => _logOut(context)),
+      CustomButton(CustomColors.mainYellow, "Log out", () => _logOut(context))
+    ],
+  );
+}
+
+Widget _unloggedMenuOptions(
+  BuildContext context,
+) {
+  return ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(color: Colors.white),
+        child: SizedBox(
+          height: 400,
+        ),
+      ),
+      MenuOption("Home", Icons.home, () => _getHomePage(context)),
+      MenuOption("Forums", Icons.chat_bubble_outline_sharp,
+          () => _getForumsPage(context)),
+      Container(
+        margin: const EdgeInsets.only(top: 5, bottom: 10, left: 8, right: 8),
+        height: 1,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(color: CustomColors.lightGrey1),
+      ),
+      //MenuOption("Logout", Icons.logout, () => _logOut(context)),
+      CustomButton(CustomColors.mainYellow, "Log in", () => _logIn(context)),
+      CustomButton(Colors.orange, "Sign up", () => _signUp(context)),
+    ],
+  );
 }
 
 _signUp(BuildContext context) {
@@ -108,5 +131,5 @@ _getFriendsPage(BuildContext context) {
 }
 
 _getProfilePage(BuildContext context) {
-    Navigator.of(context).pushNamed(ProfileScreen.routeName);
-  }
+  Navigator.of(context).pushNamed(ProfileScreen.routeName);
+}

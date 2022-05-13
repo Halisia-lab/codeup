@@ -26,11 +26,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final currentUser = TestData.personnes[1];
+  final currentUser = TestData.currentUser;
   final Person wantedUser;
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
-  final background_color = CustomColors.white;
+  final background_color = CustomColors.lightGrey3;
 
   bool _pwdVisibilityToggled = false;
   FocusNode _usernameFocusNode = FocusNode();

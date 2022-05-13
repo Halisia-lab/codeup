@@ -207,7 +207,6 @@ class _SignInBottomState extends State<SignInBottom> {
       signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.email, "");
       signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.password, "");
     }
-    print(response.body);
     return response;
   }
 

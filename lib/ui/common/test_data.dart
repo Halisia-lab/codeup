@@ -21,11 +21,11 @@ class TestData {
         "https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg")
   ];
   
-  var currentUser = TestData.personnes[1];
+  static var currentUser = TestData.personnes[1];
   static List<PostBox> posts = [
     
-    PostBox(Post(1,"Title", "Nouveau post", "JAVA", 1, 1), [LanguageValue.C, LanguageValue.JAVA], 4, false, TestData.personnes[1] ),
-             PostBox(Post(1,"Title", "Nouveau post", "JAVA", 1, 1),
+    PostBox(Post(1,"I need urgent heeelp", " have a problem while launching java. Can you help meeeee", "JAVA", 1, 1), [LanguageValue.C, LanguageValue.PYTHON, LanguageValue.JAVA], 4, false, TestData.personnes[1] ),
+             PostBox(Post(1,"Hello my name is Romain", "Nouveau post", "JAVA", 1, 1),
                 [LanguageValue.C, LanguageValue.JAVA], 4, true, TestData.personnes[0]),
            /* PostBox(
                 "hello this is my post. hello this is my post, hello this is my post, hello this is my post. hello this is my post. hello this is my post, hello this is my post, hello this is my post. hello this is my post. hello this is my post, hello this is my post, hello this is my post. ",

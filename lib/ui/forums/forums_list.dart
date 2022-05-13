@@ -30,8 +30,7 @@ class ForumList extends StatelessWidget {
           padding: const EdgeInsets.all(2),
           children: <Widget>[
             for(ForumListItem forumListItem in TestData.forums)
-        
-                ListTile(title: ForumListItem(forumListItem.name, forumListItem.icon, forumListItem.isJoined, forumListItem.number), onTap: () => print("open forum"), style: ListTileStyle.list,)
+                ListTile(leading: Icon(Icons.javascript, size: 45,color: CustomColors.mainYellow),title: ForumListItem(forumListItem.name, forumListItem.icon, forumListItem.isJoined, forumListItem.number), onTap: () => print("open forum"), style: ListTileStyle.list,)
               
             
           ],

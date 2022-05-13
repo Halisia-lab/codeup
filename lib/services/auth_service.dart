@@ -63,6 +63,5 @@ class AuthService {
 
   static void setCurrentUser(User? user) {
     currentUser = user;
-    print(currentUser);
   }
 }

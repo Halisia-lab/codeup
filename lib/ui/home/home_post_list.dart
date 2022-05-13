@@ -15,7 +15,7 @@ class PostBoxList extends StatefulWidget {
 class _PostBoxListState extends State<PostBoxList> {
   @override
   Widget build(BuildContext context) {
-    Person currentUser = TestData.personnes[1];
+    Person currentUser = TestData.currentUser;
     List<PostBox> posts = TestData.posts;
     return Container(
       child: Padding(

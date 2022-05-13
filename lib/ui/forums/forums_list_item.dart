@@ -26,7 +26,7 @@ class _ForumListItemState extends State<ForumListItem> {
       width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: const EdgeInsets.only(bottom:8.0),
-        child: Row(children: [Icon(icon, size: 45,color: CustomColors.mainYellow,), Padding(
+        child: Row(children: [/* Icon(icon, size: 45,color: CustomColors.mainYellow,), */ Padding(
           padding: const EdgeInsets.only(left: 15.0),
           child: Text(name, style: TextStyle(fontSize: 18),),
         ), if(!isJoined)  ForumJoinButton()]),

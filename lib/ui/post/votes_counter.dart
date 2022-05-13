@@ -17,6 +17,7 @@ class _VotesCounterState extends State<VotesCounter> {
   @override
   Widget build(BuildContext context) {
     
+    FocusScope.of(context).requestFocus(FocusNode());
     return InkWell(
       onTap: () {
         /* getState.addLikeToTweet(

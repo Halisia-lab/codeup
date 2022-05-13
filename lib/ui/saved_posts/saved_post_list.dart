@@ -16,7 +16,7 @@ class SavedPostList extends StatefulWidget {
 class _SavedPostListState extends State<SavedPostList> {
   @override
   Widget build(BuildContext context) {
-    Person currentUser = TestData.personnes[1];
+    Person currentUser = TestData.currentUser;
     List<PostBox> posts = TestData.posts;
     for(PostBox post in posts) {
       if (post.isSaved) 

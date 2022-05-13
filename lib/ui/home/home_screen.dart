@@ -1,5 +1,6 @@
 import 'package:codeup/services/auth_service.dart';
 import 'package:codeup/services/post_service.dart';
+import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/auth_service.dart';
@@ -50,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                decoration: BoxDecoration(color: background_color),
                 height: MediaQuery.of(context).size.height * 4/5,
-                /**/child: PostBoxList(),
+                /**/child: //CommentBox(Image.network(TestData.personnes[0].photoUrl), TextEditingController(), BorderRadius.all(Radius.circular(7)), () => print("on send"), () => print("image removed"))
+        PostBoxList(),
               ),
               /* Container(
                 height: 1000,
@@ -58,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ), */
             ]),
           ),
-        ],
+          ],
       ),
     );
     /* Scaffold(

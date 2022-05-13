@@ -22,7 +22,7 @@ class ProfileLoggedBody extends StatefulWidget {
 }
 
 class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
-  final currentUser = TestData.personnes[1];
+  final currentUser = TestData.currentUser;
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
   final background_color = CustomColors.white;
