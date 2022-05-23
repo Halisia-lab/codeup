@@ -59,7 +59,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     setState(() {
                       var result = TestData.posts
                           .where((element) => element.post.title.contains(str));
-                      print(result.map((e) => e.post.content));
                     });
                 },
               ),
@@ -71,7 +70,5 @@ class _CustomAppBarState extends State<CustomAppBar> {
   _searchOneTopic() {
     var text = _textController.text;
     var result = TestData.posts.where((element) => element.post.title == text);
-    
-    print(result.map((e) => e.post.content));
   }
 }

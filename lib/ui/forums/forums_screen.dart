@@ -1,6 +1,8 @@
 import 'package:codeup/ui/forums/forums_list.dart';
 import 'package:flutter/material.dart';
 
+import '../../services/auth_service.dart';
+import '../authentication/sign_in/sign_in_screen.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
 import '../menu/menu.dart';
@@ -15,7 +17,7 @@ class ForumsScreen extends StatefulWidget {
 
 class _ForumsScreenState extends State<ForumsScreen> {
   
-  final background_color = CustomColors.white;
+  final background_color = CustomColors.lightGrey3;
   int number = 1;
   @override
   Widget build(BuildContext context) {
@@ -38,4 +40,6 @@ class _ForumsScreenState extends State<ForumsScreen> {
       ),
     );
   }
+
+
 }

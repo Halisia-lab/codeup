@@ -1,7 +1,9 @@
+import 'package:codeup/services/auth_service.dart';
 import 'package:codeup/ui/authentication/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../entities/user.dart';
 import '../../../utils/custom_colors.dart';
 import '../../../utils/sign_in_field_enum.dart';
 import '../../component/adaptive_button.dart';
@@ -10,18 +12,22 @@ import '../viewModel/sign_in_fields_view_model.dart';
 import '../viewModel/soft_keyboard_view_model.dart';
 
 class SignUpBottom extends StatefulWidget {
-   final BuildContext ancestorContext;
+  final AuthService authService;
+  final BuildContext ancestorContext;
 
-  const SignUpBottom({Key? key, required this.ancestorContext}) : super(key: key);
+  const SignUpBottom(
+      {Key? key, required this.ancestorContext, required this.authService})
+      : super(key: key);
 
   @override
-  _SignUpBottomState createState() => _SignUpBottomState();
+  _SignUpBottomState createState() => _SignUpBottomState(this.authService);
 }
 
 class _SignUpBottomState extends State<SignUpBottom> {
-  String? _appVersion;
+  final AuthService authService;
 
-   @override
+  _SignUpBottomState(this.authService);
+  @override
   void initState() {
     super.initState();
   }
@@ -31,75 +37,69 @@ class _SignUpBottomState extends State<SignUpBottom> {
     final theme = Theme.of(context);
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget> [
-        _buildSignIn(context),
-        Padding(
-          padding: const EdgeInsets.only(left:80.0),
-          child: Row(
-            children: [
-              Text(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _buildSignUp(context),
+          Padding(
+            padding: const EdgeInsets.only(left: 80.0),
+            child: Row(
+              children: [
+                Text(
                   "Already have an account ? ",
                   style: theme.textTheme.button?.copyWith(
-                      color: CustomColors.darkGrey,
-                      fontWeight: FontWeight.bold,
+                    color: CustomColors.darkGrey,
+                    fontWeight: FontWeight.bold,
                   ),
-              ),TextButton(
-                onPressed: _logIn,
-                child: Text(
-                  "Log in",
-                  style: theme.textTheme.button?.copyWith(
-                      color: CustomColors.mainYellow,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                  ),
-                )
-              ),
-            ],
+                ),
+                TextButton(
+                    onPressed: _logIn,
+                    child: Text(
+                      "Log in",
+                      style: theme.textTheme.button?.copyWith(
+                        color: CustomColors.mainYellow,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    )),
+              ],
+            ),
           ),
-        ),
-      ]
-    );
+        ]);
   }
 
-  Widget _buildSignIn(BuildContext context) {
-    final signInFieldsProperties = Provider.of<SignInFieldsViewModel>(context, listen: false);
+  Widget _buildSignUp(BuildContext context) {
+    final signInFieldsProperties =
+        Provider.of<SignInFieldsViewModel>(context, listen: false);
     final buttonWidth = MediaQuery.of(context).size.width * 0.5;
 
     return Container(
       margin: const EdgeInsets.only(top: 24),
       width: buttonWidth,
-      child: 
-      // Consumer<UserAuthenticationViewModel>(
-      //   builder: (ctx, userAuthenticationVm, child) {
-      //     return 
-        
-              AdaptiveButton(
-                type: ButtonType.primary,
-                btnLabel: "Create an account",
-                btnWidth: buttonWidth,
-                btnHandler: () {
-                  _submitAuthentication(signInFieldsProperties);
-                },
-                //signInState: userAuthenticationVm.signInState
-              ),
-
-      //   }
-      // ),
+      child: AdaptiveButton(
+        type: ButtonType.primary,
+        btnLabel: "Create an account",
+        btnWidth: buttonWidth,
+        btnHandler: () {
+          _submitAuthentication(signInFieldsProperties);
+        },
+      ),
     );
   }
 
-  bool _isFieldNotNullOrEmptyOrBlank(SignUpFieldEnum signInField, SignInFieldsViewModel signInFieldsVm) {
-    final TextEditingController tController = (signInField == SignInFieldEnum.email) ?
-    signInFieldsVm.tLoginController : signInFieldsVm.tPasswordController;
+  bool _isFieldNotNullOrEmptyOrBlank(
+      SignUpFieldEnum signInField, SignInFieldsViewModel signInFieldsVm) {
+    final TextEditingController tController =
+        (signInField == SignInFieldEnum.email)
+            ? signInFieldsVm.tLoginController
+            : signInFieldsVm.tPasswordController;
     bool isNotNullOrEmpty = false;
 
     if (tController.text.isNotEmpty && tController.text.trim().isNotEmpty) {
       isNotNullOrEmpty = true;
       signInFieldsVm.setSignUpFieldErrorState(signInField, null);
-
     } else {
-      signInFieldsVm.setSignUpFieldErrorState(signInField, _getSignUpErrorMessage(signInField));
+      signInFieldsVm.setSignUpFieldErrorState(
+          signInField, _getSignUpErrorMessage(signInField));
     }
 
     return isNotNullOrEmpty;
@@ -124,49 +124,61 @@ class _SignUpBottomState extends State<SignUpBottom> {
     }
   }
 
-  bool _validateLoginFields(SignInFieldsViewModel signInFieldsVm) {
+  bool _validateSignUpFields(SignInFieldsViewModel signInFieldsVm) {
     bool res = false;
 
     res = _isFieldNotNullOrEmptyOrBlank(SignUpFieldEnum.email, signInFieldsVm);
-    res = _isFieldNotNullOrEmptyOrBlank(SignUpFieldEnum.password, signInFieldsVm) && res;
+    res = _isFieldNotNullOrEmptyOrBlank(
+            SignUpFieldEnum.password, signInFieldsVm) &&
+        res;
+    res = _isFieldNotNullOrEmptyOrBlank(
+            SignUpFieldEnum.username, signInFieldsVm) &&
+        res;
+    res = _isFieldNotNullOrEmptyOrBlank(
+            SignUpFieldEnum.firstname, signInFieldsVm) &&
+        res;
+    res = _isFieldNotNullOrEmptyOrBlank(
+            SignUpFieldEnum.lastname, signInFieldsVm) &&
+        res;
 
     return res;
   }
 
-  void _submitAuthentication(SignInFieldsViewModel signInFieldsVm){
-    
-      //UserAuthenticationViewModel userAuthenticationVm) 
-    //Reset sign in error message between between the sign in fields and sign in button
-   // userAuthenticationVm.hasSignInFailed = false;
+  void _submitAuthentication(SignInFieldsViewModel signInFieldsVm) async {
+    final user = User(
+        -1,
+        signInFieldsVm.tLoginController.text,
+        signInFieldsVm.tPasswordController.text,
+        signInFieldsVm.tUsernameController.text,
+        signInFieldsVm.tFirstnameController.text,
+        signInFieldsVm.tLastnameController.text);
 
-    //Check if the sign in fields are properly filled
-    if (_validateLoginFields(signInFieldsVm)) {
-          // userAuthenticationVm.signInState = SignInState.processing,
-          // userAuthenticationVm.signIn(signInFieldsVm.tLoginController.text,
-          //     signInFieldsVm.tPasswordController.text).then((value) {
-          //   if (userAuthenticationVm.isSignedIn) {
-          //     FocusScope.of(widget.ancestorContext).unfocus(); //Close the soft keyboard
-           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-             /*  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen())); */
+    if (_validateSignUpFields(signInFieldsVm)) {
+      final response = await authService.register(signInFieldsVm, user);
 
-          //   } else if (userAuthenticationVm.hasSignInFailed) {
-          //     //Incorrect sign in fields
-          //     signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.username, "");
-          //     signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.password, "");
-          //   }
-          // })
-        
-      
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        //login new user directly
+        authService.logIn(signInFieldsVm, user);
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return const HomeScreen();
+        }));
+      } else {
+        signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.username, "");
+        signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.email, "");
+        signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.password, "");
+        signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.firstname, "");
+        signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.lastname, "");
+      }
     }
   }
 
- void _logIn() {
-    final softKeyboardVm = Provider.of<SoftKeyboardViewModel>(context, listen: false);
+  void _logIn() {
+    final softKeyboardVm =
+        Provider.of<SoftKeyboardViewModel>(context, listen: false);
     softKeyboardVm.isSoftKeyboardOpened = false;
-
-
-    //Navigator.of(context).pop();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)  { return SignInScreen();}));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+      return SignInScreen(true);
+    }));
   }
-
 }

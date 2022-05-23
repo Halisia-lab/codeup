@@ -1,9 +1,8 @@
 import 'package:codeup/services/auth_service.dart';
 import 'package:codeup/services/post_service.dart';
-import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
 
-import '../../services/auth_service.dart';
+import '../authentication/sign_in/sign_in_screen.dart';
 import '../common/custom_colors.dart';
 import './home_post_list.dart';
 import '../menu/menu.dart';
@@ -22,53 +21,35 @@ class _HomeScreenState extends State<HomeScreen> {
   final background_color = CustomColors.lightGrey3;
   @override
   Widget build(BuildContext context) {
+    
     //postService.getPosts();
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (() => _createPost()), child: Icon(Icons.add), backgroundColor: CustomColors.mainYellow,),
       backgroundColor: background_color,
-      drawer: Menu(),
-      body: /* Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: FutureBuilder(
-                  future: httpService.getUsers(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<User>> snapshot) {
-                    if (snapshot.hasData) {
-                      List<User> users = snapshot.data!;
-                      return SizedBox(
-                          height: MediaQuery.of(context).size.height - 310,
-                          child: UserList(
-                            users,
-                          ));
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
-                ), */CustomScrollView(
+      drawer: const Menu(),
+      body: 
+          CustomScrollView(
         slivers: [
-          HomeTop(),
+          const HomeTop(),
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
-               decoration: BoxDecoration(color: background_color),
-                height: MediaQuery.of(context).size.height * 4/5,
-                /**/child: //CommentBox(Image.network(TestData.personnes[0].photoUrl), TextEditingController(), BorderRadius.all(Radius.circular(7)), () => print("on send"), () => print("image removed"))
-        PostBoxList(),
+                decoration: BoxDecoration(color: background_color),
+                height: MediaQuery.of(context).size.height * 4 / 5,
+                child:  const PostBoxList(),
               ),
-              /* Container(
-                height: 1000,
-                color: CustomColors.lightGrey2,
-              ), */
             ]),
           ),
-          ],
+        ],
       ),
     );
-    /* Scaffold(
-      backgroundColor: CustomColors.lightGrey2,
-      drawer: Menu(),
-      appBar: _getAppBar(),
-      body: Container(child: PostBoxList(),),
-      
-    ); */
+  }
+
+  void _createPost()async  {
+    if(AuthService.currentUser != null) {
+      Navigator.of(context).pushNamed("/createPost-screen");
+    } else {
+       Navigator.of(context).push(MaterialPageRoute(builder: (_)  { return SignInScreen(true);}));
+    }
   }
 }

@@ -1,4 +1,7 @@
+import 'package:codeup/services/auth_service.dart';
 import 'package:flutter/material.dart';
+
+import '../authentication/sign_in/sign_in_screen.dart';
 
 class VotesCounter extends StatefulWidget {
   final counter;
@@ -17,7 +20,7 @@ class _VotesCounterState extends State<VotesCounter> {
   @override
   Widget build(BuildContext context) {
     
-    FocusScope.of(context).requestFocus(FocusNode());
+    //FocusScope.of(context).requestFocus(FocusNode());
     return InkWell(
       onTap: () {
         /* getState.addLikeToTweet(
@@ -27,7 +30,7 @@ class _VotesCounterState extends State<VotesCounter> {
           Column(
         children: [
           GestureDetector(
-            onTap: _initialCounter < _counter ? _resetCounter : _incrementCounter,
+            onTap: AuthService.currentUser != null ? (_initialCounter < _counter ? _resetCounter : _incrementCounter) : () => _getSignInScreen(context),
             child: Icon(
               Icons.keyboard_arrow_up,
               size: 28,
@@ -39,7 +42,7 @@ class _VotesCounterState extends State<VotesCounter> {
             style: TextStyle(fontSize: 17, color: _getCounterColor()),
           ),
           GestureDetector(
-            onTap:  _initialCounter > _counter ? _resetCounter : _decrementCounter,
+            onTap: AuthService.currentUser != null ? (_initialCounter > _counter ? _resetCounter : _decrementCounter) : () => _getSignInScreen(context),
             child: Icon(
               Icons.keyboard_arrow_down,
               size: 28,
@@ -82,6 +85,11 @@ class _VotesCounterState extends State<VotesCounter> {
     setState(() {
       _counter = _initialCounter;
     });
+  }
+
+  
+  void _getSignInScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(SignInScreen.routeName);
   }
 
 }

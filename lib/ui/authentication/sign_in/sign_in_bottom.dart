@@ -1,11 +1,16 @@
 import 'dart:convert';
 
 import 'package:codeup/services/auth_service.dart';
+import 'package:codeup/services/post_service.dart';
+import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../entities/Person.dart';
+import '../../../entities/post.dart';
 import '../../../entities/user.dart';
+import '../../../services/secure_storage.dart';
 import '../../../utils/custom_colors.dart';
 import '../../../utils/sign_in_field_enum.dart';
 import '../../component/adaptive_button.dart';
@@ -27,7 +32,6 @@ class SignInBottom extends StatefulWidget {
 }
 
 class _SignInBottomState extends State<SignInBottom> {
-  String? _appVersion;
   final AuthService authService;
 
   _SignInBottomState(this.authService);
@@ -152,16 +156,19 @@ class _SignInBottomState extends State<SignInBottom> {
       final user = User(-1, "", signInFieldsVm.tPasswordController.text,
           signInFieldsVm.tLoginController.text, "", "");
 
-      //final response = await authService.logIn(signInFieldsVm, user);
+      http.Response response = await authService.logIn(signInFieldsVm, user);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        SecureStorageService.getInstance().set("jwtToken", user.password);
+        SecureStorageService.getInstance().set("username", user.username);
+        authService.getLoggedUser(user);
 
-      //if (response.statusCode == 200 || response.statusCode == 201) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
           return const HomeScreen();
         }));
-     /*  } else {
+      } else {
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.email, "");
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.password, "");
-      } */
+      }
       // userAuthenticationVm.signInState = SignInState.processing,
       // userAuthenticationVm.signIn(signInFieldsVm.tLoginController.text,
       //     signInFieldsVm.tPasswordController.text).then((value) {
@@ -177,37 +184,6 @@ class _SignInBottomState extends State<SignInBottom> {
       // })
 
     }
-  }
-
-  Future<http.Response> getUsers() async {
-    final response =
-        await http.get(Uri.parse('http://172.18.80.1:8080/users/users'));
-
-    print(response.body);
-    return response;
-  }
-
-  Future<http.Response> logUser(
-      SignInFieldsViewModel signInFieldsVm, User user) async {
-    final response = await http.post(
-      Uri.parse('http://172.18.80.1:8080/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'username': user.username,
-        'password': user.password
-      }),
-    );
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
-    } else {
-      signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.email, "");
-      signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.password, "");
-    }
-    return response;
   }
 
   void _signUp() {

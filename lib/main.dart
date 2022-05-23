@@ -1,9 +1,11 @@
 import 'package:codeup/entities/Person.dart';
+import 'package:codeup/services/auth_service.dart';
 import 'package:codeup/ui/authentication/sign_in/sign_in_screen.dart';
 import 'package:codeup/ui/comment/comment_list_screen.dart';
 import 'package:codeup/ui/common/test_data.dart';
 import 'package:codeup/ui/home/home_screen.dart';
 import 'package:codeup/ui/common/custom_colors.dart';
+import 'package:codeup/ui/post/create_post_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/authentication/sign_up/sign_up_screen.dart';
@@ -20,7 +22,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final String launchRoute;
-  Person currentUser = TestData.currentUser;
+  Person? currentUser = AuthService.currentUser;
 
   MyApp(this.launchRoute);
   @override
@@ -36,15 +38,14 @@ class MyApp extends StatelessWidget {
         initialRoute: launchRoute,
         routes: {
           HomeScreen.routeName: (ctx) => HomeScreen(),
-          SignInScreen.routeName: (ctx) => SignInScreen(),
+          SignInScreen.routeName: (ctx) => SignInScreen(false),
           SignUpScreen.routeName: (ctx) => SignUpScreen(),
           SearchScreen.routeName: (ctx) => SearchScreen(),
           ForumsScreen.routeName: (ctx) => ForumsScreen(),
           FriendsScreen.routeName: (ctx) => FriendsScreen(),
           SavedPostsScreen.routeName: (ctx) => SavedPostsScreen(),
-          ForumPageScreen.routeName: (ctx) => ForumPageScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser),
-          //CommentList.routeName: (ctx) => ProfileScreen(currentUser),
+          ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser!),
+          CreatePostScreen.routeName: (ctx) => CreatePostScreen(),
         });
   }
 }

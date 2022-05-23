@@ -1,4 +1,5 @@
 import 'package:codeup/entities/Person.dart';
+import 'package:codeup/services/auth_service.dart';
 import 'package:codeup/ui/common/custom_button.dart';
 import 'package:codeup/ui/common/test_data.dart';
 import 'package:codeup/ui/profile/profile_logged_body.dart';
@@ -26,7 +27,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final currentUser = TestData.currentUser;
+  final currentUser = AuthService.currentUser;
   final Person wantedUser;
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();

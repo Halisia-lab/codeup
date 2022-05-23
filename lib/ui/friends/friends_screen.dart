@@ -33,7 +33,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                 height: MediaQuery.of(context).size.height * 4 / 5,
                 child: ListView(children: [
                   for(Person friend in TestData.personnes )
-                  ListTile(title: FriendsListItem(friend))],),
+                   FriendsListItem(friend)],),
               ),
             ]),
           ),

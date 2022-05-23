@@ -1,13 +1,11 @@
 import 'package:codeup/services/auth_service.dart';
-import 'package:codeup/ui/comment/comment_list_item.dart';
 import 'package:codeup/ui/comment/comment_list_screen.dart';
-import 'package:codeup/ui/common/test_data.dart';
+import 'package:codeup/ui/post/viewMosel/post_view_model.dart';
 import 'package:codeup/ui/saved_posts/saved_post_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/Person.dart';
 import '../../entities/post.dart';
-import '../../entities/user.dart';
 import '../common/language_enum.dart';
 import '../profile/profile_screen.dart';
 import 'post_language_text.dart';
@@ -25,8 +23,8 @@ class PostBox extends StatefulWidget {
   PostBox(this.post, this.languages, this.votes, this.isSaved, this.commiter);
 
   @override
-  _PostBoxState createState() => _PostBoxState(
-      this.post, this.languages, this.votes, this.isSaved, this.commiter);
+  _PostBoxState createState() =>
+      _PostBoxState(post, languages, votes, isSaved, commiter);
 }
 
 class _PostBoxState extends State<PostBox> {
@@ -37,13 +35,10 @@ class _PostBoxState extends State<PostBox> {
   bool isSaved;
   Person commiter;
   bool areCommentsVisible = false;
+  PostViewModel postViewModel = PostViewModel();
 //this.text, this.title, this.languages, this.commiter, this.votes, this.isSaved
   _PostBoxState(
       this.post, this.languages, this.votes, this.isSaved, this.commiter);
-
-  Future<User> getCommiter() async {
-    return await authService.getUserById(this.post.userId);
-  }
 
   @override
   void initState() {
@@ -52,19 +47,20 @@ class _PostBoxState extends State<PostBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    
+    /* return FutureBuilder(future: postViewModel.getCommiter(post), builder: (BuildContext context, AsyncSnapshot<Person> snapshot) { */ return Padding(
+      padding: const EdgeInsets.only(bottom: 10, left:10, right:10),
       child: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(2)),
+            borderRadius: const BorderRadius.all(Radius.circular(0)),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.shade400.withOpacity(0.1),
                 spreadRadius: 2,
                 blurRadius: 5,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
@@ -75,24 +71,25 @@ class _PostBoxState extends State<PostBox> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                      child: Container(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                      child: SizedBox(
                         height: 40,
                         child: CircleAvatar(
-                            backgroundImage: NetworkImage(this.commiter.photoUrl),
+                            backgroundImage: NetworkImage(commiter.photoUrl),
                             radius: 30),
                       ),
                     ),
                     Text(
-                      this.commiter.name,
-                      style: TextStyle(fontSize: 17),
+                      commiter.user.firstname + " " + commiter.user.lastname,
+                      style: const TextStyle(fontSize: 17),
                     ),
                   ],
                 ),
               ),
               Text(
-                this.post.title,
-                style: TextStyle(
+                post.title,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
@@ -104,7 +101,7 @@ class _PostBoxState extends State<PostBox> {
               Row(
                 children: [
                   VotesCounter(votes),
-                  Flexible(child: TextViewer(this.post.content)),
+                  Flexible(child: TextViewer(post.content)),
                 ],
               ),
               Row(
@@ -116,7 +113,7 @@ class _PostBoxState extends State<PostBox> {
                   ),
                   GestureDetector(
                     child: PostBoxAction(
-                        this.isSaved ? Icons.bookmark : Icons.bookmark_border,
+                        isSaved ? Icons.bookmark : Icons.bookmark_border,
                         "Save",
                         () => _save()),
                     onTap: () => _save(),
@@ -157,7 +154,7 @@ class _PostBoxState extends State<PostBox> {
   }
 
   _getCommiterProfile(BuildContext context, Person friend) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProfileScreen(friend)));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => ProfileScreen(friend)));
   }
- 
 }

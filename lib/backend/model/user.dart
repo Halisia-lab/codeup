@@ -7,7 +7,7 @@ class User {
 
     User(this.id, this.email, this.password, this.firstname, this.lastname);
 
-    static List<User> getUsers() {print("res");
+    static List<User> getUsers() {
         List<User> users = [];
         users.add(new User(1, "hh@gmail.com", "psw", "halisia", "halifa"));
 

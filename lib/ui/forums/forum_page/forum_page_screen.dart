@@ -1,20 +1,70 @@
 
+import 'dart:math';
+
+import 'package:codeup/ui/common/custom_colors.dart';
+import 'package:codeup/ui/forums/forum_list_item.dart';
+import 'package:codeup/ui/forums/forum_page/forum_posts_list.dart';
 import 'package:flutter/material.dart';
 
+import '../../../services/auth_service.dart';
+import '../../authentication/sign_in/sign_in_screen.dart';
+import '../../common/custom_app_bar.dart';
+import '../../menu/menu.dart';
+
 class ForumPageScreen extends StatefulWidget {
+  ForumListItem forum;
   
   static const routeName = "/forumPage-screen";
-  const ForumPageScreen({ Key? key }) : super(key: key);
+  ForumPageScreen(this.forum, {Key? key}) : super(key: key);
 
   @override
-  State<ForumPageScreen> createState() => _ForumPageScreenState();
+  State<ForumPageScreen> createState() => _ForumPageScreenState(forum);
 }
 
 class _ForumPageScreenState extends State<ForumPageScreen> {
+  ForumListItem forum;
+  final background_color = CustomColors.lightGrey3;
+  Color _randomColor = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+_ForumPageScreenState(this.forum);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (() => _createPost()), child: Icon(Icons.add), backgroundColor: CustomColors.mainYellow,),
+      backgroundColor: background_color,
+      //drawer: Menu(),
+      body: CustomScrollView(
+        slivers: [
+          CustomAppBar(forum.forum.title, false),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Container(
+                decoration: BoxDecoration(color: background_color),
+                //height: MediaQuery.of(context).size.height * 1/ 8,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(child: Row(
+                    children: [
+                      Icon(forum.icon, size: 80,color: Colors.white,),
+                      Flexible(child: Text(forum.forum.description , style: TextStyle(color: Colors.white, fontSize: 18),)),
+                    ],
+                  ), color: _randomColor,),
+                ),
+              ),
+              ForumPostsList(forum.forum.title)
+            ]),
+          ),
+        ],
+      ),
     );
+  }
+
+    
+  void _createPost()async  {
+    if(AuthService.currentUser != null) {
+      Navigator.of(context).pushNamed("/createPost-screen");
+    } else {
+       Navigator.of(context).push(MaterialPageRoute(builder: (_)  { return SignInScreen(true);}));
+    }
   }
 }

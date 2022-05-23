@@ -103,7 +103,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
     );
     return CustomScrollView(
       slivers: [
-        CustomAppBar(wantedUser.name, false),
+        CustomAppBar(wantedUser.user.firstname + " " + wantedUser.user.lastname, false),
         SliverList(
           delegate: SliverChildListDelegate([
             Padding(
@@ -151,7 +151,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
           enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: wantedUser.name,
+              hintText: wantedUser.user.username,
               hintStyle: GoogleFonts.notoSans(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -178,7 +178,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: wantedUser.name.toString().split(" ").first,
+              hintText: wantedUser.user.firstname,
               hintStyle: GoogleFonts.notoSans(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -205,7 +205,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: wantedUser.name.toString().split(" ").last,
+              hintText: wantedUser.user.lastname,
               hintStyle: GoogleFonts.notoSans(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -231,7 +231,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: wantedUser.email,
+              hintText: wantedUser.user.email,
               hintStyle: GoogleFonts.notoSans(
                 color: CustomColors.darkText,
                 fontSize: 16,

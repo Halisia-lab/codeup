@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import '../../backend/model/user.dart';
 import '../../entities/Person.dart';
+import '../../services/secure_storage.dart';
 import '../authentication/sign_up/sign_up_screen.dart';
 import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
@@ -20,12 +21,12 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = TestData.currentUser;
+    final currentUser = AuthService.currentUser;
     return Drawer(
       backgroundColor: Colors.white,
-      child: AuthService.currentUser != null
+      child: currentUser != null
           ? _loggedMenuOptions(context, currentUser)
-          : _loggedMenuOptions(context, currentUser),
+          : _unloggedMenuOptions(context),
     );
   }
 }
@@ -37,7 +38,7 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
       DrawerHeader(
           decoration: const BoxDecoration(color: Colors.white),
           child: GestureDetector(
-            onTap: () => _getProfilePage(context),
+            onTap: () => _getProfilePage(context, currentUser),
             child: Padding(
               padding: const EdgeInsets.only(top: 0.0),
               child: Image.network(
@@ -50,7 +51,7 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
           child: Padding(
         padding: const EdgeInsets.only(bottom: 15.0),
         child: Text(
-          currentUser.email,
+          currentUser.user.email,
           style: const TextStyle(fontSize: 15, color: Colors.grey),
         ),
       )),
@@ -63,7 +64,7 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
       Container(
         margin: const EdgeInsets.only(top: 5, bottom: 10, left: 8, right: 8),
         height: 1,
-        decoration: const BoxDecoration(color: CustomColors.lightGrey3),
+        decoration: const BoxDecoration(color: CustomColors.lightGrey4),
       ),
       //MenuOption("Logout", Icons.logout, () => _logOut(context)),
       CustomButton(CustomColors.mainYellow, "Log out", () => _logOut(context))
@@ -90,7 +91,7 @@ Widget _unloggedMenuOptions(
         margin: const EdgeInsets.only(top: 5, bottom: 10, left: 8, right: 8),
         height: 1,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(color: CustomColors.lightGrey1),
+        decoration: const BoxDecoration(color: CustomColors.lightGrey4),
       ),
       //MenuOption("Logout", Icons.logout, () => _logOut(context)),
       CustomButton(CustomColors.mainYellow, "Log in", () => _logIn(context)),
@@ -108,10 +109,11 @@ _logIn(BuildContext context) {
   Navigator.of(context).pushNamed(SignInScreen.routeName);
 }
 
-_logOut(BuildContext context) {
+_logOut(BuildContext context) async  {
   AuthService.setCurrentUser(null);
+  await SecureStorageService.getInstance().clear();
   Navigator.of(context).pop();
-  Navigator.of(context).pushReplacementNamed(SignInScreen.routeName);
+   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)  { return SignInScreen(false);}));
 }
 
 _getHomePage(BuildContext context) {
@@ -130,6 +132,7 @@ _getFriendsPage(BuildContext context) {
   Navigator.of(context).pushNamed(FriendsScreen.routeName);
 }
 
-_getProfilePage(BuildContext context) {
-  Navigator.of(context).pushNamed(ProfileScreen.routeName);
+_getProfilePage(BuildContext context, Person currentUser) {
+  Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => ProfileScreen(currentUser)));
 }

@@ -1,8 +1,11 @@
 import 'package:codeup/ui/authentication/viewModel/soft_keyboard_view_model.dart';
+import 'package:codeup/ui/common/custom_button.dart';
 import 'package:codeup/ui/common/custom_colors.dart';
 import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
 
+import '../../services/auth_service.dart';
+import '../authentication/sign_in/sign_in_screen.dart';
 import '../post/post_box.dart';
 import 'comment_list_item.dart';
 
@@ -17,7 +20,6 @@ class CommentListScreen extends StatefulWidget {
 }
 
 class _CommentListScreenState extends State<CommentListScreen> {
-  final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   _CommentListScreenState(this.post);
 
   final PostBox post;
@@ -40,7 +42,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Responses to " + post.commiter.name),
+          title: Text("Responses to " + post.commiter.user.firstname),
         ),
         backgroundColor: CustomColors.lightGrey3,
         body: _getBody(),
@@ -48,7 +50,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
   }
 
   void sendResponse() {
-    final snackBar = SnackBar(
+    const snackBar = SnackBar(
       content: Text('Response sent'),
       backgroundColor: CustomColors.mainYellow,
     );
@@ -61,51 +63,64 @@ class _CommentListScreenState extends State<CommentListScreen> {
   }
 
   Widget _getResponseArea() {
-    return Row(children: [
-      Expanded(
-        child: Container(
-          height: 80,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 1),
-            child: TextField(
-                controller: commentController,
-                decoration: const InputDecoration(
-                  //labelStyle: TextStyle(color: Colors.orange),
-                  hintText: 'Add a reponse...',
-                  border: InputBorder.none,
+    return AuthService.currentUser != null
+        ? Row(children: [
+            Expanded(
+              child: Container(
+                height: 80,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0, top: 1),
+                  child: TextField(
+                      controller: commentController,
+                      decoration: const InputDecoration(
+                        //labelStyle: TextStyle(color: Colors.orange),
+                        hintText: 'Add a reponse...',
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (str) {
+                        setState(() {
+                          responseContent = str;
+                        });
+                      },
+                      onSubmitted: (str) {}),
                 ),
-                onChanged: (str) {
-                  setState(() {
-                    responseContent = str;
-                  });
-                },
-                onSubmitted: (str) {}),
-          ),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 4.0, right: 8),
-        child: GestureDetector(
-          onTap: responseContent.isNotEmpty
-              ? () => setState(() {
-                    comments.insert(
-                        0,
-                        CommentListItem(post.commiter, responseContent,
-                            DateTime.now().toString()));
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0, right: 8),
+              child: GestureDetector(
+                onTap: responseContent.isNotEmpty
+                    ? () => setState(() {
+                          comments.insert(
+                              0,
+                              CommentListItem(post.commiter, responseContent,
+                                  DateTime.now().toString()));
 
-                    sendResponse();
-                  })
-              : null,
-          child: Icon(
-            Icons.send_rounded,
-            size: 29.0,
-            color: responseContent.isNotEmpty
-                ? CustomColors.mainYellow
-                : Colors.grey,
-          ),
-        ),
-      ),
-    ]);
+                          sendResponse();
+                        })
+                    : null,
+                child: Icon(
+                  Icons.send_rounded,
+                  size: 29.0,
+                  color: responseContent.isNotEmpty
+                      ? CustomColors.mainYellow
+                      : Colors.grey,
+                ),
+              ),
+            ),
+          ])
+        : GestureDetector(
+          onTap: () => _goToSignInScreen(context),
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                color: CustomColors.mainYellow,
+                child: const Center(
+                    child: Text("Log in to answer",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        )))));
   }
 
   Widget _getBody() {
@@ -126,5 +141,9 @@ class _CommentListScreenState extends State<CommentListScreen> {
         ],
       ),
     );
+  }
+
+  void _goToSignInScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(SignInScreen.routeName);
   }
 }

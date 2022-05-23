@@ -29,7 +29,7 @@ class _SignInBodyState extends State<SignInBody> {
   }
   @override
   Widget build(BuildContext context) {
-   const textFieldHeight = 50.0;
+   const textFieldHeight = 80.0;
     final inputTextStyle = Theme.of(context).textTheme.bodyText1!;
 
     const InputBorder border = const OutlineInputBorder(
@@ -83,7 +83,7 @@ class _SignInBodyState extends State<SignInBody> {
       InputBorder mBorder, InputBorder mEnabledBorder, InputBorder mErrorBorder,
       InputBorder mFocusedBorder, InputBorder mFocusedBorderError, double textFieldHeight) {
     return Container(
-        margin: const EdgeInsets.only(top: 36, bottom: 24),
+        margin: const EdgeInsets.only(top: 36, bottom: 0),
         height: textFieldHeight,
         child: Material( //Necessary when rendered in a Cupertino widget
           child: Consumer2<SignInFieldsViewModel, SoftKeyboardViewModel>(

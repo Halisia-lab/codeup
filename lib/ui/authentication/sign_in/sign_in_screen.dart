@@ -9,23 +9,27 @@ import '../viewModel/sign_in_fields_view_model.dart';
 import '../viewModel/soft_keyboard_view_model.dart';
 
 class SignInScreen extends StatefulWidget {
+  final bool backOption;
   static const routeName = "/sign-in";
 
+SignInScreen(this.backOption);
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignInScreen> createState() => _SignInScreenState(this.backOption);
 }
 
 class _SignInScreenState extends State<SignInScreen> {
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
+  final bool backOption;
 
+  _SignInScreenState(this.backOption);
   @override
   Widget build(BuildContext context) {
   final AuthService authService = AuthService(signInFieldsVm: _signInFieldsVm);
 
-    final navBarTitle = Text("Sign In", textAlign: TextAlign.center);
+    const navBarTitle = Text("Sign In", textAlign: TextAlign.center);
     final appBar = AppBar(
-      title: Center(
+      title: const Center(
         child: navBarTitle,
       ),
     );
@@ -43,7 +47,8 @@ class _SignInScreenState extends State<SignInScreen> {
       }),
     ));
     return Scaffold(
-      drawer: const Menu(),
+      
+      drawer: backOption ? null : const Menu(),
       appBar: appBar,
       body: body,
     );

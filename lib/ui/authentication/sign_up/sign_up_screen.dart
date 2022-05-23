@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../services/auth_service.dart';
 import 'sign_up_body.dart';
 import '../viewModel/sign_in_fields_view_model.dart';
 import '../viewModel/soft_keyboard_view_model.dart';
@@ -21,6 +22,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
+  final AuthService authService = AuthService(signInFieldsVm: _signInFieldsVm);
     final navBarTitle = Text("Sign Up", textAlign: TextAlign.center);
     final appBar = AppBar(
       title: Center(
@@ -37,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ],
       child: Consumer<SoftKeyboardViewModel>(
           builder: (context, softKeyBoardVm, child) {
-        return _getBody(false);
+        return _getBody(false,authService);
       }),
     ));
     return Scaffold(
@@ -46,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget _getBody(bool isSoftKeyboardOpened) {
+  Widget _getBody(bool isSoftKeyboardOpened, AuthService authService) {
     Widget res;
 
     const padding1 = 30.0; //left, right, bottom
@@ -70,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Flexible(
                     child: Container(), //Empty widget
                   ), //Empty widget
-                  SignUpBottom(ancestorContext: context,)
+                  SignUpBottom(ancestorContext: context, authService: authService)
                 ],
               ),
             ))

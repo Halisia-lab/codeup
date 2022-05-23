@@ -21,7 +21,6 @@ class _HomeTopState extends State<HomeTop> {
   _searchOneTopic() {
     var text = _textController.text;
     var result = TestData.posts.where((element) => element.post.title == text);
-    
-    print(result.map((e) => e.post.content));
+  
   }
 }

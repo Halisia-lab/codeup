@@ -1,3 +1,4 @@
+import 'package:codeup/services/auth_service.dart';
 import 'package:codeup/ui/common/custom_button.dart';
 import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class ProfileLoggedBody extends StatefulWidget {
 }
 
 class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
-  final currentUser = TestData.currentUser;
+  final currentUser = AuthService.currentUser;
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
   final background_color = CustomColors.white;
@@ -110,7 +111,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Image.network(currentUser.photoUrl, height: 120,),
+                    child: Image.network(currentUser!.photoUrl, height: 120,),
                   ),
                 
                   const Text("Username"),
@@ -195,7 +196,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: currentUser.name,
+              hintText: currentUser!.user.username,
               hintStyle: GoogleFonts.notoSans(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -266,7 +267,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: currentUser.name.toString().split(" ").first,
+              hintText: currentUser!.user.firstname,
               hintStyle: GoogleFonts.notoSans(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -337,7 +338,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: currentUser.name.toString().split(" ").last,
+              hintText: currentUser!.user.lastname,
               hintStyle: GoogleFonts.notoSans(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -408,7 +409,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: currentUser.email,
+              hintText: currentUser!.user.email,
               hintStyle: GoogleFonts.notoSans(
                 color: CustomColors.darkText,
                 fontSize: 16,

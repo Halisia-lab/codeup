@@ -1,3 +1,4 @@
+import 'package:codeup/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 
@@ -16,7 +17,7 @@ class SavedPostList extends StatefulWidget {
 class _SavedPostListState extends State<SavedPostList> {
   @override
   Widget build(BuildContext context) {
-    Person currentUser = TestData.currentUser;
+    Person? currentUser = AuthService.currentUser;
     List<PostBox> posts = TestData.posts;
     for(PostBox post in posts) {
       if (post.isSaved) 

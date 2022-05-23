@@ -13,10 +13,11 @@ class FriendsListItem extends StatelessWidget {
     return Center(
       child: ListTile(
         title: Container(
+          margin: EdgeInsets.only(bottom: 5),
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(7)),
+              borderRadius: BorderRadius.all(Radius.circular(0)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.shade400.withOpacity(0.1),
@@ -35,7 +36,7 @@ class FriendsListItem extends StatelessWidget {
                   radius: 20,
                 ),
               ),
-              Text(friend.name),
+              Text(friend.user.username),
             ],
           ),
         ),
