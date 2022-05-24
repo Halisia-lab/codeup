@@ -1,39 +1,26 @@
-/* import 'Person.dart';
-
 class Comment {
-  final String id;
-  final Person commiter;
-  final bool state;
-  final int rating;
-  final String urlFile;
-  final List<Comment> responses;
-  final DateTime date;
+  final int id;
+  final String content;
+  String? commentParentId;
+  final String userId;
+  final String code;
+  final String postId;
 
-  Comment({required this.id, required this.commiter, required this.state,required this.rating, required this.urlFile, required this.responses, required this.date});
-
-  factory Comment.fromJson(Map<String, dynamic> json){
-    String id = json['id'];
-    Person commiter = json['commiter'];
-    bool state = json['state'];
-    int rating = json['rating'];
-    String urlFile = json['urlFile'];
-    List<Comment> responses = json['responses'];
-    DateTime date = json['date'];
-
+  Comment({required this.id, required this.content, this.commentParentId = "-1", required this.userId, required this.code, required this.postId});
+ 
+factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-      id: id,
-      commiter: commiter,
-      state: state,
-      rating: rating,
-      urlFile: urlFile,
-      responses: responses,
-      date: date
+      id: json['id'],
+      content: json['content'],
+      commentParentId: json['commentParentId'],
+      userId: json['userId'],
+      code: json['code'],
+      postId: json['postId'],
     );
   }
 
-  
+  @override
   String toString() {
-    return "Comment(id: $id, commiter: $commiter, state: $state, rating: $rating, urlFile: $urlFile, responses: $responses, date: $date)";
+    return "{id: ${this.id}, content: ${this.content}, commentParentId: ${this.commentParentId}, userId: ${this.userId}, code: ${this.code}, postId: ${this.postId}}";
   }
 }
- */
