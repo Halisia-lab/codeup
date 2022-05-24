@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../entities/comment.dart';
 import '../../entities/person.dart';
 import '../post/votes_counter.dart';
 
 class CommentListItem extends StatelessWidget {
-  final text;
+  
+  Comment comment;
   var date;
   Person commiter;
   var state;
   int _votes = 0;
 
-  CommentListItem(this.commiter, this.text, this.date);
+  CommentListItem(this.comment, this.commiter, this.date);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CommentListItem extends StatelessWidget {
             VotesCounter(_votes),
             Container(child: Expanded(child: Column(
               children: [
-                Align(child: Text(this.text, style: TextStyle(fontSize: 17),), alignment: Alignment.topLeft,),
+                Align(child: Text(this.comment.content, style: TextStyle(fontSize: 17),), alignment: Alignment.topLeft,),
                 Align(child: Text(commiter.user.firstname + " " + commiter.user.lastname,  style: TextStyle(color: Colors.black45)), alignment: Alignment.bottomRight,),
             Align(child: Text(date,  style: TextStyle(color: Colors.black45)), alignment: Alignment.bottomRight,)
             

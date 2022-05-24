@@ -2,9 +2,9 @@ class Comment {
   final int id;
   final String content;
   String? commentParentId;
-  final String userId;
+  final int userId;
   final String code;
-  final String postId;
+  final int postId;
 
   Comment({required this.id, required this.content, this.commentParentId = "-1", required this.userId, required this.code, required this.postId});
  

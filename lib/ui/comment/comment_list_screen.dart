@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:codeup/ui/comment/viewModel/comment_view_model.dart';
 
 import '../../services/auth_service.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
 import '../common/custom_colors.dart';
-import '../common/test_data.dart';
 import '../post/post_box.dart';
 import 'comment_list_item.dart';
 
@@ -19,16 +19,16 @@ class CommentListScreen extends StatefulWidget {
 
 class _CommentListScreenState extends State<CommentListScreen> {
   _CommentListScreenState(this.post);
-
+  CommentViewModel commentViewModel = CommentViewModel();
   final PostBox post;
   final commentController = TextEditingController();
   late String responseContent;
-  List<CommentListItem> comments = [
+  /* List<CommentListItem> comments = [
     CommentListItem(
         TestData.personnes[0], "coucou commentaire", DateTime.now().toString()),
     CommentListItem(
         TestData.personnes[2], "Helloooooooo", DateTime.now().toString())
-  ];
+  ]; */
 
   @override
   void initState() {
@@ -89,12 +89,12 @@ class _CommentListScreenState extends State<CommentListScreen> {
               child: GestureDetector(
                 onTap: responseContent.isNotEmpty
                     ? () => setState(() {
-                          comments.insert(
+                          /* comments.insert(
                               0,
                               CommentListItem(post.commiter, responseContent,
                                   DateTime.now().toString()));
 
-                          sendResponse();
+                          sendResponse(); */
                         })
                     : null,
                 child: Icon(
@@ -108,7 +108,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
             ),
           ])
         : GestureDetector(
-          onTap: () => _goToSignInScreen(context),
+            onTap: () => _goToSignInScreen(context),
             child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 40,
@@ -122,23 +122,33 @@ class _CommentListScreenState extends State<CommentListScreen> {
   }
 
   Widget _getBody() {
-    return Padding(
-      padding:
-          const EdgeInsets.only(left: 5.0, right: 5.0, top: 20.0, bottom: 10.0),
-      child: ListView(
-        children: [
-          SingleChildScrollView(
-            child: Column(children: [
-              GestureDetector(
-                child: post,
-                onTap: null,
-              ),
-              for (CommentListItem comment in comments) comment,
-            ]),
-          ),
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: commentViewModel.fetchComments(post.post.id),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<CommentListItem>> snapshot) {
+          return snapshot.data != null ? Padding(
+            padding: const EdgeInsets.only(
+                left: 5.0, right: 5.0, top: 20.0, bottom: 10.0),
+            child: ListView(
+              children: [
+                SingleChildScrollView(
+                  child: Column(children: [
+                    GestureDetector(
+                      child: post,
+                      onTap: null,
+                    ),
+                    for (CommentListItem comment in snapshot.data as List<CommentListItem>) comment,
+                  ]),
+                ),
+              ],
+            ),
+          ) : Container(
+          alignment: Alignment.center,
+          child: const CircularProgressIndicator(
+            color: CustomColors.mainYellow,
+          )
+        );
+        });
   }
 
   void _goToSignInScreen(BuildContext context) {
