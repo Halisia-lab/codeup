@@ -41,5 +41,15 @@ int randomNumber(int min, int max) => min + _random.nextInt(max - min);
     return allComments;
   }
 
+  Future<void> insertComment(Comment comment, Person user, Post post) async {
+    
+    final Response response = await commentService.addComment(comment, user, post);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("sucess");
+    } else {
+      print("failure");
+    }
+  }
+
 }
 
