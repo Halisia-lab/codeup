@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
+import '../../entities/person.dart';
 import '../../entities/post.dart';
 import '../../services/auth_service.dart';
 import '../comment/comment_list_screen.dart';

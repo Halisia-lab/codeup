@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../entities/Person.dart';
+import '../entities/person.dart';
 import '../ui/authentication/viewModel/sign_in_fields_view_model.dart';
 import '../entities/user.dart';
 import '../ui/common/test_data.dart';
@@ -9,7 +9,7 @@ import '../ui/common/test_data.dart';
 class AuthService {
   static String apiUrl = "http://10.0.2.2:8080/";
   SignInFieldsViewModel? signInFieldsVm;
-  static Person? currentUser = null;
+  static Person? currentUser;
 
   AuthService({this.signInFieldsVm});
 
@@ -37,7 +37,6 @@ class AuthService {
       User user = User.fromJson(element);
       users.add(user);
     }
-    print(users);
     return response;
   }
 

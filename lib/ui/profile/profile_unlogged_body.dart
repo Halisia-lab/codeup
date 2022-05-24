@@ -1,4 +1,4 @@
-import 'package:codeup/entities/Person.dart';
+import 'package:codeup/entities/person.dart';
 import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../services/auth_service.dart';
-import '../../utils/custom_colors.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
+import '../common/custom_colors.dart';
 import '../common/test_data.dart';
 import '../post/post_box.dart';
 import 'comment_list_item.dart';

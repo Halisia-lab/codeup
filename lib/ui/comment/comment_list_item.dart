@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
+import '../../entities/person.dart';
 import '../post/votes_counter.dart';
 
 class CommentListItem extends StatelessWidget {

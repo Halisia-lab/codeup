@@ -2,7 +2,7 @@ import 'package:codeup/entities/post.dart';
 import 'package:codeup/ui/forums/forum_list_item.dart';
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
+import '../../entities/person.dart';
 import '../../entities/user.dart';
 import '../post/post_box.dart';
 import './language_enum.dart';

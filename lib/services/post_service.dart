@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../entities/Person.dart';
+import '../entities/person.dart';
 import '../entities/post.dart';
 import '../entities/user.dart';
 import 'secure_storage.dart';

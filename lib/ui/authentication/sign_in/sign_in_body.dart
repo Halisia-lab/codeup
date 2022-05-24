@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utils/custom_colors.dart';
 import '../../../utils/sign_in_field_enum.dart';
+import '../../common/custom_colors.dart';
 import '../viewModel/sign_in_fields_view_model.dart';
 import '../viewModel/soft_keyboard_view_model.dart';
 import '../../../utils/extensions.dart';

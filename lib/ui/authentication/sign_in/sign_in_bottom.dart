@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../entities/Person.dart';
+import '../../../entities/person.dart';
 import '../../../entities/post.dart';
 import '../../../entities/user.dart';
 import '../../../services/secure_storage.dart';

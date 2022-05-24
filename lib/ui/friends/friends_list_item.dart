@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
+import '../../entities/person.dart';
 import '../profile/profile_screen.dart';
 
 class FriendsListItem extends StatelessWidget {

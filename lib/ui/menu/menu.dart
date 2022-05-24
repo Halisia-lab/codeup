@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
+import '../../entities/person.dart';
 import '../../services/auth_service.dart';
 import '../../services/secure_storage.dart';
 import '../authentication/sign_in/sign_in_screen.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
+import '../../entities/person.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
 import '../common/test_data.dart';
