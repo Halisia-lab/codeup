@@ -1,15 +1,14 @@
 
 import 'dart:math';
 
-import 'package:codeup/ui/common/custom_colors.dart';
-import 'package:codeup/ui/forums/forum_list_item.dart';
-import 'package:codeup/ui/forums/forum_page/forum_posts_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../../services/auth_service.dart';
 import '../../authentication/sign_in/sign_in_screen.dart';
 import '../../common/custom_app_bar.dart';
-import '../../menu/menu.dart';
+import '../../common/custom_colors.dart';
+import '../forum_list_item.dart';
+import 'forum_posts_list.dart';
 
 class ForumPageScreen extends StatefulWidget {
   ForumListItem forum;

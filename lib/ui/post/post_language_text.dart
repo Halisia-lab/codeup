@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 import '../common/custom_colors.dart';
 import '../common/language_enum.dart';
-import 'package:flutter/material.dart';
+
 
 class PostLanguageText extends StatelessWidget {
   final LanguageValue languageValue;

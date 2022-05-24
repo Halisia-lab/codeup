@@ -1,19 +1,17 @@
-import 'package:codeup/services/auth_service.dart';
-import 'package:codeup/ui/authentication/sign_in/sign_in_screen.dart';
-import 'package:codeup/ui/forums/forums_screen.dart';
-import 'package:codeup/ui/friends/friends_screen.dart';
-import 'package:codeup/ui/home/home_screen.dart';
-import 'package:codeup/ui/saved_posts/saved_posts_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../backend/model/user.dart';
 import '../../entities/Person.dart';
+import '../../services/auth_service.dart';
 import '../../services/secure_storage.dart';
+import '../authentication/sign_in/sign_in_screen.dart';
 import '../authentication/sign_up/sign_up_screen.dart';
 import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
-import '../common/test_data.dart';
+import '../forums/forums_screen.dart';
+import '../friends/friends_screen.dart';
+import '../home/home_screen.dart';
 import '../profile/profile_screen.dart';
+import '../saved_posts/saved_posts_screen.dart';
 import 'menu_option.dart';
 
 class Menu extends StatelessWidget {

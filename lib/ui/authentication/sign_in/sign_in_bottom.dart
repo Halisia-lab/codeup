@@ -11,8 +11,8 @@ import '../../../entities/Person.dart';
 import '../../../entities/post.dart';
 import '../../../entities/user.dart';
 import '../../../services/secure_storage.dart';
-import '../../../utils/custom_colors.dart';
 import '../../../utils/sign_in_field_enum.dart';
+import '../../common/custom_colors.dart';
 import '../../component/adaptive_button.dart';
 import '../../home/home_screen.dart';
 import '../sign_up/sign_up_screen.dart';
@@ -55,7 +55,7 @@ class _SignInBottomState extends State<SignInBottom> {
                 Text(
                   "Not registered ? ",
                   style: theme.textTheme.button?.copyWith(
-                    color: CustomColors.darkGrey,
+                    color: CustomColors.darkGrey3,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

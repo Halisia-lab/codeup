@@ -1,10 +1,9 @@
-import 'package:codeup/ui/common/test_data.dart';
-import 'package:codeup/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/Person.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
+import '../common/test_data.dart';
 import '../menu/menu.dart';
 import 'friends_list_item.dart';
 

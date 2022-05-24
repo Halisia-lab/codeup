@@ -1,7 +1,6 @@
-import 'package:codeup/ui/common/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../common/custom_colors.dart';
+import '../common/custom_app_bar.dart';
 import '../common/test_data.dart';
 
 class HomeTop extends StatefulWidget {

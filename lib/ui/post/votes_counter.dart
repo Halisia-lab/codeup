@@ -1,6 +1,6 @@
-import 'package:codeup/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
+import '../../services/auth_service.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
 
 class VotesCounter extends StatefulWidget {

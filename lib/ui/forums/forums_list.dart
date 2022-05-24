@@ -32,7 +32,12 @@ class ForumList extends StatelessWidget {
       return snapshot.data != null ?
       ListView(children: [
         for (ForumListItem forum in snapshot.data as List<ForumListItem>) forum
-      ],) : Text("Loading...");
+      ],) : Container(
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            color: CustomColors.mainYellow,
+          )
+        );
     })
   /* Padding(
         padding: const EdgeInsets.only(top: 8, left: 10.0),

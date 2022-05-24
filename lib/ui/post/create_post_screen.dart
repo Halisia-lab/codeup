@@ -1,21 +1,12 @@
-import 'package:codeup/services/auth_service.dart';
-import 'package:codeup/services/post_service.dart';
-import 'package:codeup/ui/comment/comment_list_screen.dart';
-import 'package:codeup/ui/common/custom_app_bar.dart';
-import 'package:codeup/ui/post/viewMosel/post_view_model.dart';
-import 'package:codeup/ui/saved_posts/saved_post_list.dart';
+
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
 import '../../entities/post.dart';
+import '../../services/auth_service.dart';
+import '../../services/post_service.dart';
+import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
-import '../common/language_enum.dart';
 import '../home/home_screen.dart';
-import '../profile/profile_screen.dart';
-import 'post_language_text.dart';
-import 'post_box_action.dart';
-import 'text_viewer.dart';
-import 'votes_counter.dart';
 
 class CreatePostScreen extends StatefulWidget {
   static const routeName = "/createPost-screen";

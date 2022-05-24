@@ -3,9 +3,9 @@ import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/custom_colors.dart';
 import '../../utils/sign_in_state_enum.dart';
 import '../../utils/pair.dart';
+import '../common/custom_colors.dart';
 
 enum ButtonType {
   primary,
@@ -76,7 +76,7 @@ class AdaptiveButton extends StatelessWidget {
           RoundedRectangleBorder(
             borderRadius: borderRadiusBtn,
             side: type == ButtonType.secondary ? BorderSide(
-              color: Color.fromARGB(255, 255, 222, 33),
+              color: CustomColors.mainYellow,
             ) : BorderSide.none,
           ),
         ),

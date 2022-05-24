@@ -1,17 +1,14 @@
-import 'package:codeup/entities/Person.dart';
-import 'package:codeup/services/auth_service.dart';
-import 'package:codeup/ui/authentication/sign_in/sign_in_screen.dart';
-import 'package:codeup/ui/comment/comment_list_screen.dart';
-import 'package:codeup/ui/common/test_data.dart';
-import 'package:codeup/ui/home/home_screen.dart';
-import 'package:codeup/ui/common/custom_colors.dart';
-import 'package:codeup/ui/post/create_post_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'entities/Person.dart';
+import 'services/auth_service.dart';
+import 'ui/authentication/sign_in/sign_in_screen.dart';
 import 'ui/authentication/sign_up/sign_up_screen.dart';
-import 'ui/forums/forum_page/forum_page_screen.dart';
+import 'ui/common/custom_colors.dart';
 import 'ui/forums/forums_screen.dart';
 import 'ui/friends/friends_screen.dart';
+import 'ui/home/home_screen.dart';
+import 'ui/post/create_post_screen.dart';
 import 'ui/profile/profile_screen.dart';
 import 'ui/saved_posts/saved_posts_screen.dart';
 import 'ui/search/search_screen.dart';
