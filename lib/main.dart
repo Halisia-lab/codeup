@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: CustomColors.darkText,
           secondaryHeaderColor: CustomColors.mainYellow,
         ),
-        home: const HomeScreen(),
+        home: HomeScreen(),
         initialRoute: launchRoute,
         routes: {
           HomeScreen.routeName: (ctx) => HomeScreen(),

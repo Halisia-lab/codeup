@@ -11,7 +11,9 @@ import 'language_enum.dart';
 class CustomAppBar extends StatefulWidget {
   final String title;
   final bool searchBar;
-  const CustomAppBar(this.title, this.searchBar);
+  TextEditingController _textController = TextEditingController();
+   Iterable<Widget> res = [];
+  CustomAppBar(this.title, this.searchBar);
 
   @override
   _CustomAppBarState createState() =>
@@ -22,7 +24,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   final String title;
   final bool searchBar;
   //TODO pass in parameters
-  Iterable<PostBox> initPosts = [
+  List<PostBox> initPosts = [
     PostBox(
         const Post(1, "bonjour", "mycontent", "codeJS", 1, 2),
         [],
@@ -46,9 +48,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
             TestData.personnes[2].photoUrl)),
   ];
   _CustomAppBarState(this.title, this.searchBar);
-
-  TextEditingController _textController = TextEditingController();
   Iterable<dynamic> contenu = [];
+
+  @override
+  void initState() {
+    widget.res = initPosts;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -75,7 +81,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       color: CustomColors.white,
                     ),
                     child: TextField(
-                      controller: _textController,
+                      controller: widget._textController,
                       decoration: InputDecoration(
                         prefixText: " ",
                         hintText: '  Search for something',
@@ -87,11 +93,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ),
                       onChanged: (str) {
                         if (str.length > 3) {
-                          Iterable<dynamic> res = contenu;
-                          if (initPosts is Iterable<PostBox>) {
-                            res = initPosts
-                                .where((element) => element.post.title.contains(str));
-                            print(res.map((e) => (e as PostBox).post.content));
+                          if (initPosts is List<Widget>) {
+                            setState(() {
+                                 widget.res = initPosts.where((element) => element.post.title.toLowerCase().contains(str.toLowerCase())) as Iterable<PostBox>;
+
+                            });
+                         
+                            print(widget.res.map((e) => (e as PostBox).post.content));
                           }
                         }
                         /* setState(() {
@@ -106,8 +114,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
             : PreferredSize(child: Container(), preferredSize: Size.zero));
   }
 
+
   _search() {
-    var text = _textController.text;
+    var text = widget._textController.text;
     Iterable<dynamic> res = contenu;
     if (initPosts is Iterable<PostBox>) {
       res = initPosts.where((element) => element.post.title == text);

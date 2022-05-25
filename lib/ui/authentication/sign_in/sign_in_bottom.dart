@@ -163,7 +163,7 @@ class _SignInBottomState extends State<SignInBottom> {
         authService.getLoggedUser(user);
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return const HomeScreen();
+          return HomeScreen();
         }));
       } else {
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.email, "");

@@ -161,7 +161,7 @@ class _SignUpBottomState extends State<SignUpBottom> {
         authService.logIn(signInFieldsVm, user);
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return const HomeScreen();
+          return HomeScreen();
         }));
       } else {
         signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.username, "");

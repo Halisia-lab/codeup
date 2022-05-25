@@ -35,7 +35,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       backgroundColor: background_color,
       body: CustomScrollView(
         slivers: [
-          const CustomAppBar("Create a post", false),
+          CustomAppBar("Create a post", false),
           SliverList(
             delegate: SliverChildListDelegate([
               Padding(
