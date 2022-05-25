@@ -14,12 +14,11 @@ class HomeViewModel with ChangeNotifier {
   PostViewModel postViewModel = PostViewModel();
   PostService postService = PostService();
   List<PostBox> allPosts = [];
-  List<PostBox> researchedPosts = [];
   List<Post> loggedUserPosts = [];
   
   final _random = new Random();
 
-  Future<List<PostBox>> fetchPosts(String researchValue) async {
+  Future<List<PostBox>> fetchPosts() async {
     await postService.fetchPosts().then((data) async {
       for (dynamic element in jsonDecode(data.body)) {
         Post post = Post.fromJson(element);
@@ -29,11 +28,10 @@ class HomeViewModel with ChangeNotifier {
             post.userId,
             true,
             await postViewModel.getCommiter(post));
-        if(researchValue.length > 3 && post.title.contains(researchValue)) researchedPosts.add(postBoxWidget);
         allPosts.add(postBoxWidget);
       }
     });
-    return researchValue.length > 3 ? allPosts : researchedPosts;
+    return allPosts;
   }
 
 }

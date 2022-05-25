@@ -11,9 +11,11 @@ import 'language_enum.dart';
 class CustomAppBar extends StatefulWidget {
   final String title;
   final bool searchBar;
-  TextEditingController _textController = TextEditingController();
+  TextEditingController textController = TextEditingController();
    Iterable<Widget> res = [];
   CustomAppBar(this.title, this.searchBar);
+
+  
 
   @override
   _CustomAppBarState createState() =>
@@ -81,7 +83,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       color: CustomColors.white,
                     ),
                     child: TextField(
-                      controller: widget._textController,
+                      controller: widget.textController,
                       decoration: InputDecoration(
                         prefixText: " ",
                         hintText: '  Search for something',
@@ -116,7 +118,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
 
   _search() {
-    var text = widget._textController.text;
+    var text = widget.textController.text;
     Iterable<dynamic> res = contenu;
     if (initPosts is Iterable<PostBox>) {
       res = initPosts.where((element) => element.post.title == text);
