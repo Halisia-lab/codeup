@@ -20,6 +20,6 @@ factory User.fromJson(Map<String, dynamic> json) {
   }
  @override
   String toString() {
-    return "{id: ${this.id}, email: ${this.email}, password: ${this.password}, username: ${this.username}, firstname: ${this.firstname}, lastname: ${this.lastname}}";
+    return "{id: $id, email: $email, password: $password, username: $username, firstname: $firstname, lastname: $lastname}";
   }
 }

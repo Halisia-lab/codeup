@@ -21,6 +21,6 @@ factory Comment.fromJson(Map<String, dynamic> json) {
 
   @override
   String toString() {
-    return "{id: ${this.id}, content: ${this.content}, commentParentId: ${this.commentParentId}, userId: ${this.userId}, code: ${this.code}, postId: ${this.postId}}";
+    return "{id: $id, content: $content, commentParentId: $commentParentId, userId: $userId, code: $code, postId: $postId}";
   }
 }

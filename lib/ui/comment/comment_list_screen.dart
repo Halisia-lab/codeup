@@ -89,6 +89,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
               child: GestureDetector(
                 onTap: responseContent.isNotEmpty
                     ? () => setState(() {
+                      //TODO: call sendresponse function 
                           /* comments.insert(
                               0,
                               CommentListItem(post.commiter, responseContent,

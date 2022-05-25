@@ -20,6 +20,6 @@ factory Post.fromJson(Map<String, dynamic> json) {
   }
  @override
   String toString() {
-    return "{id: ${this.id}, title: ${this.title}, content: ${this.content}, code: ${this.code}, forum_id: ${this.forumId}, user_id: ${this.userId}}";
+    return "{id: $id, title: $title, content: $content, code: $code, forum_id: $forumId, user_id: $userId}";
   }
 }
