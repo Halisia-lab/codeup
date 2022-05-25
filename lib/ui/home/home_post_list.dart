@@ -4,6 +4,8 @@ import '../common/custom_colors.dart';
 import '../post/post_box.dart';
 import 'viewModel/home_view_model.dart';
 
+//TODO consumer de CustomAppBar
+
 class PostBoxList extends StatefulWidget {
   PostBoxList();
 

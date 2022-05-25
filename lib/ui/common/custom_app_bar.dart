@@ -8,6 +8,8 @@ import '../common/test_data.dart';
 import '../post/post_box.dart';
 import 'language_enum.dart';
 
+//TODO changenotifier 
+//notify listener quand onChanged
 class CustomAppBar extends StatefulWidget {
   final String title;
   final bool searchBar;
