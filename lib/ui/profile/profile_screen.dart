@@ -1,4 +1,4 @@
-import 'package:codeup/entities/Person.dart';
+import 'package:codeup/entities/person.dart';
 import 'package:codeup/services/auth_service.dart';
 import 'package:codeup/ui/common/custom_button.dart';
 import 'package:codeup/ui/common/test_data.dart';

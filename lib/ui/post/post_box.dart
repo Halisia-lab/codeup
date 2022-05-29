@@ -1,16 +1,16 @@
-import 'package:codeup/services/auth_service.dart';
-import 'package:codeup/ui/comment/comment_list_screen.dart';
-import 'package:codeup/ui/post/viewMosel/post_view_model.dart';
-import 'package:codeup/ui/saved_posts/saved_post_list.dart';
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
+import '../../entities/person.dart';
 import '../../entities/post.dart';
+import '../../services/auth_service.dart';
+import '../comment/comment_list_screen.dart';
 import '../common/language_enum.dart';
 import '../profile/profile_screen.dart';
+import '../saved_posts/saved_post_list.dart';
 import 'post_language_text.dart';
 import 'post_box_action.dart';
 import 'text_viewer.dart';
+import 'viewModel/post_view_model.dart';
 import 'votes_counter.dart';
 
 class PostBox extends StatefulWidget {

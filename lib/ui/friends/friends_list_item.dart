@@ -1,8 +1,7 @@
-import 'package:codeup/ui/common/test_data.dart';
-import 'package:codeup/ui/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../entities/Person.dart';
+import '../../entities/person.dart';
+import '../profile/profile_screen.dart';
 
 class FriendsListItem extends StatelessWidget {
   final Person friend;

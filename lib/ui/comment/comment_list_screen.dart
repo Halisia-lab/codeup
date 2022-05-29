@@ -1,11 +1,9 @@
-import 'package:codeup/ui/authentication/viewModel/soft_keyboard_view_model.dart';
-import 'package:codeup/ui/common/custom_button.dart';
-import 'package:codeup/ui/common/custom_colors.dart';
-import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
 
 import '../../services/auth_service.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
+import '../common/custom_colors.dart';
+import '../common/test_data.dart';
 import '../post/post_box.dart';
 import 'comment_list_item.dart';
 

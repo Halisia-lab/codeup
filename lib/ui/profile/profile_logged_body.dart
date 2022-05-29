@@ -1,14 +1,13 @@
-import 'package:codeup/services/auth_service.dart';
-import 'package:codeup/ui/common/custom_button.dart';
-import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../services/auth_service.dart';
 import '../../utils/sign_in_field_enum.dart';
 import '../authentication/viewModel/sign_in_fields_view_model.dart';
 import '../authentication/viewModel/soft_keyboard_view_model.dart';
 import '../common/custom_app_bar.dart';
+import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
 import '../home/home_screen.dart';
 import '../menu/menu.dart';

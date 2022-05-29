@@ -1,6 +1,4 @@
-import 'Comment.dart';
 import 'user.dart';
-
 
 class Person {
 

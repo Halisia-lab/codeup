@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:codeup/services/post_service.dart';
-import 'package:codeup/ui/post/post_box.dart';
-import 'package:codeup/ui/post/viewMosel/post_view_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../../entities/Person.dart';
 import '../../../entities/post.dart';
-import '../../../entities/user.dart';
+import '../../../services/post_service.dart';
 import '../../common/language_enum.dart';
-import '../../common/test_data.dart';
+import '../../post/post_box.dart';
+import '../../post/viewModel/post_view_model.dart';
 
 class HomeViewModel with ChangeNotifier {
   HomeViewModel();
@@ -36,13 +33,5 @@ class HomeViewModel with ChangeNotifier {
     });
     return allPosts;
   }
-
-
-
-  /*  List<PostBox> getAllPosts() {
-    List<PostBox> posts = [];
-    for(PostBox)
-    return posts;
-  } */
 
 }

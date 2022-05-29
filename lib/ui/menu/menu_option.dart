@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../common/custom_colors.dart';
 
 class MenuOption extends StatelessWidget {
   final String text;

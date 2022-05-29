@@ -9,7 +9,7 @@ import '../../../entities/forum.dart';
 import '../../../entities/post.dart';
 import '../../common/language_enum.dart';
 import '../../post/post_box.dart';
-import '../../post/viewMosel/post_view_model.dart';
+import '../../post/viewModel/post_view_model.dart';
 
 class ForumViewModel with ChangeNotifier {
   ForumViewModel();

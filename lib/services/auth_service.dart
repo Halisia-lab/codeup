@@ -1,18 +1,15 @@
 import 'dart:convert';
-import 'package:codeup/services/post_service.dart';
 import 'package:http/http.dart' as http;
 
-import '../entities/Person.dart';
-import '../entities/post.dart';
+import '../entities/person.dart';
 import '../ui/authentication/viewModel/sign_in_fields_view_model.dart';
-
 import '../entities/user.dart';
 import '../ui/common/test_data.dart';
 
 class AuthService {
   static String apiUrl = "http://10.0.2.2:8080/";
   SignInFieldsViewModel? signInFieldsVm;
-  static Person? currentUser = null;
+  static Person? currentUser;
 
   AuthService({this.signInFieldsVm});
 
@@ -40,20 +37,8 @@ class AuthService {
       User user = User.fromJson(element);
       users.add(user);
     }
-    print(users);
     return response;
   }
-
-  /* Future<http.Response> getCurrentUser() async {
-    User? user;
-    final response = await http.get(Uri.parse(apiUrl + "users/current"));
-    if(response.statusCode == 200) {
-     user = User.fromJson(jsonDecode(response.body));
-     
-    }
-
-    return response;
-  } */
 
   Future<User> getUserById(int id) async {
     User user;
@@ -76,7 +61,7 @@ class AuthService {
         'password': user.password
       }),
     );
-    print(response.headers);
+
     return response;
     
    

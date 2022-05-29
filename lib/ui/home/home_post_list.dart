@@ -1,7 +1,8 @@
-import 'package:codeup/ui/home/viewModel/home_view_model.dart';
 import 'package:flutter/material.dart';
 
+import '../common/custom_colors.dart';
 import '../post/post_box.dart';
+import 'viewModel/home_view_model.dart';
 
 class PostBoxList extends StatefulWidget {
   const PostBoxList({Key? key}) : super(key: key);
@@ -9,7 +10,6 @@ class PostBoxList extends StatefulWidget {
   @override
   _PostBoxListState createState() => _PostBoxListState();
 }
-
 
 
 class _PostBoxListState extends State<PostBoxList> {
@@ -25,7 +25,12 @@ class _PostBoxListState extends State<PostBoxList> {
                   for (PostBox post in snapshot.data as List<PostBox>) post
                 ],
               )
-            : Text("Loading...");
+            : Container(
+          alignment: Alignment.center,
+          child: const CircularProgressIndicator(
+            color: CustomColors.mainYellow,
+          )
+        );
       },
     );
   }
