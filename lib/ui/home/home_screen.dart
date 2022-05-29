@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final background_color = CustomColors.lightGrey3;
   @override
   Widget build(BuildContext context) {
-    
+
     //postService.getPosts();
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: (() => _createPost()), child: Icon(Icons.add), backgroundColor: CustomColors.mainYellow,),
@@ -33,10 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
           const HomeTop(),
           SliverList(
             delegate: SliverChildListDelegate([
-              Container(
-                decoration: BoxDecoration(color: background_color),
-                height: MediaQuery.of(context).size.height * 4 / 5,
-                child:  const PostBoxList(),
+              Padding(
+                padding: const EdgeInsets.only(top:8.0),
+                child: Container(
+                  decoration: BoxDecoration(color: background_color),
+                  height: MediaQuery.of(context).size.height * 6 / 7,
+                  child:  const PostBoxList(),
+                ),
               ),
             ]),
           ),
