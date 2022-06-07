@@ -17,7 +17,8 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final background_color = CustomColors.lightGrey3;
-  TextEditingController postController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
   String responseContent = "";
   AuthService authService = AuthService();
   PostService postService = PostService();
@@ -43,7 +44,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 child: Container(height: 200, color: Colors.white, child: Column(children: [
                   Text("Title"),
                   TextField(
-                            controller: postController,
+                            controller: titleController,
                             decoration: const InputDecoration(
                               //labelStyle: TextStyle(color: Colors.orange),
                               hintText: 'Add a reponse...',
@@ -57,9 +58,35 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             onSubmitted: (str) {}),
                       
                     
-                  Text("Content")
+                  Text("Content"),
+                  TextField(
+                            controller: contentController,
+                            decoration: const InputDecoration(
+                              //labelStyle: TextStyle(color: Colors.orange),
+                              hintText: 'What do you want to say ? ',
+                            ),
+                            
+                            onChanged: (str) {
+                              setState(() {
+                                responseContent = str;
+                              });
+                            },
+                            onSubmitted: (str) {}),
                 ],),),
               ),
+              Padding(
+                    padding: const EdgeInsets.only(top: 4.0, right: 8),
+                    child: GestureDetector(
+                      onTap: contentController.text.isNotEmpty && titleController.text.isNotEmpty ? _submitPost : null,
+                      child: Icon(
+                        Icons.send_rounded,
+                        size: 29.0,
+                        color: responseContent.isNotEmpty
+                            ? CustomColors.mainYellow
+                            : Colors.grey,
+                      ),
+                    ),
+                  ),
               /* Container(
                 decoration: BoxDecoration(color: background_color),
                 height: MediaQuery.of(context).size.height * 4 / 5,
@@ -108,10 +135,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   _submitPost() async {
+    print(contentController.text + " " + titleController.text);
       final response = await postService.addPost(
-          Post(-1, "Welcome", responseContent, "C", 1,
+          Post(-1, titleController.text, contentController.text, "C", 1,
               AuthService.currentUser!.user.id),
           AuthService.currentUser!);
+          
       if (response.statusCode == 200 || response.statusCode == 201) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
           return HomeScreen();

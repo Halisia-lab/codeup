@@ -22,7 +22,6 @@ class ForumViewModel with ChangeNotifier {
 
   Future<List<ForumListItem>> fetchForums() async {
     await forumService.fetchForums().then((data) async {
-      print(data.body);
       for (dynamic element in jsonDecode(data.body)) {
         Forum forum = Forum.fromJson(element);
         ForumListItem forumListItem = ForumListItem(

@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
 import 'secure_storage.dart';
 
 class UserForumRelationService {
-  String apiUrl = "http://10.0.2.2:8080/user-forum-relation";
+  static String apiUrl = "http://" + (dotenv.env.keys.contains("HOST") ? dotenv.env["HOST"]! : "localhost") + ":" + (dotenv.env.keys.contains("SERVER_PORT") ? dotenv.env["SERVER_PORT"]! : "8080") + "/user-forum-relation";
   UserForumRelationService();
 
   Future<http.Response> fetchForums() async {
