@@ -37,8 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
+                
                 decoration: BoxDecoration(color: background_color),
-                height: MediaQuery.of(context).size.height * 4 / 5,
+                height: MediaQuery.of(context).size.height * 8 / 10,
                 child: PostBoxList(),
               ),
             ]),

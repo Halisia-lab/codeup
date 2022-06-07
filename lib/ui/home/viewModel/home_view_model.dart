@@ -27,7 +27,7 @@ class HomeViewModel with ChangeNotifier {
             const [LanguageValue.C, LanguageValue.JAVA],
             post.userId,
             true,
-            await postViewModel.getCommiter(post));
+            await postViewModel.getCommiter(post), true);
         allPosts.add(postBoxWidget);
       }
     });

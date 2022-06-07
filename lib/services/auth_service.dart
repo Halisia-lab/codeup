@@ -72,7 +72,7 @@ class AuthService {
 
   Future<http.Response> register(
       SignInFieldsViewModel signInFieldsVm, User user) async {
-    return await http.post(
+    final response =  await http.post(
       Uri.parse(apiUrl + 'users/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -85,6 +85,8 @@ class AuthService {
         'lastname': user.lastname
       }),
     );
+    print(user);
+    return response;
   }
 
   static void setCurrentUser(Person? user) {

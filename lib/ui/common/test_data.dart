@@ -24,9 +24,9 @@ class TestData {
   //static var currentUser = TestData.personnes[1];
   static List<PostBox> posts = [
     
-    PostBox(Post(1,"I need urgent heeelp", " have a problem while launching java. Can you help meeeee", "JAVA", 1, 1), [LanguageValue.C, LanguageValue.PYTHON, LanguageValue.JAVA], 4, false, TestData.personnes[1] ),
+    PostBox(Post(1,"I need urgent heeelp", " have a problem while launching java. Can you help meeeee", "JAVA", 1, 1), [LanguageValue.C, LanguageValue.PYTHON, LanguageValue.JAVA], 4, false, TestData.personnes[1], true ),
              PostBox(Post(1,"Hello my name is Romain", "Nouveau post", "JAVA", 1, 1),
-                [LanguageValue.C, LanguageValue.JAVA], 4, true, TestData.personnes[0]),
+                [LanguageValue.C, LanguageValue.JAVA], 4, true, TestData.personnes[0], true),
            /* PostBox(
                 "hello this is my post. hello this is my post, hello this is my post, hello this is my post. hello this is my post. hello this is my post, hello this is my post, hello this is my post. hello this is my post. hello this is my post, hello this is my post, hello this is my post. ",
                 "I have a problem while launching java. ",

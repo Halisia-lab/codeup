@@ -1,5 +1,8 @@
+import 'package:codeup/entities/comment.dart';
+import 'package:codeup/services/comment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:codeup/ui/comment/viewModel/comment_view_model.dart';
+import 'package:http/http.dart';
 
 import '../../services/auth_service.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
@@ -9,7 +12,7 @@ import 'comment_list_item.dart';
 
 class CommentListScreen extends StatefulWidget {
   static const routeName = "/CommentListScreen-screen";
-  final PostBox post;
+  PostBox post;
   CommentListScreen(this.post);
 
   @override
@@ -20,7 +23,7 @@ class CommentListScreen extends StatefulWidget {
 class _CommentListScreenState extends State<CommentListScreen> {
   _CommentListScreenState(this.post);
   CommentViewModel commentViewModel = CommentViewModel();
-  final PostBox post;
+  PostBox post;
   final commentController = TextEditingController();
   late String responseContent;
   /* List<CommentListItem> comments = [
@@ -32,6 +35,8 @@ class _CommentListScreenState extends State<CommentListScreen> {
 
   @override
   void initState() {
+    post = PostBox(post.post, post.languages, post.votes, post.isSaved,
+        post.commiter, false);
     responseContent = "";
     super.initState();
   }
@@ -47,15 +52,28 @@ class _CommentListScreenState extends State<CommentListScreen> {
         bottomSheet: _getResponseArea());
   }
 
-  void sendResponse() {
+  void sendResponse() async {
     const snackBar = SnackBar(
       content: Text('Response sent'),
       backgroundColor: CustomColors.mainYellow,
     );
-    FocusScope.of(context).requestFocus(FocusNode());
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    commentController.clear();
-    responseContent = "";
+
+    final comment = await commentViewModel.insertComment(
+        Comment(
+            -1,
+            commentController.text,
+            "1",
+            AuthService.currentUser!.user.id,
+            "?",
+            widget.post.post.id),
+        AuthService.currentUser!,
+        post.post);
+
+    if (comment != null) {
+      FocusScope.of(context).requestFocus(FocusNode());
+      commentController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } 
 
     //TODO insert a new comment
   }
@@ -89,13 +107,13 @@ class _CommentListScreenState extends State<CommentListScreen> {
               child: GestureDetector(
                 onTap: responseContent.isNotEmpty
                     ? () => setState(() {
-                      //TODO: call sendresponse function 
+                          //TODO: call sendresponse function
                           /* comments.insert(
                               0,
                               CommentListItem(post.commiter, responseContent,
                                   DateTime.now().toString()));
-
-                          sendResponse(); */
+ */
+                          sendResponse();
                         })
                     : null,
                 child: Icon(
@@ -127,28 +145,31 @@ class _CommentListScreenState extends State<CommentListScreen> {
         future: commentViewModel.fetchComments(post.post.id),
         builder: (BuildContext context,
             AsyncSnapshot<List<CommentListItem>> snapshot) {
-          return snapshot.data != null ? Padding(
-            padding: const EdgeInsets.only(
-                left: 5.0, right: 5.0, top: 20.0, bottom: 10.0),
-            child: ListView(
-              children: [
-                SingleChildScrollView(
-                  child: Column(children: [
-                    GestureDetector(
-                      child: post,
-                      onTap: null,
-                    ),
-                    for (CommentListItem comment in snapshot.data as List<CommentListItem>) comment,
-                  ]),
-                ),
-              ],
-            ),
-          ) : Container(
-          alignment: Alignment.center,
-          child: const CircularProgressIndicator(
-            color: CustomColors.mainYellow,
-          )
-        );
+          return snapshot.data != null
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                      left: 5.0, right: 5.0, top: 20.0, bottom: 80.0),
+                  child: ListView(
+                    children: [
+                      SingleChildScrollView(
+                        child: Column(children: [
+                          GestureDetector(
+                            child: post,
+                            onTap: null,
+                          ),
+                          for (CommentListItem comment
+                              in snapshot.data as List<CommentListItem>)
+                            comment,
+                        ]),
+                      ),
+                    ],
+                  ),
+                )
+              : Container(
+                  alignment: Alignment.center,
+                  child: const CircularProgressIndicator(
+                    color: CustomColors.mainYellow,
+                  ));
         });
   }
 

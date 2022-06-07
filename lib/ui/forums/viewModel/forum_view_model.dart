@@ -46,7 +46,7 @@ class ForumViewModel with ChangeNotifier {
             const [LanguageValue.C, LanguageValue.JAVA],
             post.userId,
             true,
-            await postViewModel.getCommiter(post));
+            await postViewModel.getCommiter(post), true);
             if(postBoxWidget.post.title.contains(title) || title.contains(postBoxWidget.post.code))
         allPosts.add(postBoxWidget);
       }

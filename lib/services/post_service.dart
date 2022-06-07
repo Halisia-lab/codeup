@@ -12,6 +12,7 @@ class PostService {
 
   Future<http.Response> fetchPosts() async {
     final response = await http.get(Uri.parse(apiUrl + "posts/all/limit/20/offset/0"));
+    
     return response;
   }
 

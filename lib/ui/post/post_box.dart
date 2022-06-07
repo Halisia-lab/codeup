@@ -1,3 +1,4 @@
+import 'package:codeup/ui/comment/viewModel/comment_view_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
@@ -19,8 +20,8 @@ class PostBox extends StatefulWidget {
   int votes;
   bool isSaved;
   Person commiter;
-  bool areCommentsVisible = false;
-  PostBox(this.post, this.languages, this.votes, this.isSaved, this.commiter);
+  bool areCommentsVisible;
+  PostBox(this.post, this.languages, this.votes, this.isSaved, this.commiter, this.areCommentsVisible);
 
   @override
   _PostBoxState createState() =>
@@ -34,7 +35,6 @@ class _PostBoxState extends State<PostBox> {
   int votes;
   bool isSaved;
   Person commiter;
-  bool areCommentsVisible = false;
   PostViewModel postViewModel = PostViewModel();
 //this.text, this.title, this.languages, this.commiter, this.votes, this.isSaved
   _PostBoxState(
@@ -47,7 +47,8 @@ class _PostBoxState extends State<PostBox> {
 
   @override
   Widget build(BuildContext context) {
-    
+    CommentViewModel commentViewModel = CommentViewModel();
+    commentViewModel.getCommentCount(widget.post);
     /* return FutureBuilder(future: postViewModel.getCommiter(post), builder: (BuildContext context, AsyncSnapshot<Person> snapshot) { */ return Padding(
       padding: const EdgeInsets.only(bottom: 10, left:10, right:10),
       child: Container(
@@ -106,9 +107,15 @@ class _PostBoxState extends State<PostBox> {
               ),
               Row(
                 children: <Widget>[
+                  if(widget.areCommentsVisible)
                   GestureDetector(
-                    child: PostBoxAction(Icons.comment_outlined, "3 comments ",
-                        () => _openComments(context)),
+                    child: FutureBuilder(
+                      future: commentViewModel.getCommentCount(post),
+                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                        return PostBoxAction(Icons.comment_outlined, snapshot.data != null ? snapshot.data.toString() : "...",
+                            () => _openComments(context));
+                      }
+                    ),
                     onTap: () => _openComments(context),
                   ),
                   GestureDetector(

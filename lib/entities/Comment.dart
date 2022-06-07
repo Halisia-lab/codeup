@@ -1,21 +1,21 @@
 class Comment {
   final int id;
   final String content;
-  String? commentParentId;
+  final String commentParentId;
   final int userId;
   final String code;
   final int postId;
 
-  Comment({required this.id, required this.content, this.commentParentId = "-1", required this.userId, required this.code, required this.postId});
+  const Comment(this.id,  this.content, this.commentParentId,  this.userId,  this.code,  this.postId);
  
 factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-      id: json['id'],
-      content: json['content'],
-      commentParentId: json['commentParentId'],
-      userId: json['userId'],
-      code: json['code'],
-      postId: json['postId'],
+      json['id'],
+      json['content'],
+      json['commentParentIde'],
+      json['userId'],
+      json['code'],
+      json['postId'],
     );
   }
 

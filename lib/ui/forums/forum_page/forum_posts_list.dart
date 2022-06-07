@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../common/custom_colors.dart';
 import '../../post/post_box.dart';
 import '../viewModel/forum_view_model.dart';
 
@@ -19,7 +20,12 @@ class ForumPostsList extends StatelessWidget {
                   for (PostBox post in snapshot.data as List<PostBox>) post
                 ],
               )
-            : Text("Loading...");
+            : Container(
+          alignment: Alignment.center,
+          child: const CircularProgressIndicator(
+            color: CustomColors.mainYellow,
+          )
+        );
       },
     );
   }

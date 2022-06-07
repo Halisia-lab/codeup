@@ -161,7 +161,13 @@ class _SignUpBottomState extends State<SignUpBottom> {
         authService.logIn(signInFieldsVm, user);
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          /* const snackBar = SnackBar(
+        content: Text('Your account has been created !'),
+      backgroundColor: Colors.lightGreen,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar); */
           return HomeScreen();
+          
         }));
       } else {
         signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.username, "");
@@ -169,6 +175,12 @@ class _SignUpBottomState extends State<SignUpBottom> {
         signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.password, "");
         signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.firstname, "");
         signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.lastname, "");
+
+        const snackBar = SnackBar(
+        content: Text('Email or Username already token'),
+      backgroundColor: CustomColors.redText,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
   }

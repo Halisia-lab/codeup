@@ -29,7 +29,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
             delegate: SliverChildListDelegate([
               Container(
                 decoration: BoxDecoration(color: background_color),
-                height: MediaQuery.of(context).size.height * 4 / 5,
+                height: MediaQuery.of(context).size.height * 8 / 10,
                 child: ListView(children: [
                   for(Person friend in TestData.personnes )
                    FriendsListItem(friend)],),

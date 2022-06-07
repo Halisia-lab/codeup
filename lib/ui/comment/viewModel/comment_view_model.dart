@@ -18,6 +18,7 @@ class CommentViewModel with ChangeNotifier {
   AuthService authService = AuthService();
   User? commiter = null;
   final _random = new Random();
+  List<CommentListItem> allComments = [];
 
   Future<Person> getCommiter(Comment comment) async {
     return Person(await authService.getUserById(comment.userId), TestData.photos[randomNumber(0, 3)]);
@@ -28,9 +29,10 @@ int randomNumber(int min, int max) => min + _random.nextInt(max - min);
 
 
   Future<List<CommentListItem>> fetchComments(int postId) async {
-    List<CommentListItem> allComments = [];
     await commentService.fetchCommentsOfPost(postId).then((data) async {
+      
       for (dynamic element in jsonDecode(data.body)) {
+       print(jsonDecode(data.body));
         Comment comment = Comment.fromJson(element);
         CommentListItem commentListItem = CommentListItem(
             comment,
@@ -41,14 +43,22 @@ int randomNumber(int min, int max) => min + _random.nextInt(max - min);
     return allComments;
   }
 
-  Future<void> insertComment(Comment comment, Person user, Post post) async {
+  Future<Comment?> insertComment(Comment comment, Person user, Post post) async {
     
     final Response response = await commentService.addComment(comment, user, post);
+    print(response.request);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print("sucess");
+      print(response.body);
+      return comment;
     } else {
-      print("failure");
+      print(response.body);
+      return null;
     }
+  }
+
+  Future<String> getCommentCount(Post post) async {
+    final response =  await commentService.getCommentsCount(post.id);
+    return "1";
   }
 
 }

@@ -35,21 +35,21 @@ class _CustomAppBarState extends State<CustomAppBar> {
         3,
         false,
         Person(const User(2, "mail", "psw", "username", "fn", "ln"),
-            TestData.personnes[0].photoUrl)),
+            TestData.personnes[0].photoUrl), true),
     PostBox(
         const Post(1, "hellooo", "blablabl", "php", 1, 2),
         [LanguageValue.JAVA],
         -12,
         true,
         Person(const User(2, "mail", "psw", "username", "fn", "ln"),
-            TestData.personnes[1].photoUrl)),
+            TestData.personnes[1].photoUrl), true),
     PostBox(
         const Post(3, "Hola Hola", "hihihih", "Py", 1, 2),
         [],
         56,
         false,
         Person(const User(3, "mail", "psw", "username", "fn", "ln"),
-            TestData.personnes[2].photoUrl)),
+            TestData.personnes[2].photoUrl), true),
   ];
   _CustomAppBarState(this.title, this.searchBar);
   Iterable<dynamic> contenu = [];
