@@ -39,15 +39,12 @@ class _CreateForumScreenState extends State<CreateForumScreen> {
     super.initState();
   }
 
-                // create some values
-Color pickerColor = Color(0xff443a49);
-Color currentColor = Color(0xff443a49);
-
-
+  // create some values
+  Color pickerColor = Color(0xff443a49);
+  Color currentColor = Color(0xff443a49);
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: background_color,
       body: CustomScrollView(
@@ -136,7 +133,6 @@ Color currentColor = Color(0xff443a49);
                   ),
                 ),
               ),
-              
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: FutureBuilder(
@@ -171,7 +167,23 @@ Color currentColor = Color(0xff443a49);
                       );
                     }),
               ),
-              CustomButton(Colors.red, "Color", ()=> showAboutDialog(context: context, children: [MaterialColorPicker(onColorChanged: changeColor, pickerColor: pickerColor),])),
+              CustomButton(
+                  Colors.red,
+                  "Color",
+                  () => showAboutDialog(context: context, children: [
+                      AlertDialog(
+                        title: const Text("Pick a color :"),
+                        content:   MaterialColorPicker(
+                            onColorChanged: changeColor,
+                            pickerColor: pickerColor),
+                            actions: [ElevatedButton(onPressed: () {
+                              setState(() {
+                                currentColor = pickerColor;
+                                Navigator.of(context).pop();
+                              });
+                            }, child: const Text("Ok"))],
+                      ),
+                      ])),
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, right: 8),
                 child: CustomButton(
@@ -193,13 +205,13 @@ Color currentColor = Color(0xff443a49);
       ),
     );
   }
-void changeColor(Color color) {
-  setState(() => pickerColor = color);
-}
-  
+
+  void changeColor(Color color) {
+    setState(() => pickerColor = color);
+  }
 
   _submitForum() async {
-   /*  final response = await postService.addPost(
+    /*  final response = await postService.addPost(
         Post(-1, titleController.text, contentController.text, "C", int.parse(selectedForum) ,
             AuthService.currentUser!.user.id, null),
         AuthService.currentUser!);
