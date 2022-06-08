@@ -22,6 +22,11 @@ class _ForumsScreenState extends State<ForumsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: (() => _createForum()),
+        child: Icon(Icons.add),
+        backgroundColor: CustomColors.mainYellow,
+      ),
       backgroundColor: background_color,
       drawer: Menu(),
       body: CustomScrollView(
@@ -40,6 +45,15 @@ class _ForumsScreenState extends State<ForumsScreen> {
       ),
     );
   }
-
+void _createForum() async {
+    if (AuthService.currentUser != null) {
+      print("created");
+      //Navigator.of(context).pushNamed("/createPost-screen");
+    } else {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return SignInScreen(true);
+      }));
+    }
+  }
 
 }

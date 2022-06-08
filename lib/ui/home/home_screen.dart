@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final background_color = CustomColors.lightGrey3;
   @override
   Widget build(BuildContext context) {
-    //postService.getPosts();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: (() => _createPost()),

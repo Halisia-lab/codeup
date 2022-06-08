@@ -5,8 +5,9 @@ class Comment {
   final int userId;
   final String code;
   final int postId;
+  final creationDate;
 
-  const Comment(this.id,  this.content, this.commentParentId,  this.userId,  this.code,  this.postId);
+  const Comment(this.id,  this.content, this.commentParentId,  this.userId,  this.code,  this.postId, this.creationDate);
  
 factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
@@ -16,11 +17,12 @@ factory Comment.fromJson(Map<String, dynamic> json) {
       json['userId'],
       json['code'],
       json['postId'],
+      json['creationDate']
     );
   }
 
   @override
   String toString() {
-    return "{id: $id, content: $content, commentParentId: $commentParentId, userId: $userId, code: $code, postId: $postId}";
+    return "{id: $id, content: $content, commentParentId: $commentParentId, userId: $userId, code: $code, postId: $postId, creationDate: $creationDate}";
   }
 }

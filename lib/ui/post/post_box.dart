@@ -1,4 +1,5 @@
 import 'package:codeup/ui/comment/viewModel/comment_view_model.dart';
+import 'package:codeup/utils/date_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
@@ -83,7 +84,7 @@ class _PostBoxState extends State<PostBox> {
                     ),
                     Text(
                       commiter.user.firstname + " " + commiter.user.lastname,
-                      style: const TextStyle(fontSize: 17),
+                      style: const TextStyle(fontSize: 17,),
                     ),
                   ],
                 ),
@@ -95,6 +96,7 @@ class _PostBoxState extends State<PostBox> {
                   fontSize: 18,
                 ),
               ),
+               
               Row(children: [
                 for (LanguageValue language in languages)
                   PostLanguageText(language),
@@ -105,6 +107,16 @@ class _PostBoxState extends State<PostBox> {
                   Flexible(child: TextViewer(post.content)),
                 ],
               ),
+              Padding(
+                 padding: const EdgeInsets.only(right:8.0, bottom: 8),
+                 child: Align(
+                   alignment: Alignment.bottomRight,
+                   child: Text(
+                          DateHelper.formatDate(post.creationDate.toString()),
+                          style: const TextStyle(fontSize: 15, color: Colors.grey),
+                        ),
+                 ),
+               ),
               Row(
                 children: <Widget>[
                   if(widget.areCommentsVisible)
@@ -112,7 +124,7 @@ class _PostBoxState extends State<PostBox> {
                     child: FutureBuilder(
                       future: commentViewModel.getCommentCount(post),
                       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                        return PostBoxAction(Icons.comment_outlined, snapshot.data != null ? snapshot.data.toString() : "...",
+                        return PostBoxAction(Icons.comment_outlined, snapshot.data != null ? snapshot.data.toString() + (snapshot.data.toString() != "1" ? " Comments" : " Comment"): "...",
                             () => _openComments(context));
                       }
                     ),
@@ -162,6 +174,6 @@ class _PostBoxState extends State<PostBox> {
 
   _getCommiterProfile(BuildContext context, Person friend) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => ProfileScreen(friend)));
+        .push(MaterialPageRoute(builder: (_) => ProfileScreen(friend, true)));
   }
 }

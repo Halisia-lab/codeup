@@ -5,14 +5,14 @@ import '../../post/post_box.dart';
 import '../viewModel/forum_view_model.dart';
 
 class ForumPostsList extends StatelessWidget {
-  final String title;
-   ForumPostsList(this.title);
+  final int id;
+   ForumPostsList(this.id);
 
   ForumViewModel forumViewModel = ForumViewModel();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: forumViewModel.fetchForumPosts(title),
+      future: forumViewModel.fetchForumPosts(id),
       builder: (BuildContext context, AsyncSnapshot<List<PostBox>> snapshot) {
         return snapshot.data != null
             ? Column(

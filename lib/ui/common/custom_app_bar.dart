@@ -30,21 +30,21 @@ class _CustomAppBarState extends State<CustomAppBar> {
   //TODO pass in parameters
   List<PostBox> initPosts = [
     PostBox(
-        const Post(1, "bonjour", "mycontent", "codeJS", 1, 2),
+        const Post(1, "bonjour", "mycontent", "codeJS", 1, 2, null),
         [],
         3,
         false,
         Person(const User(2, "mail", "psw", "username", "fn", "ln"),
             TestData.personnes[0].photoUrl), true),
     PostBox(
-        const Post(1, "hellooo", "blablabl", "php", 1, 2),
+        const Post(1, "hellooo", "blablabl", "php", 1, 2, null),
         [LanguageValue.JAVA],
         -12,
         true,
         Person(const User(2, "mail", "psw", "username", "fn", "ln"),
             TestData.personnes[1].photoUrl), true),
     PostBox(
-        const Post(3, "Hola Hola", "hihihih", "Py", 1, 2),
+        const Post(3, "Hola Hola", "hihihih", "Py", 1, 2, null),
         [],
         56,
         false,
@@ -103,7 +103,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
                             });
                          
-                            print(widget.res.map((e) => (e as PostBox).post.content));
                           }
                         }
                         /* setState(() {

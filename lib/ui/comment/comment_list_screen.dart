@@ -65,7 +65,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
             "1",
             AuthService.currentUser!.user.id,
             "?",
-            widget.post.post.id),
+            widget.post.post.id, null),
         AuthService.currentUser!,
         post.post);
 

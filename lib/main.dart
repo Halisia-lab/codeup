@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           ForumsScreen.routeName: (ctx) => ForumsScreen(),
           FriendsScreen.routeName: (ctx) => FriendsScreen(),
           SavedPostsScreen.routeName: (ctx) => SavedPostsScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser!),
+          ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser!, true),
           CreatePostScreen.routeName: (ctx) => CreatePostScreen(),
         });
   }

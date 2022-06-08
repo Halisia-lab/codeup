@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:codeup/services/secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
@@ -27,9 +28,11 @@ class AuthService {
       users.add(user);
     }
 
+  final _random =  Random();
+  int randomNumber(int min, int max) => min + _random.nextInt(max - min);
     User loggedUser =
         users.firstWhere((user) => user.username == userFields.username);
-    currentUser = Person(loggedUser, TestData.photos[1]);
+    currentUser = Person(loggedUser, TestData.photos[randomNumber(0, 3)]);
   }
 
   Future<http.Response> getUsers() async {
@@ -85,7 +88,6 @@ class AuthService {
         'lastname': user.lastname
       }),
     );
-    print(user);
     return response;
   }
 

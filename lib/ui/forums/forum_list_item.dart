@@ -80,6 +80,15 @@ setState(() {
   _getForumPage(BuildContext context, ForumListItem forumListItem) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) => ForumPageScreen(forumListItem)));
   }
+
+bool operator ==(dynamic other) =>
+      other != null && other is ForumListItem && this.forum.title == other.forum.title;
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
+
+  
 }
 
 /* CustomButton(CustomColors.mainYellow, "Join", () => _joinForum() */

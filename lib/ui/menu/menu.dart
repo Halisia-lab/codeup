@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
@@ -7,6 +9,7 @@ import '../authentication/sign_in/sign_in_screen.dart';
 import '../authentication/sign_up/sign_up_screen.dart';
 import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
+import '../common/test_data.dart';
 import '../forums/forums_screen.dart';
 import '../friends/friends_screen.dart';
 import '../home/home_screen.dart';
@@ -73,6 +76,8 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
 Widget _unloggedMenuOptions(
   BuildContext context,
 ) {
+
+  
   return ListView(
     padding: EdgeInsets.zero,
     children: [
@@ -97,6 +102,8 @@ Widget _unloggedMenuOptions(
     ],
   );
 }
+
+
 
 _signUp(BuildContext context) {
   //Navigator.of(context).pop();
@@ -132,5 +139,7 @@ _getFriendsPage(BuildContext context) {
 
 _getProfilePage(BuildContext context, Person currentUser) {
   Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => ProfileScreen(currentUser)));
+        .push(MaterialPageRoute(builder: (_) => ProfileScreen(currentUser, false)));
 }
+
+

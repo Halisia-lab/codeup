@@ -14,11 +14,13 @@ import '../menu/menu.dart';
 
 class ProfileUnLoggedBody extends StatefulWidget {
   static const routeName = "/profile-screen";
+
+  final bool backOption;
   final Person wantedUser;
-  const ProfileUnLoggedBody(this.wantedUser);
+  const ProfileUnLoggedBody(this.wantedUser, this.backOption);
 
   @override
-  State<ProfileUnLoggedBody> createState() => _ProfileUnLoggedBodyState(this.wantedUser);
+  State<ProfileUnLoggedBody> createState() => _ProfileUnLoggedBodyState(this.wantedUser, this.backOption);
 }
 
 class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
@@ -27,6 +29,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
   final background_color = CustomColors.white;
   final Person wantedUser;
+  final backOption;
 
   bool _pwdVisibilityToggled = false;
   FocusNode _usernameFocusNode = FocusNode();
@@ -34,7 +37,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
   FocusNode _lastnameFocusNode = FocusNode();
   FocusNode _emailFocusNode = FocusNode();
 
-  _ProfileUnLoggedBodyState(this.wantedUser);
+  _ProfileUnLoggedBodyState(this.wantedUser, this.backOption);
 
   @override
   void dispose() {
@@ -48,6 +51,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
 
   @override
   Widget build(BuildContext context) {
+    
     final body = SafeArea(
         child: MultiProvider(
       providers: [
@@ -62,7 +66,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
       }),
     ));
     return Scaffold(
-        backgroundColor: background_color, drawer: const Menu(), body: body);
+        backgroundColor: background_color, drawer: !backOption ? const Menu() : null, body: body);
   }
 
   Widget _getBody() {
@@ -152,7 +156,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: wantedUser.user.username,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -179,7 +183,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: wantedUser.user.firstname,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -206,7 +210,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: wantedUser.user.lastname,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -232,7 +236,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: wantedUser.user.email,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,

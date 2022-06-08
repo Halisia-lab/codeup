@@ -29,10 +29,10 @@ int randomNumber(int min, int max) => min + _random.nextInt(max - min);
 
 
   Future<List<CommentListItem>> fetchComments(int postId) async {
+    allComments.clear();
     await commentService.fetchCommentsOfPost(postId).then((data) async {
       
       for (dynamic element in jsonDecode(data.body)) {
-       print(jsonDecode(data.body));
         Comment comment = Comment.fromJson(element);
         CommentListItem commentListItem = CommentListItem(
             comment,
@@ -46,19 +46,16 @@ int randomNumber(int min, int max) => min + _random.nextInt(max - min);
   Future<Comment?> insertComment(Comment comment, Person user, Post post) async {
     
     final Response response = await commentService.addComment(comment, user, post);
-    print(response.request);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print(response.body);
       return comment;
     } else {
-      print(response.body);
       return null;
     }
   }
 
   Future<String> getCommentCount(Post post) async {
     final response =  await commentService.getCommentsCount(post.id);
-    return "1";
+    return response.body.length == 1 ? response.body : "1";
   }
 
 }

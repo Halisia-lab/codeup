@@ -14,8 +14,10 @@ import '../menu/menu.dart';
 import '../../../utils/extensions.dart';
 
 class ProfileLoggedBody extends StatefulWidget {
+
   static const routeName = "/profile-screen";
-  const ProfileLoggedBody({Key? key}) : super(key: key);
+  final bool backOption;
+  const ProfileLoggedBody(this.backOption);
 
   @override
   State<ProfileLoggedBody> createState() => _ProfileLoggedBodyState();
@@ -59,7 +61,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
       }),
     ));
     return Scaffold(
-        backgroundColor: background_color, drawer: const Menu(), body: body);
+        backgroundColor: background_color, drawer: !widget.backOption ? const Menu() : null, body: body);
   }
 
   Widget _getBody() {
@@ -196,7 +198,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: currentUser!.user.username,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -267,7 +269,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: currentUser!.user.firstname,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -338,7 +340,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: currentUser!.user.lastname,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -409,7 +411,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: currentUser!.user.email,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,

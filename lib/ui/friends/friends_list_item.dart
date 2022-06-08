@@ -45,6 +45,6 @@ class FriendsListItem extends StatelessWidget {
   }
 
   _getFriendPage(BuildContext context, Person friend) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProfileScreen(friend)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProfileScreen(friend, true)));
   }
 }

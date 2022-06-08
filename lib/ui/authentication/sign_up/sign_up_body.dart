@@ -124,7 +124,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(left: 15.0),
                   hintText: "Username",
-                  hintStyle: GoogleFonts.notoSans(
+                  hintStyle: const TextStyle(
                     color: CustomColors.lightGrey1,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -178,7 +178,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(left: 15.0),
                   hintText: "Firstname",
-                  hintStyle: GoogleFonts.notoSans(
+                  hintStyle: const TextStyle(
                     color: CustomColors.lightGrey1,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -232,7 +232,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(left: 15.0),
                   hintText: "Lastname",
-                  hintStyle: GoogleFonts.notoSans(
+                  hintStyle: const TextStyle(
                     color: CustomColors.lightGrey1,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -286,7 +286,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(left: 15.0),
                   hintText: "Email",
-                  hintStyle: GoogleFonts.notoSans(
+                  hintStyle: const TextStyle(
                     color: CustomColors.lightGrey1,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -342,7 +342,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 errorText: signInFieldsVm.getSignUpFieldError(SignUpFieldEnum.password)
                     .isNullOrEmpty() ? null : signInFieldsVm.getSignUpFieldError(SignUpFieldEnum.password),
                 hintText: "Password",
-                hintStyle: GoogleFonts.notoSans(
+                hintStyle: const TextStyle(
                   color: CustomColors.lightGrey1,
                   fontSize: 16,
                   fontWeight: FontWeight.w400,

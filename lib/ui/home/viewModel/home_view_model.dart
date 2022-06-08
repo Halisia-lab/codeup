@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:codeup/utils/date_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../entities/post.dart';
@@ -13,12 +14,14 @@ class HomeViewModel with ChangeNotifier {
   HomeViewModel();
   PostViewModel postViewModel = PostViewModel();
   PostService postService = PostService();
-  List<PostBox> allPosts = [];
   List<Post> loggedUserPosts = [];
   
   final _random = new Random();
 
+  
+
   Future<List<PostBox>> fetchPosts() async {
+  List<PostBox> allPosts = [];
     await postService.fetchPosts().then((data) async {
       for (dynamic element in jsonDecode(data.body)) {
         Post post = Post.fromJson(element);
@@ -26,7 +29,7 @@ class HomeViewModel with ChangeNotifier {
             post,
             const [LanguageValue.C, LanguageValue.JAVA],
             post.userId,
-            true,
+            false,
             await postViewModel.getCommiter(post), true);
         allPosts.add(postBoxWidget);
       }

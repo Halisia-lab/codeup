@@ -158,14 +158,11 @@ class _SignInBottomState extends State<SignInBottom> {
 
       http.Response response = await authService.logIn(signInFieldsVm, user);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print(response.headers["set-cookie"].toString().split(";").first);
         SecureStorageService.getInstance().set("token", response.headers["set-cookie"].toString().split(";").first);
         //SecureStorageService.getInstance().set("username", user.username);
         authService.getLoggedUser(user);
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return HomeScreen();
-        }));
+        Navigator.of(context).pushReplacementNamed("/home-screen");
       } else {
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.email, "");
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.password, "");

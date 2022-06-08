@@ -19,8 +19,9 @@ import '../../../utils/extensions.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = "/profile-screen";
+  final bool backOption;
   final Person wantedUser;
-  const ProfileScreen(this.wantedUser);
+  const ProfileScreen(this.wantedUser, this.backOption);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState(this.wantedUser);
@@ -63,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
       child: Consumer<SoftKeyboardViewModel>(
           builder: (context, softKeyBoardVm, child) {
-        return this.wantedUser == this.currentUser ? ProfileLoggedBody() : ProfileUnLoggedBody(this.wantedUser);
+        return this.wantedUser == this.currentUser ? ProfileLoggedBody(widget.backOption) : ProfileUnLoggedBody(this.wantedUser, widget.backOption);
       }),
     ));
     return Scaffold(

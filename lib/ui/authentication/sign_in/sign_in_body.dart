@@ -103,7 +103,7 @@ class _SignInBodyState extends State<SignInBody> {
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(left: 15.0),
                   hintText: "Username",
-                  hintStyle: GoogleFonts.notoSans(
+                  hintStyle: const TextStyle(
                     color: CustomColors.lightGrey1,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -158,7 +158,7 @@ class _SignInBodyState extends State<SignInBody> {
                 errorText: signInFieldsVm.getSignInFieldError(SignInFieldEnum.password)
                     .isNullOrEmpty() ? null : signInFieldsVm.getSignInFieldError(SignInFieldEnum.password),
                 hintText: "Password",
-                hintStyle: GoogleFonts.notoSans(
+                hintStyle:const TextStyle(
                   color: CustomColors.lightGrey1,
                   fontSize: 16,
                   fontWeight: FontWeight.w400,

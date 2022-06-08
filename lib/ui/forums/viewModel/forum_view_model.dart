@@ -16,11 +16,11 @@ class ForumViewModel with ChangeNotifier {
   ForumService forumService = ForumService();
   PostViewModel postViewModel = PostViewModel();
   PostService postService = PostService();
-  List<ForumListItem> allForums = [];
   
   //final _random = new Random();
 
   Future<List<ForumListItem>> fetchForums() async {
+  List<ForumListItem> allForums = [];
     await forumService.fetchForums().then((data) async {
       for (dynamic element in jsonDecode(data.body)) {
         Forum forum = Forum.fromJson(element);
@@ -36,7 +36,7 @@ class ForumViewModel with ChangeNotifier {
     return allForums;
   }
 
-  Future<List<PostBox>> fetchForumPosts(String title) async {
+  Future<List<PostBox>> fetchForumPosts(int id) async {
     List<PostBox> allPosts = [];
     await postService.fetchPosts().then((data) async {
       for (dynamic element in jsonDecode(data.body)) {
@@ -47,7 +47,7 @@ class ForumViewModel with ChangeNotifier {
             post.userId,
             true,
             await postViewModel.getCommiter(post), true);
-            if(postBoxWidget.post.title.contains(title) || title.contains(postBoxWidget.post.code))
+          if(post.forumId == id)
         allPosts.add(postBoxWidget);
       }
     });

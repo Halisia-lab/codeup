@@ -50,7 +50,7 @@ _ForumPageScreenState(this.forum);
                   ), color: _randomColor,),
                 ),
               ),
-              ForumPostsList(forum.forum.title)
+              ForumPostsList(forum.forum.id)
             ]),
           ),
         ],
