@@ -6,6 +6,7 @@ import 'services/auth_service.dart';
 import 'ui/authentication/sign_in/sign_in_screen.dart';
 import 'ui/authentication/sign_up/sign_up_screen.dart';
 import 'ui/common/custom_colors.dart';
+import 'ui/forums/create_forum_screen.dart';
 import 'ui/forums/forums_screen.dart';
 import 'ui/friends/friends_screen.dart';
 import 'ui/home/home_screen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           SavedPostsScreen.routeName: (ctx) => SavedPostsScreen(),
           ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser!, true),
           CreatePostScreen.routeName: (ctx) => CreatePostScreen(),
+          CreateForumScreen.routeName: (ctx) => CreateForumScreen()
         });
   }
 }

@@ -47,8 +47,7 @@ class _ForumsScreenState extends State<ForumsScreen> {
   }
 void _createForum() async {
     if (AuthService.currentUser != null) {
-      print("created");
-      //Navigator.of(context).pushNamed("/createPost-screen");
+      Navigator.of(context).pushNamed("/createForum-screen");
     } else {
       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return SignInScreen(true);
