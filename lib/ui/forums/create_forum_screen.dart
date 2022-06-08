@@ -136,7 +136,7 @@ Color currentColor = Color(0xff443a49);
                   ),
                 ),
               ),
-              MaterialColorPicker(onColorChanged: changeColor, pickerColor: pickerColor),
+              
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: FutureBuilder(
@@ -171,6 +171,7 @@ Color currentColor = Color(0xff443a49);
                       );
                     }),
               ),
+              CustomButton(Colors.red, "Color", ()=> showAboutDialog(context: context, children: [MaterialColorPicker(onColorChanged: changeColor, pickerColor: pickerColor),])),
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, right: 8),
                 child: CustomButton(
