@@ -18,7 +18,6 @@ class CommentViewModel with ChangeNotifier {
   AuthService authService = AuthService();
   User? commiter = null;
   final _random = new Random();
-  List<CommentListItem> allComments = [];
 
   Future<Person> getCommiter(Comment comment) async {
     return Person(await authService.getUserById(comment.userId), TestData.photos[randomNumber(0, 3)]);
@@ -29,7 +28,7 @@ int randomNumber(int min, int max) => min + _random.nextInt(max - min);
 
 
   Future<List<CommentListItem>> fetchComments(int postId) async {
-    allComments.clear();
+  List<CommentListItem> allComments = [];
     await commentService.fetchCommentsOfPost(postId).then((data) async {
       
       for (dynamic element in jsonDecode(data.body)) {
@@ -40,7 +39,7 @@ int randomNumber(int min, int max) => min + _random.nextInt(max - min);
         allComments.add(commentListItem);
       }
     });
-    return allComments;
+    return allComments.reversed.toList();
   }
 
   Future<Comment?> insertComment(Comment comment, Person user, Post post) async {

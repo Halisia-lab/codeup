@@ -16,7 +16,7 @@ class _SavedPostListState extends State<SavedPostList> {
   @override
   Widget build(BuildContext context) {
     Person? currentUser = AuthService.currentUser;
-    List<PostBox> posts = TestData.posts;
+    List<PostBox> posts = [];
     for (PostBox post in posts) {
       if (post.isSaved) SavedPostList.savedPosts.add(post);
     }

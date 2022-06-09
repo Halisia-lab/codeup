@@ -14,6 +14,18 @@ import 'ui/post/create_post_screen.dart';
 import 'ui/profile/profile_screen.dart';
 import 'ui/saved_posts/saved_posts_screen.dart';
 
+//TODO: 
+/*
+ForumsScreen : 
+2 tabs, My forums  / All
+Join button action 
+
+Post edition : "..." on postboxes when user connected
+dropdown with delete, editing
+
+Recherche posts, amis, forums
+*/
+
 void main() async {
   await dotenv.load();
   runApp(MyApp("sign-in"));

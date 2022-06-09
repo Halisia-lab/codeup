@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class MaterialColorPicker extends StatefulWidget {
@@ -21,14 +21,14 @@ class _MaterialColorPickerState extends State<MaterialColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
         Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            /* ElevatedButton(
               onPressed: () {
                 showDialog(
                   context: context,
@@ -57,7 +57,7 @@ class _MaterialColorPickerState extends State<MaterialColorPicker> {
                 shadowColor: widget.pickerColor.withOpacity(1),
                 elevation: 10,
               ),
-            ),
+            ), */
             const SizedBox(width: 20),
             ElevatedButton(
               onPressed: () {
@@ -105,4 +105,4 @@ MaterialPicker(
       ],
     );
   }
-}
+} */

@@ -1,7 +1,9 @@
 
 import 'dart:math';
 
+import 'package:codeup/ui/post/create_post_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../services/auth_service.dart';
 import '../../authentication/sign_in/sign_in_screen.dart';
@@ -23,7 +25,7 @@ class ForumPageScreen extends StatefulWidget {
 class _ForumPageScreenState extends State<ForumPageScreen> {
   ForumListItem forum;
   final background_color = CustomColors.lightGrey3;
-  Color _randomColor = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+  final Color _randomColor = Colors.primaries[Random().nextInt(Colors.primaries.length)];
 _ForumPageScreenState(this.forum);
 
   @override
@@ -47,7 +49,7 @@ _ForumPageScreenState(this.forum);
                       Icon(forum.icon, size: 80,color: Colors.white,),
                       Flexible(child: Text(forum.forum.description , style: TextStyle(color: Colors.white, fontSize: 18),)),
                     ],
-                  ), color: _randomColor,),
+                  ), color: _isAColor(forum.forum.color) ? colorFromHex((forum.forum.color)) : _randomColor,),
                 ),
               ),
               ForumPostsList(forum.forum.id)
@@ -58,10 +60,16 @@ _ForumPageScreenState(this.forum);
     );
   }
 
+  bool _isAColor(String value) {
+    return value.length == 8;
+  }
+
     
   void _createPost()async  {
     if(AuthService.currentUser != null) {
-      Navigator.of(context).pushNamed("/createPost-screen");
+      Navigator.of(context).push(MaterialPageRoute(builder: (_)  { return CreatePostScreen(forum.forum.id);}));
+    
+      //Navigator.of(context).pushNamed("/createPost-screen");
     } else {
        Navigator.of(context).push(MaterialPageRoute(builder: (_)  { return SignInScreen(true);}));
     }

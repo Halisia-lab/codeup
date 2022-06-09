@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
+import 'package:http/http.dart';
 
 import '../entities/person.dart';
 import '../entities/post.dart';
@@ -20,7 +21,7 @@ class PostService {
       Post post, Person user) async {
         String token = "";
         token = await SecureStorageService.getInstance().get("token").then((value) => token = value.toString());
-    return http.post(
+    final response =  http.post(
       Uri.parse(apiUrl + 'posts/add'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -35,6 +36,7 @@ class PostService {
         'userId':user.user.id
       }),
     );
+    return response;
   }
 
   

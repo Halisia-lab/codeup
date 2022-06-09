@@ -1,3 +1,5 @@
+import 'package:codeup/services/forum_service.dart';
+import 'package:codeup/ui/forums/forum_page/forum_page_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/post.dart';
@@ -11,7 +13,10 @@ import '../forums/viewModel/forum_view_model.dart';
 import '../home/home_screen.dart';
 
 class CreatePostScreen extends StatefulWidget {
+  final int? choosenForumId;
   static const routeName = "/createPost-screen";
+
+  CreatePostScreen([this.choosenForumId]);
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }
@@ -23,6 +28,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   String responseContent = "";
   AuthService authService = AuthService();
   PostService postService = PostService();
+  ForumService forumService = ForumService();
   ForumViewModel forumViewModel = ForumViewModel();
   List<DropdownMenuItem<String>> menuItems = [
     const DropdownMenuItem(
@@ -128,54 +134,65 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: FutureBuilder(
-                    future: forumViewModel.fetchForums(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<ForumListItem>> snapshot) {
-                      return DropdownButton(
-                        value: selectedForum,
-                        items: snapshot.data != null
-                            ? <DropdownMenuItem<String>>[
-                                menuItems[0],
-                                for (ForumListItem forum in snapshot.data!)
-                                  DropdownMenuItem(
-                                    child: Text(forum.forum.title.toString()),
-                                    value: snapshot.data != null
-                                        ? forum.forum.id.toString()
-                                        : selectedForum,
-                                  )
-                              ]
-                            : menuItems,
-                        onChanged: (String? value) {
-                          setState(() {
-                            selectedForum = value.toString();
-                          });
-                        },
-                        iconEnabledColor: CustomColors.mainYellow,
-                        iconDisabledColor: Colors.grey,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: CustomColors.darkText),
-                      );
-                    }),
-              ),
+              if (widget.choosenForumId == null)
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: FutureBuilder(
+                      future: forumViewModel.fetchForums(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<ForumListItem>> snapshot) {
+                        return DropdownButton(
+                          value: selectedForum,
+                          items: snapshot.data != null
+                              ? <DropdownMenuItem<String>>[
+                                  menuItems[0],
+                                  for (ForumListItem forum in snapshot.data!)
+                                    DropdownMenuItem(
+                                      child: Text(forum.forum.title.toString()),
+                                      value: snapshot.data != null
+                                          ? forum.forum.id.toString()
+                                          : selectedForum,
+                                    )
+                                ]
+                              : menuItems,
+                          onChanged: (String? value) {
+                            setState(() {
+                              selectedForum = value.toString();
+                            });
+                          },
+                          iconEnabledColor: CustomColors.mainYellow,
+                          iconDisabledColor: Colors.grey,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: CustomColors.darkText),
+                        );
+                      }),
+                ),
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, right: 8),
                 child: CustomButton(
-                    contentController.text.isNotEmpty &&
-                            titleController.text.isNotEmpty &&
-                            selectedForum != "empty_response"
-                        ? CustomColors.mainYellow
-                        : Colors.grey,
+                    widget.choosenForumId == null
+                        ? (contentController.text.isNotEmpty &&
+                                titleController.text.isNotEmpty &&
+                                selectedForum != "empty_response"
+                            ? CustomColors.mainYellow
+                            : Colors.grey)
+                        : (contentController.text.isNotEmpty &&
+                                titleController.text.isNotEmpty
+                            ? CustomColors.mainYellow
+                            : Colors.grey),
                     "Send",
-                    contentController.text.isNotEmpty &&
-                            titleController.text.isNotEmpty &&
-                            selectedForum != "empty_response"
-                        ? _submitPost
-                        : null),
+                    widget.choosenForumId == null
+                        ? (contentController.text.isNotEmpty &&
+                                titleController.text.isNotEmpty &&
+                                selectedForum != "empty_response"
+                            ? _submitPost
+                            : null)
+                        : (contentController.text.isNotEmpty &&
+                                titleController.text.isNotEmpty
+                            ? _submitPost
+                            : null)),
               ),
             ]),
           ),
@@ -185,14 +202,33 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   _submitPost() async {
+    final forumId = widget.choosenForumId ?? int.parse(selectedForum);
+
     final response = await postService.addPost(
-        Post(-1, titleController.text, contentController.text, "C", int.parse(selectedForum) ,
+        Post(-1, titleController.text, contentController.text, "C", forumId,
             AuthService.currentUser!.user.id, null),
         AuthService.currentUser!);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      widget.choosenForumId == null
+          ? Navigator.of(context)
+              .pushReplacement(MaterialPageRoute(builder: (_) {
+              return const HomeScreen();
+            }))
+          : Navigator.of(context).pop();
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-        return const HomeScreen();
+        return FutureBuilder(
+            future: forumViewModel.fetchForumById(forumId),
+            builder:
+                (BuildContext context, AsyncSnapshot<ForumListItem> snapshot) {
+              return snapshot.data != null
+                  ? ForumPageScreen(snapshot.data!)
+                  : Container(
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(
+                        color: CustomColors.mainYellow,
+                      ));
+            });
       }));
     }
   }

@@ -16,11 +16,15 @@ class ForumsScreen extends StatefulWidget {
 }
 
 class _ForumsScreenState extends State<ForumsScreen> {
-  
   final background_color = CustomColors.lightGrey3;
   int number = 1;
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      return CustomColors.mainYellow;
+    }
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: (() => _createForum()),
@@ -45,7 +49,8 @@ class _ForumsScreenState extends State<ForumsScreen> {
       ),
     );
   }
-void _createForum() async {
+
+  void _createForum() async {
     if (AuthService.currentUser != null) {
       Navigator.of(context).pushNamed("/createForum-screen");
     } else {
@@ -54,5 +59,4 @@ void _createForum() async {
       }));
     }
   }
-
 }

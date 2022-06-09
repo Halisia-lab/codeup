@@ -73,6 +73,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         actions: [],
+        
         bottom: searchBar
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(50),

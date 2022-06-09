@@ -14,6 +14,11 @@ class ForumService {
     return response;
   }
 
+  Future<http.Response> fetchForumById(int forumId) async {
+    final response = await http.get(Uri.parse(apiUrl + "forums/" + forumId.toString()));
+    return response;
+  }
+
   Future<http.Response> addForum(
       Forum forum) async {
         final String? userAuthToken = await SecureStorageService.getInstance().get("jwtToken");
