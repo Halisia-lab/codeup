@@ -22,17 +22,11 @@ class ForumListItem extends StatefulWidget {
 
   @override
   State<ForumListItem> createState() =>
-      _ForumListItemState(forum, name, icon, isJoined, number);
+      _ForumListItemState();
 }
 
 class _ForumListItemState extends State<ForumListItem> {
-  _ForumListItemState(
-      this.forum, this.name, this.icon, this.isJoined, this.number);
-  Forum forum;
-  final String name;
-  final IconData icon;
-  bool isJoined;
-  int number;
+  
   ForumViewModel forumViewModel = ForumViewModel();
 
   @override
@@ -55,7 +49,7 @@ class _ForumListItemState extends State<ForumListItem> {
                   Padding(
                     padding: const EdgeInsets.only(left: 25.0),
                     child: Text(
-                      forum.title,
+                      widget.forum.title,
                       style: const TextStyle(fontSize: 18),
                     ),
                   ),
@@ -86,11 +80,11 @@ class _ForumListItemState extends State<ForumListItem> {
     );
   }
 
-  joinForum() {
-    if (AuthService.currentUser != null) {
+  joinForum() async {
+    if (AuthService.currentUser != null) { 
+      await forumViewModel.joinForum(AuthService.currentUser!.user.id, widget.forum.id);
       setState(() {
-        forumViewModel.joinForum(AuthService.currentUser!.user.id, widget.forum.id);
-        isJoined = true;
+       widget.isJoined = true;
       });
     } else {
       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
@@ -99,10 +93,11 @@ class _ForumListItemState extends State<ForumListItem> {
     }
   }
 
-  unjoinForum() {
+
+  unjoinForum() async {
+    await forumViewModel.unjoinForum(AuthService.currentUser!.user.id, widget.forum.id);
     setState(() {
-        forumViewModel.unjoinForum(AuthService.currentUser!.user.id, widget.forum.id);
-        isJoined = false;
+        widget.isJoined = false;
       });
   }
 
@@ -121,7 +116,7 @@ class _ForumListItemState extends State<ForumListItem> {
   bool operator ==(dynamic other) =>
       other != null &&
       other is ForumListItem &&
-      this.forum.title == other.forum.title;
+      widget.forum.title == other.forum.title;
 
   @override
   // TODO: implement hashCode

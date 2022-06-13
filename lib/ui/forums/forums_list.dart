@@ -16,17 +16,18 @@ class _ForumListState extends State<ForumList> {
   ForumViewModel forumViewModel = ForumViewModel();
   final background_color = CustomColors.lightGrey3;
   bool isChecked = false;
-
+  late Future<List<ForumListItem>> forums;
   Color getColor(Set<MaterialState> states) {
     return CustomColors.mainYellow;
   }
 
   @override
   Widget build(BuildContext context) {
+  forums = isChecked
+            ? forumViewModel.fetchForumsOfUser()
+            : forumViewModel.fetchForums();
     return FutureBuilder(
-        future: !isChecked
-            ? forumViewModel.fetchForums()
-            : forumViewModel.fetchForumsOfUser(),
+        future: forums,
         builder: (BuildContext context,
             AsyncSnapshot<List<ForumListItem>> snapshot) {
           return snapshot.data != null
@@ -37,7 +38,7 @@ class _ForumListState extends State<ForumList> {
                         padding: const EdgeInsets.only(left: 15.0),
                         child: Row(
                           children: [
-                            const Text("My forums only ",
+                            const Text("The forums I joined only",
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 16)),

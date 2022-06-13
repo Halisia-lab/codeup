@@ -44,7 +44,7 @@ class ForumViewModel with ChangeNotifier {
     allForums.add(forum);
       }
     });
-    return allForums;
+    return allForums.reversed.toList();
   }
 
   Future<List<PostBox>> fetchForumPosts(int id) async {
@@ -74,7 +74,7 @@ class ForumViewModel with ChangeNotifier {
   Future<ForumListItem?> joinForum(int userId, int forumId) async {
     final response = await userForumRelationService.addRelation(userId, forumId);
     
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201 || response.statusCode == 204) {
       return fetchForumById(forumId);
     } else {
       return null;

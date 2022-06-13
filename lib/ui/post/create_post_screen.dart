@@ -203,33 +203,31 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   _submitPost() async {
     final forumId = widget.choosenForumId ?? int.parse(selectedForum);
-
     final response = await postService.addPost(
         Post(-1, titleController.text, contentController.text, "C", forumId,
             AuthService.currentUser!.user.id, null),
         AuthService.currentUser!);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      widget.choosenForumId == null
-          ? Navigator.of(context)
-              .pushReplacement(MaterialPageRoute(builder: (_) {
-              return const HomeScreen();
-            }))
-          : Navigator.of(context).pop();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-        return FutureBuilder(
-            future: forumViewModel.fetchForumById(forumId),
-            builder:
-                (BuildContext context, AsyncSnapshot<ForumListItem> snapshot) {
-              return snapshot.data != null
-                  ? ForumPageScreen(snapshot.data!)
-                  : Container(
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: CustomColors.mainYellow,
-                      ));
-            });
-      }));
+      if (widget.choosenForumId == null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {return const HomeScreen();}));
+      } else {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return FutureBuilder(
+              future: forumViewModel.fetchForumById(forumId),
+              builder: (BuildContext context,
+                  AsyncSnapshot<ForumListItem> snapshot) {
+                return snapshot.data != null
+                    ? ForumPageScreen(snapshot.data!)
+                    : Container(
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: CustomColors.mainYellow,
+                        ));
+              });
+        }));
+      }
     }
   }
 }
