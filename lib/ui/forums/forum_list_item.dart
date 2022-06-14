@@ -31,7 +31,6 @@ class _ForumListItemState extends State<ForumListItem> {
 
   @override
   Widget build(BuildContext context) {
-    
     return FutureBuilder(
       future: _isJoined(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -57,18 +56,17 @@ class _ForumListItemState extends State<ForumListItem> {
                   (!snapshot.data!
                       ? CustomButton(
                           CustomColors.mainYellow, "Join", () => joinForum())
-                      : TextButton(
-                          onPressed: () => unjoinForum(),
-                          child: const Padding(
-                            padding: EdgeInsets.only(right: 20.0),
-                            child: Text(
-                              "Joined",
-                              style: TextStyle(
-                                  color: CustomColors.mainYellow,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                            ),
-                          )) ) : const SizedBox(height: 48,) 
+                      : const Padding(
+                        padding: EdgeInsets.only(right: 30.0, top:15, bottom:15),
+                        child: Text(
+                           
+                                "Joined",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 206, 206, 206),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              ),
+                      ) ) : const SizedBox(height: 48,)
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
@@ -94,12 +92,7 @@ class _ForumListItemState extends State<ForumListItem> {
   }
 
 
-  unjoinForum() async {
-    await forumViewModel.unjoinForum(AuthService.currentUser!.user.id, widget.forum.id);
-    setState(() {
-        widget.isJoined = false;
-      });
-  }
+ 
 
   Future<bool> _isJoined() async {
     final response = await forumViewModel.fetchForumsOfUser();

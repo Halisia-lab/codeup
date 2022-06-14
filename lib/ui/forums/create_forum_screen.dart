@@ -81,7 +81,10 @@ class _CreateForumScreenState extends State<CreateForumScreen> {
                             ])),
                 child: Container(child: Row(
                   children: [
-                    const Icon(Icons.javascript, size: 80,color: Colors.white,),
+                    const Padding(
+                      padding:  EdgeInsets.all(10),
+                      child:  Icon(Icons.forum_outlined, size: 60,color: Colors.white,),
+                    ),
                     Flexible(child: Text(responseContent, style: const TextStyle(color: Colors.white, fontSize: 18),)),
                   ],
                 ), color: currentColor,),

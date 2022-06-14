@@ -28,7 +28,7 @@ class ForumViewModel with ChangeNotifier {
       for (dynamic element in jsonDecode(data.body)) {
         Forum forum = Forum.fromJson(element);
         ForumListItem forumListItem =
-            ForumListItem(forum, forum.title, Icons.javascript, false, 1);
+            ForumListItem(forum, forum.title, Icons.forum_outlined, false, 1);
         allForums.add(forumListItem);
       }
     });
@@ -68,7 +68,7 @@ class ForumViewModel with ChangeNotifier {
   Future<ForumListItem> fetchForumById(int id) async {
     final data = await forumService.fetchForumById(id);
     Forum forum = Forum.fromJson(jsonDecode(data.body));
-    return ForumListItem(forum, forum.title, Icons.javascript, false, 1);
+    return ForumListItem(forum, forum.title, Icons.forum_outlined, false, 1);
   }
 
   Future<ForumListItem?> joinForum(int userId, int forumId) async {
@@ -82,6 +82,6 @@ class ForumViewModel with ChangeNotifier {
   }
   Future<void> unjoinForum(int userId, int forumId) async {
     final response = await userForumRelationService.deleteRelation(forumId);
-    print(response.statusCode);
+    
   }
 }

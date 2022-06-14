@@ -24,6 +24,8 @@ Post edition : "..." on postboxes when user connected
 dropdown with delete, editing
 
 Recherche posts, amis, forums
+
+Pull to refresh posts/forums
 */
 
 void main() async {
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
   final String launchRoute;
   Person? currentUser = AuthService.currentUser;
 
-  MyApp(this.launchRoute);
+  MyApp(this.launchRoute, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +47,15 @@ class MyApp extends StatelessWidget {
           primarySwatch: CustomColors.darkText,
           secondaryHeaderColor: CustomColors.mainYellow,
         ),
-        home: HomeScreen(),
+        home: const HomeScreen(),
         initialRoute: launchRoute,
         routes: {
-          HomeScreen.routeName: (ctx) => HomeScreen(),
+          HomeScreen.routeName: (ctx) => const HomeScreen(),
           SignInScreen.routeName: (ctx) => SignInScreen(false),
-          SignUpScreen.routeName: (ctx) => SignUpScreen(),
-          ForumsScreen.routeName: (ctx) => ForumsScreen(),
-          FriendsScreen.routeName: (ctx) => FriendsScreen(),
-          SavedPostsScreen.routeName: (ctx) => SavedPostsScreen(),
+          SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+          ForumsScreen.routeName: (ctx) => const ForumsScreen(),
+          FriendsScreen.routeName: (ctx) => const FriendsScreen(),
+          SavedPostsScreen.routeName: (ctx) => const SavedPostsScreen(),
           ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser!, true),
           CreatePostScreen.routeName: (ctx) => CreatePostScreen(),
           CreateForumScreen.routeName: (ctx) => CreateForumScreen()
