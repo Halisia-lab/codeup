@@ -3,6 +3,7 @@ import 'package:codeup/services/post_service.dart';
 import 'package:flutter/material.dart';
 
 import '../authentication/sign_in/sign_in_screen.dart';
+import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
 import './home_post_list.dart';
 import '../menu/menu.dart';
@@ -11,7 +12,7 @@ import 'home_top.dart';
 //TODO ChangeNotifierProvider 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen();
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 
                 decoration: BoxDecoration(color: background_color),
                 height: MediaQuery.of(context).size.height * 8 / 10,
-                child: PostBoxList(),
+                child: PostBoxList()
               ),
             ]),
           ),

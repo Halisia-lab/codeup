@@ -1,3 +1,4 @@
+import 'package:codeup/ui/common/search_bar_type.dart';
 import 'package:flutter/material.dart';
 
 import '../common/custom_app_bar.dart';
@@ -14,7 +15,7 @@ class _HomeTopState extends State<HomeTop> {
   var _textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return CustomAppBar("Posts", true);
+    return CustomAppBar("Posts", true, SearchBarType.POST);
   }
 
   _searchOneTopic() {

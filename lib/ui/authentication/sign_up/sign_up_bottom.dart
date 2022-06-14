@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../entities/user.dart';
 import '../../../services/auth_service.dart';
 import '../../../utils/sign_in_field_enum.dart';
+import '../../common/custom_app_bar.dart';
 import '../../common/custom_colors.dart';
 import '../../component/adaptive_button.dart';
 import '../../home/home_screen.dart';

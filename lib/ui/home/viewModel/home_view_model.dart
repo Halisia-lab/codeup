@@ -16,9 +16,6 @@ class HomeViewModel with ChangeNotifier {
   PostService postService = PostService();
   List<Post> loggedUserPosts = [];
   
-  final _random = new Random();
-
-  
 
   Future<List<PostBox>> fetchPosts() async {
   List<PostBox> allPosts = [];

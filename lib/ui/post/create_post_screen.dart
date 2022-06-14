@@ -50,7 +50,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       backgroundColor: background_color,
       body: CustomScrollView(
         slivers: [
-          CustomAppBar("Create a post", false),
+          CustomAppBar("Create a post", false, null),
           SliverList(
             delegate: SliverChildListDelegate([
               Padding(
@@ -210,7 +210,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (widget.choosenForumId == null) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {return const HomeScreen();}));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {return HomeScreen();}));
       } else {
         Navigator.of(context).pop();
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {

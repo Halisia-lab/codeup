@@ -102,7 +102,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
     );
     return CustomScrollView(
       slivers: [
-        CustomAppBar("My Profile", false),
+        CustomAppBar("My Profile", false, null),
         SliverList(
           delegate: SliverChildListDelegate([
             Padding(

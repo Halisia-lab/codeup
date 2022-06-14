@@ -1,3 +1,4 @@
+import 'package:codeup/ui/common/search_bar_type.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
@@ -24,7 +25,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
       drawer: Menu(),
       body: CustomScrollView(
         slivers: [
-          CustomAppBar("Friends", true),
+          CustomAppBar("Friends", true, SearchBarType.FRIEND),
           SliverList(
             delegate: SliverChildListDelegate([
               Container(

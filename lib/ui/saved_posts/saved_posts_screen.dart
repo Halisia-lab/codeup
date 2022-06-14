@@ -1,4 +1,5 @@
 import 'package:codeup/ui/common/custom_app_bar.dart';
+import 'package:codeup/ui/common/search_bar_type.dart';
 import 'package:codeup/ui/saved_posts/saved_post_list.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
       drawer: Menu(),
       body: CustomScrollView(
         slivers: [
-          CustomAppBar("Saved Posts", true),
+          CustomAppBar("Saved Posts", true, SearchBarType.POST),
           SliverList(
             delegate: SliverChildListDelegate([
               Container(

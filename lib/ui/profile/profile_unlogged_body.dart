@@ -107,7 +107,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
     );
     return CustomScrollView(
       slivers: [
-        CustomAppBar(wantedUser.user.firstname + " " + wantedUser.user.lastname, false),
+        CustomAppBar(wantedUser.user.firstname + " " + wantedUser.user.lastname, false, null),
         SliverList(
           delegate: SliverChildListDelegate([
             Padding(

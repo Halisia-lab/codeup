@@ -1,3 +1,4 @@
+import 'package:codeup/ui/common/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
@@ -47,10 +48,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: CustomColors.darkText,
           secondaryHeaderColor: CustomColors.mainYellow,
         ),
-        home: const HomeScreen(),
+        home: HomeScreen(),
         initialRoute: launchRoute,
         routes: {
-          HomeScreen.routeName: (ctx) => const HomeScreen(),
+          HomeScreen.routeName: (ctx) =>  HomeScreen(),
           SignInScreen.routeName: (ctx) => SignInScreen(false),
           SignUpScreen.routeName: (ctx) => const SignUpScreen(),
           ForumsScreen.routeName: (ctx) => const ForumsScreen(),

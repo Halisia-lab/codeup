@@ -48,7 +48,7 @@ class _CreateForumScreenState extends State<CreateForumScreen> {
       backgroundColor: background_color,
       body: CustomScrollView(
         slivers: [
-          CustomAppBar("Create a forum", false),
+          CustomAppBar("Create a forum", false, null),
           SliverList(
             delegate: SliverChildListDelegate([
               Padding(

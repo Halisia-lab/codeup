@@ -25,8 +25,7 @@ class ForumPageScreen extends StatefulWidget {
 
 class _ForumPageScreenState extends State<ForumPageScreen> {
   final background_color = CustomColors.lightGrey3;
-  final Color _randomColor =
-      Colors.primaries[Random().nextInt(Colors.primaries.length)];
+  final Color _randomColor = Colors.orange;
   ForumViewModel forumViewModel = ForumViewModel();
   _ForumPageScreenState();
 
@@ -45,7 +44,7 @@ class _ForumPageScreenState extends State<ForumPageScreen> {
           //drawer: Menu(),
           body: CustomScrollView(
             slivers: [
-              CustomAppBar(widget.forum.forum.title, false),
+              CustomAppBar(widget.forum.forum.title, false, null),
               SliverList(
                 delegate: SliverChildListDelegate([
                   Container(

@@ -1,3 +1,4 @@
+import 'package:codeup/ui/common/search_bar_type.dart';
 import 'package:codeup/ui/forums/forums_list.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class _ForumsScreenState extends State<ForumsScreen> {
       drawer: Menu(),
       body: CustomScrollView(
         slivers: [
-          CustomAppBar("Forums", true),
+          CustomAppBar("Forums", true, SearchBarType.FORUM),
           SliverList(
             delegate: SliverChildListDelegate([
               Container(

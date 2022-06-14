@@ -1,3 +1,4 @@
+import 'package:codeup/ui/common/search_bar_type.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
@@ -10,12 +11,14 @@ import 'language_enum.dart';
 
 //TODO changenotifier 
 //notify listener quand onChanged
-class CustomAppBar extends StatefulWidget {
+class CustomAppBar extends StatefulWidget with ChangeNotifier {
   final String title;
   final bool searchBar;
+  final SearchBarType? searchBarType;
   TextEditingController textController = TextEditingController();
+  static String searchValue = "";
    Iterable<Widget> res = [];
-  CustomAppBar(this.title, this.searchBar);
+  CustomAppBar(this.title, this.searchBar, this.searchBarType);
 
   
 
@@ -24,7 +27,7 @@ class CustomAppBar extends StatefulWidget {
       _CustomAppBarState(this.title, this.searchBar);
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class _CustomAppBarState extends State<CustomAppBar> with ChangeNotifier {
   final String title;
   final bool searchBar;
   //TODO pass in parameters
@@ -97,14 +100,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         ),
                         ),
                       onChanged: (str) {
-                        if (str.length > 3) {
-                          if (initPosts is List<Widget>) {
-                            setState(() {
-                                 widget.res = initPosts.where((element) => element.post.title.toLowerCase().contains(str.toLowerCase())) as Iterable<PostBox>;
-
-                            });
-                         
-                          }
+                        if (str.length > 2) {
+                         CustomAppBar.searchValue = str;
                         }
                         /* setState(() {
                             var result = TestData.posts.where(

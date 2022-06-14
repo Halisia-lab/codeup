@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:codeup/ui/common/custom_colors.dart';
 import 'package:codeup/ui/forums/forum_page/forum_page_screen.dart';
 import 'package:codeup/ui/forums/viewModel/forum_view_model.dart';
@@ -59,7 +57,6 @@ class _ForumListItemState extends State<ForumListItem> {
                       : const Padding(
                         padding: EdgeInsets.only(right: 30.0, top:15, bottom:15),
                         child: Text(
-                           
                                 "Joined",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 206, 206, 206),
