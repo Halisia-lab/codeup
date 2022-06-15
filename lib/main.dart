@@ -17,14 +17,11 @@ import 'ui/saved_posts/saved_posts_screen.dart';
 
 //TODO: 
 /*
-ForumsScreen : 
-2 tabs, My forums  / All
-Join button action 
-
-Post edition : "..." on postboxes when user connected
+Post edition : "crayon" on postboxes when user connected
 dropdown with delete, editing
+requests 
 
-Recherche posts, amis, forums
+Recherche amis
 
 Pull to refresh posts/forums
 */

@@ -1,67 +1,32 @@
 import 'package:codeup/ui/common/search_bar_type.dart';
+import 'package:codeup/ui/home/viewModel/home_view_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../entities/person.dart';
-import '../../entities/post.dart';
-import '../../entities/user.dart';
 import '../common/custom_colors.dart';
-import '../common/test_data.dart';
-import '../post/post_box.dart';
-import 'language_enum.dart';
 
-//TODO changenotifier 
-//notify listener quand onChanged
 class CustomAppBar extends StatefulWidget with ChangeNotifier {
   final String title;
   final bool searchBar;
   final SearchBarType? searchBarType;
   TextEditingController textController = TextEditingController();
   static String searchValue = "";
-   Iterable<Widget> res = [];
+  String valueSearch = "";
   CustomAppBar(this.title, this.searchBar, this.searchBarType);
-
-  
 
   @override
   _CustomAppBarState createState() =>
-      _CustomAppBarState(this.title, this.searchBar);
+      _CustomAppBarState();
 }
 
-class _CustomAppBarState extends State<CustomAppBar> with ChangeNotifier {
-  final String title;
-  final bool searchBar;
-  //TODO pass in parameters
-  List<PostBox> initPosts = [
-    PostBox(
-        const Post(1, "bonjour", "mycontent", "codeJS", 1, 2, null),
-        [],
-        3,
-        false,
-        Person(const User(2, "mail", "psw", "username", "fn", "ln"),
-            TestData.personnes[0].photoUrl), true),
-    PostBox(
-        const Post(1, "hellooo", "blablabl", "php", 1, 2, null),
-        [LanguageValue.JAVA],
-        -12,
-        true,
-        Person(const User(2, "mail", "psw", "username", "fn", "ln"),
-            TestData.personnes[1].photoUrl), true),
-    PostBox(
-        const Post(3, "Hola Hola", "hihihih", "Py", 1, 2, null),
-        [],
-        56,
-        false,
-        Person(const User(3, "mail", "psw", "username", "fn", "ln"),
-            TestData.personnes[2].photoUrl), true),
-  ];
-  _CustomAppBarState(this.title, this.searchBar);
-  Iterable<dynamic> contenu = [];
+class _CustomAppBarState extends State<CustomAppBar> {
+
+  _CustomAppBarState();
 
   @override
   void initState() {
-    widget.res = initPosts;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -72,12 +37,11 @@ class _CustomAppBarState extends State<CustomAppBar> with ChangeNotifier {
         snap: false,
         centerTitle: false,
         title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          widget.title,
+          style:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        actions: [],
-        
-        bottom: searchBar
+        bottom: widget.searchBar
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(50),
                 child: Center(
@@ -98,15 +62,16 @@ class _CustomAppBarState extends State<CustomAppBar> with ChangeNotifier {
                           onPressed: () => _search(),
                           color: CustomColors.mainYellow,
                         ),
-                        ),
+                      ),
                       onChanged: (str) {
-                        if (str.length > 2) {
-                         CustomAppBar.searchValue = str;
+                        if (str.isEmpty) {
+                          setState(() {
+                            widget.valueSearch = "";
+                          });
+
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          widget.notifyListeners();
                         }
-                        /* setState(() {
-                            var result = TestData.posts.where(
-                                (element) => element.post.title.contains(str));
-                          }); */
                       },
                     ),
                   ),
@@ -115,17 +80,17 @@ class _CustomAppBarState extends State<CustomAppBar> with ChangeNotifier {
             : PreferredSize(child: Container(), preferredSize: Size.zero));
   }
 
-
   _search() {
-    var text = widget.textController.text;
-    Iterable<dynamic> res = contenu;
-    if (initPosts is Iterable<PostBox>) {
-      res = initPosts.where((element) => element.post.title == text);
-    }
+    FocusScope.of(context).requestFocus(FocusNode());
     setState(() {
-      contenu = res;
+      if (widget.textController.text.length >= 2) {
+        CustomAppBar.searchValue = widget.textController.text;
+        widget.valueSearch = widget.textController.text;
+      } else {
+        CustomAppBar.searchValue = "";
+        widget.valueSearch = "";
+      }
     });
-    //var result = TestData.posts.where((element) => element.post.title == text);
-    print(res);
+    widget.notifyListeners();
   }
 }

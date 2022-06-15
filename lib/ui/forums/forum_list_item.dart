@@ -45,9 +45,17 @@ class _ForumListItemState extends State<ForumListItem> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 25.0),
-                    child: Text(
-                      widget.forum.title,
-                      style: const TextStyle(fontSize: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.forum.title,
+                          style: const TextStyle(fontSize: 18),
+                        ), /* Text(
+                          widget.forum.description,
+                          style: const TextStyle(fontSize: 15, ),
+                        ), */
+                      ],
                     ),
                   ),
                   snapshot.data != null ?

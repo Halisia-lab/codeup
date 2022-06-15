@@ -39,5 +39,27 @@ class PostService {
     return response;
   }
 
+  Future<http.Response> updatePost(
+      Post post, Person user) async {
+        String token = "";
+        token = await SecureStorageService.getInstance().get("token").then((value) => token = value.toString());
+    final response =  http.put(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'cookie': token,
+
+      },
+      body: jsonEncode({
+        'title': post.title,
+        'content': post.content,
+        'forumId': post.forumId,
+        'code': post.code,
+        'userId':user.user.id
+      }),
+    );
+    return response;
+  }
+
   
 }

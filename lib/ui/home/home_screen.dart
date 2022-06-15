@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
+import '../common/search_bar_type.dart';
 import './home_post_list.dart';
 import '../menu/menu.dart';
 import 'home_top.dart';
@@ -21,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final PostService postService = PostService();
   final background_color = CustomColors.lightGrey3;
+  CustomAppBar homeTop = CustomAppBar("Posts", true, SearchBarType.POST);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,14 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: const Menu(),
       body: CustomScrollView(
         slivers: [
-          const HomeTop(),
+          homeTop,
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
                 
                 decoration: BoxDecoration(color: background_color),
                 height: MediaQuery.of(context).size.height * 8 / 10,
-                child: PostBoxList()
+                child: PostBoxList(homeTop)
               ),
             ]),
           ),

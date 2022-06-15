@@ -5,6 +5,7 @@ import 'package:codeup/ui/forums/viewModel/forum_view_model.dart';
 import 'package:codeup/ui/post/create_post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../services/auth_service.dart';
 import '../../authentication/sign_in/sign_in_screen.dart';
@@ -13,7 +14,7 @@ import '../../common/custom_colors.dart';
 import '../forum_list_item.dart';
 import 'forum_posts_list.dart';
 
-class ForumPageScreen extends StatefulWidget {
+class ForumPageScreen extends StatefulWidget{
   ForumListItem forum;
 
   static const routeName = "/forumPage-screen";
@@ -31,6 +32,7 @@ class _ForumPageScreenState extends State<ForumPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+  CustomAppBar forumPageTop = CustomAppBar(widget.forum.forum.title, true, null);
     return FutureBuilder(
       future: _isJoined(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -44,7 +46,7 @@ class _ForumPageScreenState extends State<ForumPageScreen> {
           //drawer: Menu(),
           body: CustomScrollView(
             slivers: [
-              CustomAppBar(widget.forum.forum.title, false, null),
+              forumPageTop,
               SliverList(
                 delegate: SliverChildListDelegate([
                   Container(
@@ -92,7 +94,7 @@ class _ForumPageScreenState extends State<ForumPageScreen> {
                       ),
                     ),
                   ),
-                  ForumPostsList(widget.forum.forum.id)
+                  ForumPostsList(widget.forum.forum.id, forumPageTop)
                 ]),
               ),
             ],

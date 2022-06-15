@@ -20,6 +20,7 @@ class _ForumsScreenState extends State<ForumsScreen> {
   final background_color = CustomColors.lightGrey3;
   int number = 1;
   bool isChecked = false;
+  CustomAppBar forumsTop = CustomAppBar("Forums", true, SearchBarType.FORUM);
   @override
   Widget build(BuildContext context) {
     Color getColor(Set<MaterialState> states) {
@@ -36,13 +37,13 @@ class _ForumsScreenState extends State<ForumsScreen> {
       drawer: Menu(),
       body: CustomScrollView(
         slivers: [
-          CustomAppBar("Forums", true, SearchBarType.FORUM),
+          forumsTop,
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
                 decoration: BoxDecoration(color: background_color),
                 height: MediaQuery.of(context).size.height * 8 / 10,
-                child: ForumList(),
+                child: ForumList(forumsTop),
               ),
             ]),
           ),
