@@ -451,8 +451,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                   false, false, false, true, false);
               signInFieldsVm.showPwdCursor = false;
 
-              if (!softKeyboardVm.isSoftKeyboardOpened)
+              if (!softKeyboardVm.isSoftKeyboardOpened) {
                 softKeyboardVm.isSoftKeyboardOpened = true;
+              }
             },
           );
         }),
@@ -485,13 +486,17 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             _signInFieldsVm.tLoginController.text,
             currentUser!.user.password,
             _signInFieldsVm.tUsernameController.text,
-            _signInFieldsVm.tLastnameController.text,
-            _signInFieldsVm.tFirstnameController.text);
+            _signInFieldsVm.tFirstnameController.text,
+            _signInFieldsVm.tLastnameController.text);
 
+            print(userUpdated.id.toString() + " " + userUpdated.email + " " + userUpdated.password + " " + userUpdated.username + " " + userUpdated.firstname + " " + userUpdated.lastname);
+            
     final response = await authService.updateAccount(
         _signInFieldsVm,
        userUpdated);
 
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200 || response.statusCode == 201) {
       {
         AuthService.setCurrentUser(Person(userUpdated, currentUser!.photoUrl)) ;

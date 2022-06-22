@@ -157,6 +157,8 @@ class _SignInBottomState extends State<SignInBottom> {
           signInFieldsVm.tLoginController.text, "", "");
 
       http.Response response = await authService.logIn(signInFieldsVm, user);
+      print(response.body);
+      
       if (response.statusCode == 200 || response.statusCode == 201) {
         SecureStorageService.getInstance().set("token", response.headers["set-cookie"].toString().split(";").first);
         //SecureStorageService.getInstance().set("username", user.username);

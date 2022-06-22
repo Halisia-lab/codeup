@@ -105,7 +105,7 @@ class _ForumPageScreenState extends State<ForumPageScreen> {
   }
 
   bool _isAColor(String value) {
-    return value.length == 8;
+    return value.length == 8 || value.length == 7;
   }
 
   void _createPost() async {
