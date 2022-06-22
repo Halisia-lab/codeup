@@ -9,9 +9,9 @@ import './language_enum.dart';
 
 class TestData {
           static var personnes = [
-             Person(const User(1, "romain@mail.com", "rerf", "Romrom", "Romain", "Kamiri"), TestData.photos[0]),
-              Person(const User(2, "halisia@mail.com", "rerf", "Halis", "Halisia", "Halifa"), TestData.photos[1]),
-              Person(const User(3, "thomas@mail.com", "rerf", "Thotho", "Thomas", "Lemaire"), TestData.photos[2])
+             Person(const User(1, "romain@mail.com", "rerf", "Romain K", "Romain", "Kamiri"), TestData.photos[0]),
+              Person(const User(2, "halisia@mail.com", "rerf", "Halisia H", "Halisia", "Halifa"), TestData.photos[1]),
+              Person(const User(3, "thomas@mail.com", "rerf", "Thomas L", "Thomas", "Lemaire"), TestData.photos[2])
           ];
 
    static var photos = [ 

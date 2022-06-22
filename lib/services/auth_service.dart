@@ -91,6 +91,29 @@ class AuthService {
     return response;
   }
 
+  Future<http.Response> updateAccount(
+      SignInFieldsViewModel signInFieldsVm, User user) async {
+        String token = "";
+      token = await SecureStorageService.getInstance()
+        .get("token")
+        .then((value) => token = value.toString());
+    final response = http.put(
+      Uri.parse(apiUrl + "users/" + user.id.toString()),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'cookie': token,
+      },
+      body: jsonEncode(<String, String>{
+        'id': user.id.toString(),
+        'username': user.username,
+        'email': user.email,
+        'firstname': user.firstname,
+        'lastname': user.lastname
+      }),
+    );
+    return response;
+  }
+
   static void setCurrentUser(Person? user) {
     currentUser = user;
   }

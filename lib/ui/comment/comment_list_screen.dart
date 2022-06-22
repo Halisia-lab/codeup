@@ -22,6 +22,7 @@ class CommentListScreen extends StatefulWidget {
 
 class _CommentListScreenState extends State<CommentListScreen> {
   _CommentListScreenState(this.post);
+  CommentService commentService = CommentService();
   CommentViewModel commentViewModel = CommentViewModel();
   PostBox post;
   final commentController = TextEditingController();
@@ -53,12 +54,9 @@ class _CommentListScreenState extends State<CommentListScreen> {
   }
 
   void sendResponse() async {
-    const snackBar = SnackBar(
-      content: Text('Response sent'),
-      backgroundColor: CustomColors.mainYellow,
-    );
+    
 
-    final comment = await commentViewModel.insertComment(
+    Response response = await commentService.addComment(
         Comment(
             -1,
             commentController.text,
@@ -69,13 +67,19 @@ class _CommentListScreenState extends State<CommentListScreen> {
         AuthService.currentUser!,
         post.post);
 
-    if (comment != null) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       FocusScope.of(context).requestFocus(FocusNode());
+      
       commentController.clear();
+       setState(() {
+         
+       });
+       const snackBar = SnackBar(
+      content: Text('Response sent'),
+      backgroundColor: CustomColors.mainYellow,
+    );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } 
-
-    //TODO insert a new comment
   }
 
   Widget _getResponseArea() {
@@ -107,12 +111,6 @@ class _CommentListScreenState extends State<CommentListScreen> {
               child: GestureDetector(
                 onTap: responseContent.isNotEmpty
                     ? () => setState(() {
-                          //TODO: call sendresponse function
-                          /* comments.insert(
-                              0,
-                              CommentListItem(post.commiter, responseContent,
-                                  DateTime.now().toString()));
- */
                           sendResponse();
                         })
                     : null,

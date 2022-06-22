@@ -27,9 +27,10 @@ class CommentService {
     final headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'cookie': token,
-    };
+    }; 
     final response = await http
         .get(Uri.parse(apiUrl + "/comment/post/" + postId.toString()), headers: headers);
+       
     return response;
   }
 
