@@ -20,7 +20,8 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = AuthService.currentUser;
+
+    Person? currentUser = AuthService.currentUser;
     return Drawer(
       backgroundColor: Colors.white,
       child: currentUser != null

@@ -136,10 +136,11 @@ class _SignInBottomState extends State<SignInBottom> {
           await widget.authService.logIn(signInFieldsVm, user);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        AuthService.setCurrentUser(await widget.authService.getLoggedUser(user));
         SecureStorageService.getInstance().set("token",
             response.headers["set-cookie"].toString().split(";").first);
         widget.authService.getLoggedUser(user);
-
+        
         Navigator.of(context).pushReplacementNamed("/home-screen");
       } else {
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.email, "");

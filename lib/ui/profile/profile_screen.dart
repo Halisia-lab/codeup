@@ -23,7 +23,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final currentUser = AuthService.currentUser;
-  late final Person wantedUser;
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
   // ignore: non_constant_identifier_names
@@ -56,9 +55,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
       child: Consumer<SoftKeyboardViewModel>(
           builder: (context, softKeyBoardVm, child) {
-        return wantedUser == currentUser
+        return widget.wantedUser == currentUser
             ? ProfileLoggedBody(widget.backOption)
-            : ProfileUnLoggedBody(wantedUser, widget.backOption);
+            : ProfileUnLoggedBody(widget.wantedUser, widget.backOption);
       }),
     ));
     return Scaffold(

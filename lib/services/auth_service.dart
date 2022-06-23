@@ -22,7 +22,7 @@ class AuthService {
 
   AuthService({this.signInFieldsVm});
 
-  void getLoggedUser(User userFields) async {
+  Future<Person?> getLoggedUser(User userFields) async {
     List<User> users = [];
     final response = await http.get(Uri.parse(apiUrl + "users/users"));
 
@@ -36,6 +36,7 @@ class AuthService {
     User loggedUser =
         users.firstWhere((user) => user.username == userFields.username);
     currentUser = Person(loggedUser, TestData.photos[randomNumber(0, 3)]);
+    return currentUser;
   }
 
   Future<http.Response> getUsers() async {
