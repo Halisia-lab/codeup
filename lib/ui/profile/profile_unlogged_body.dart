@@ -28,8 +28,6 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
   // ignore: non_constant_identifier_names
   final background_color = CustomColors.white;
-  late final Person wantedUser;
-  late final bool backOption;
 
   final FocusNode _usernameFocusNode = FocusNode();
   final FocusNode _firstnameFocusNode = FocusNode();
@@ -63,7 +61,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
     ));
     return Scaffold(
         backgroundColor: background_color,
-        drawer: !backOption ? const Menu() : null,
+        drawer: !widget.backOption ? const Menu() : null,
         body: body);
   }
 
@@ -72,7 +70,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
 
     return CustomScrollView(
       slivers: [
-        CustomAppBar(wantedUser.user.firstname + " " + wantedUser.user.lastname,
+        CustomAppBar(widget.wantedUser.user.firstname + " " + widget.wantedUser.user.lastname,
             false, null),
         SliverList(
           delegate: SliverChildListDelegate([
@@ -84,7 +82,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Image.network(
-                      wantedUser.photoUrl,
+                      widget.wantedUser.photoUrl,
                       height: 120,
                     ),
                   ),
@@ -118,7 +116,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: wantedUser.user.username,
+              hintText: widget.wantedUser.user.username,
               hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -144,7 +142,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: wantedUser.user.firstname,
+              hintText: widget.wantedUser.user.firstname,
               hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -169,7 +167,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: wantedUser.user.lastname,
+              hintText: widget.wantedUser.user.lastname,
               hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
@@ -194,7 +192,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: wantedUser.user.email,
+              hintText: widget.wantedUser.user.email,
               hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,

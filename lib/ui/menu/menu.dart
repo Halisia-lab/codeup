@@ -55,7 +55,8 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
                     child: Container(
                       child: const Icon(
                         Icons.edit_outlined,
-                        color: Colors.black,
+                        color: CustomColors.darkText,
+                        size: 35,
                       ),
                       color: Colors.white,
                     ),
@@ -70,7 +71,7 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
         padding: const EdgeInsets.only(bottom: 15.0),
         child: Text(
           currentUser.user.email,
-          style: const TextStyle(fontSize: 15, color: Colors.grey),
+          style: const TextStyle(fontSize: 15, color: CustomColors.darkText),
         ),
       )),
       MenuOption("Home", Icons.home, () => _getHomePage(context)),
@@ -161,5 +162,5 @@ _getProfilePage(BuildContext context, Person currentUser) {
 
 _getLoggedUserPostsPage(BuildContext context, Person currentUser) {
   Navigator.of(context)
-      .push(MaterialPageRoute(builder: (_) => LoggedUserPostScreen()));
+      .push(MaterialPageRoute(builder: (_) => const LoggedUserPostScreen()));
 }
