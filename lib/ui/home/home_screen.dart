@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(color: background_color),
                   height: MediaQuery.of(context).size.height * 8 / 10,
                   child: PostBoxList(homeTop)),
+
             ]),
           ),
         ],

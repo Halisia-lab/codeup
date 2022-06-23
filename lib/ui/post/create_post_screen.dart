@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../entities/post.dart';
 import '../../services/auth_service.dart';
@@ -27,6 +28,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   String responseContent = "";
+
   AuthService authService = AuthService();
   PostService postService = PostService();
   ForumService forumService = ForumService();
@@ -47,6 +49,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const InputBorder border = OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 1,
+      ),
+      borderRadius: BorderRadius.all(Radius.circular(6)),
+    );
     return Scaffold(
       backgroundColor: background_color,
       body: CustomScrollView(
@@ -89,6 +97,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: CustomColors.darkText, width: 2.0),
+
                             ),
                           ),
                           onChanged: (str) {
@@ -200,6 +209,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   _submitPost() async {
+
     final forumId = widget.choosenForumId ?? int.parse(selectedForum);
     final response = await postService.addPost(
         Post(-1, titleController.text, contentController.text, "C", forumId,
@@ -228,6 +238,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               });
         }));
       }
+
     }
   }
 }
