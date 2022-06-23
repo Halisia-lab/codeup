@@ -26,7 +26,7 @@ class LoggedUserPostList extends StatelessWidget with ChangeNotifier {
                     onRefresh: () async {
                       await _refreshPosts();
                     },
-                    child: Column(
+                    child: ListView(
                       children: [
                         for (PostBox post in snapshot.data as List<PostBox>)
                           (post.post.title.toLowerCase().contains(
