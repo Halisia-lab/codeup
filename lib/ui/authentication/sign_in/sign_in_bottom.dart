@@ -1,20 +1,13 @@
-import 'dart:convert';
-
-import 'package:codeup/services/auth_service.dart';
-import 'package:codeup/services/post_service.dart';
-import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../entities/person.dart';
-import '../../../entities/post.dart';
 import '../../../entities/user.dart';
+import '../../../services/auth_service.dart';
 import '../../../services/secure_storage.dart';
 import '../../../utils/sign_in_field_enum.dart';
 import '../../common/custom_colors.dart';
 import '../../component/adaptive_button.dart';
-import '../../home/home_screen.dart';
 import '../sign_up/sign_up_screen.dart';
 import '../viewModel/sign_in_fields_view_model.dart';
 import '../viewModel/soft_keyboard_view_model.dart';
@@ -28,13 +21,10 @@ class SignInBottom extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SignInBottomState createState() => _SignInBottomState(this.authService);
+  _SignInBottomState createState() => _SignInBottomState();
 }
 
 class _SignInBottomState extends State<SignInBottom> {
-  final AuthService authService;
-
-  _SignInBottomState(this.authService);
   @override
   void initState() {
     super.initState();
@@ -83,23 +73,14 @@ class _SignInBottomState extends State<SignInBottom> {
     return Container(
       margin: const EdgeInsets.only(top: 24),
       width: buttonWidth,
-      child:
-          // Consumer<UserAuthenticationViewModel>(
-          //   builder: (ctx, userAuthenticationVm, child) {
-          //     return
-
-          AdaptiveButton(
+      child: AdaptiveButton(
         type: ButtonType.primary,
         btnLabel: "Log in",
         btnWidth: buttonWidth,
         btnHandler: () {
           _submitAuthentication(signInFieldsProperties);
         },
-        //signInState: userAuthenticationVm.signInState
       ),
-
-      //   }
-      // ),
     );
   }
 
@@ -147,42 +128,23 @@ class _SignInBottomState extends State<SignInBottom> {
   }
 
   void _submitAuthentication(SignInFieldsViewModel signInFieldsVm) async {
-    //UserAuthenticationViewModel userAuthenticationVm)
-    //Reset sign in error message between between the sign in fields and sign in button
-    // userAuthenticationVm.hasSignInFailed = false;
-
-    //Check if the sign in fields are properly filled
     if (_validateLoginFields(signInFieldsVm)) {
       final user = User(-1, "", signInFieldsVm.tPasswordController.text,
           signInFieldsVm.tLoginController.text, "", "");
 
-      http.Response response = await authService.logIn(signInFieldsVm, user);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        SecureStorageService.getInstance().set("jwtToken", user.password);
-        SecureStorageService.getInstance().set("username", user.username);
-        authService.getLoggedUser(user);
+      http.Response response =
+          await widget.authService.logIn(signInFieldsVm, user);
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return const HomeScreen();
-        }));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        SecureStorageService.getInstance().set("token",
+            response.headers["set-cookie"].toString().split(";").first);
+        widget.authService.getLoggedUser(user);
+
+        Navigator.of(context).pushReplacementNamed("/home-screen");
       } else {
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.email, "");
         signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.password, "");
       }
-      // userAuthenticationVm.signInState = SignInState.processing,
-      // userAuthenticationVm.signIn(signInFieldsVm.tLoginController.text,
-      //     signInFieldsVm.tPasswordController.text).then((value) {
-      //   if (userAuthenticationVm.isSignedIn) {
-      //     FocusScope.of(widget.ancestorContext).unfocus(); //Close the soft keyboard
-      //
-
-      //   } else if (userAuthenticationVm.hasSignInFailed) {
-      //     //Incorrect sign in fields
-      //     signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.username, "");
-      //     signInFieldsVm.setSignInFieldErrorState(SignInFieldEnum.password, "");
-      //   }
-      // })
-
     }
   }
 
@@ -190,12 +152,10 @@ class _SignInBottomState extends State<SignInBottom> {
     final softKeyboardVm =
         Provider.of<SoftKeyboardViewModel>(context, listen: false);
 
-    /* Close the soft keyboard if opened: interactions with the latter
-            are not relevant while the dialog is opened */
     softKeyboardVm.isSoftKeyboardOpened = false;
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-      return SignUpScreen();
+      return const SignUpScreen();
     }));
   }
 }

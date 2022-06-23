@@ -1,85 +1,110 @@
-import 'dart:math';
-
-import 'package:codeup/ui/common/custom_colors.dart';
-import 'package:codeup/ui/forums/forum_page/forum_page_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/forum.dart';
 import '../../services/auth_service.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
 import '../common/custom_button.dart';
+import '../common/custom_colors.dart';
+import 'forum_page/forum_page_screen.dart';
+import 'viewModel/forum_view_model.dart';
 
 class ForumListItem extends StatefulWidget {
-  Forum forum;
   final String name;
   final IconData icon;
+  Forum forum;
   bool isJoined;
   int number;
-  ForumListItem(this.forum, this.name, this.icon, this.isJoined, this.number, {Key? key}) : super(key: key);
+  ForumListItem(this.forum, this.name, this.icon, this.isJoined, this.number,
+      {Key? key})
+      : super(key: key);
 
   @override
-  State<ForumListItem> createState() => _ForumListItemState(
-      forum, name, icon, isJoined, number);
+  State<ForumListItem> createState() => _ForumListItemState();
 }
 
 class _ForumListItemState extends State<ForumListItem> {
-  _ForumListItemState(
-      this.forum, this.name, this.icon, this.isJoined, this.number);
-  Forum forum;
-  final String name;
-  final IconData icon;
-  bool isJoined;
-  int number;
+  ForumViewModel forumViewModel = ForumViewModel();
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Container(
-        margin: const EdgeInsets.only(bottom: 5,),
-        color: Colors.white,
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Row(
-            children: [
-               Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: Text(
-                  forum.title,
-                  style: const TextStyle(fontSize: 18),
+    return FutureBuilder(
+        future: _isJoined(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          return ListTile(
+            title: Container(
+              margin: const EdgeInsets.only(
+                bottom: 5,
+              ),
+              color: Colors.white,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.forum.title,
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                    snapshot.data != null
+                        ? (!snapshot.data!
+                            ? CustomButton(CustomColors.mainYellow, "Join",
+                                () => joinForum())
+                            : const Padding(
+                                padding: EdgeInsets.only(
+                                    right: 30.0, top: 15, bottom: 15),
+                                child: Text(
+                                  "Joined",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 206, 206, 206),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ))
+                        : const SizedBox(
+                            height: 48,
+                          )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 ),
               ),
-              !isJoined
-                  ? CustomButton(
-                      CustomColors.mainYellow, "Join", () => setIsJoined(true))
-                  :TextButton(onPressed: () => setIsJoined(false), child: const Padding(
-                    padding: EdgeInsets.only(right:20.0),
-                    child: Text("Joined", style: TextStyle(color: CustomColors.mainYellow, fontWeight: FontWeight.bold, fontSize: 16),),
-                  ))
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
-        ),
-      ),
-      onTap: () => _getForumPage(context, widget),
-    );
+            ),
+            onTap: () => _getForumPage(context, widget),
+          );
+        });
   }
 
-  setIsJoined(bool value) {
-    
-    if(AuthService.currentUser != null) {
-setState(() {
-      isJoined = value;
-    });
+  joinForum() async {
+    if (AuthService.currentUser != null) {
+      await forumViewModel.joinForum(
+          AuthService.currentUser!.user.id, widget.forum.id);
+      setState(() {
+        widget.isJoined = true;
+      });
     } else {
-      Navigator.of(context).push(MaterialPageRoute(builder: (_)  { return SignInScreen(true);}));
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return const SignInScreen(true);
+      }));
     }
-    
+  }
+
+  Future<bool> _isJoined() async {
+    final response = await forumViewModel.fetchForumsOfUser();
+    final forumsIdOfUser =
+        response.map((forumListItem) => forumListItem.forum.id).toList();
+
+    return forumsIdOfUser.contains(widget.forum.id);
   }
 
   _getForumPage(BuildContext context, ForumListItem forumListItem) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => ForumPageScreen(forumListItem)));
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => ForumPageScreen(forumListItem)));
   }
 }
-
-/* CustomButton(CustomColors.mainYellow, "Join", () => _joinForum() */

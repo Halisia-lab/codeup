@@ -3,26 +3,42 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../entities/post.dart';
 import '../../services/auth_service.dart';
+import '../../services/forum_service.dart';
 import '../../services/post_service.dart';
 import '../common/custom_app_bar.dart';
+import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
+import '../forums/forum_list_item.dart';
+import '../forums/forum_page/forum_page_screen.dart';
+import '../forums/viewModel/forum_view_model.dart';
 import '../home/home_screen.dart';
 
 class CreatePostScreen extends StatefulWidget {
+  final int? choosenForumId;
   static const routeName = "/createPost-screen";
 
+  const CreatePostScreen([this.choosenForumId]);
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
+  // ignore: non_constant_identifier_names
   final background_color = CustomColors.lightGrey3;
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
-  String titleValue = "";
-  String contentValue = "";
+  String responseContent = "";
+
   AuthService authService = AuthService();
   PostService postService = PostService();
+  ForumService forumService = ForumService();
+  ForumViewModel forumViewModel = ForumViewModel();
+  List<DropdownMenuItem<String>> menuItems = [
+    const DropdownMenuItem(
+        child: Text("Select forum.."), value: "empty_response"),
+  ];
+
+  String selectedForum = "empty_response";
 
   _CreatePostScreenState();
 
@@ -43,118 +59,148 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       backgroundColor: background_color,
       body: CustomScrollView(
         slivers: [
-          const CustomAppBar("Create a post", false),
+          CustomAppBar("Create a post", false, null),
           SliverList(
             delegate: SliverChildListDelegate([
               Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                       /*  Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: Image.network(
-              AuthService.currentUser!.photoUrl,
-              height: 120, 
-            
-      )), */
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            textInputAction: TextInputAction.next,
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.only(left: 15.0),
-                              hintText: "Title",
-                              hintStyle: GoogleFonts.notoSans(
-                                color: CustomColors.lightGrey1,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              border: border,
-                            ),
-                            controller: titleController,
-                            onChanged: (str) {
-                              setState(() {
-                                titleValue = str;
-                              });
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            
-                            textInputAction: TextInputAction.next,
-                            maxLines: 7,
-                            decoration: InputDecoration(
-                              
-                              isDense: true,
-                              contentPadding: const EdgeInsets.all(15.0),
-                              hintText: "What do you want to say ? ",
-                              hintStyle: GoogleFonts.notoSans(
-                                color: CustomColors.lightGrey1,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              border: border,
-                            ),
-                            controller: contentController,
-                            onChanged: (str) {
-                              setState(() {
-                                contentValue = str;
-                              });
-                            },
-                          ),
-                        ),
-                        //DropDownLanguages()
-                      ],
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        height: 80,
+                        child: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(AuthService.currentUser!.photoUrl),
+                            radius: 50),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8, bottom: 8, top: 20),
+                      child: TextField(
+                          controller: titleController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: CustomColors.darkText, width: 1.0),
+                            ),
+                            labelText: 'Title',
+                            labelStyle: TextStyle(fontSize: 18),
+                            floatingLabelStyle: TextStyle(
+                                fontSize: 19,
+                                color: CustomColors.darkText,
+                                fontWeight: FontWeight.bold),
+                            fillColor: Colors.white,
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: CustomColors.darkText, width: 2.0),
+
+                            ),
+                          ),
+                          onChanged: (str) {
+                            setState(() {
+                              responseContent = str;
+                            });
+                          },
+                          onSubmitted: (str) {}),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                          controller: contentController,
+                          maxLines: 7,
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: CustomColors.darkText, width: 1.0),
+                            ),
+                            labelText: 'Your post content...',
+                            labelStyle: TextStyle(fontSize: 18),
+                            floatingLabelStyle: TextStyle(
+                                fontSize: 19,
+                                color: CustomColors.darkText,
+                                fontWeight: FontWeight.bold),
+                            fillColor: Colors.white,
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: CustomColors.darkText, width: 2.0),
+                            ),
+                          ),
+                          onChanged: (str) {
+                            setState(() {
+                              responseContent = str;
+                            });
+                          },
+                          onSubmitted: (str) {}),
+                    ),
+                  ],
                 ),
               ),
-              /* Container(
-                decoration: BoxDecoration(color: background_color),
-                height: MediaQuery.of(context).size.height * 4 / 5,
-                child: Row(children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 80,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0, top: 1),
-                        child: TextField(
-                            controller: postController,
-                            decoration: const InputDecoration(
-                              //labelStyle: TextStyle(color: Colors.orange),
-                              hintText: 'Add a reponse...',
-                              border: InputBorder.none,
-                            ),
-                            onChanged: (str) {
-                              setState(() {
-                                responseContent = str;
-                              });
-                            },
-                            onSubmitted: (str) {}),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0, right: 8),
-                    child: GestureDetector(
-                      onTap: responseContent.isNotEmpty ? _submitPost : null,
-                      child: Icon(
-                        Icons.send_rounded,
-                        size: 29.0,
-                        color: responseContent.isNotEmpty
+              if (widget.choosenForumId == null)
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: FutureBuilder(
+                      future: forumViewModel.fetchForums(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<ForumListItem>> snapshot) {
+                        return DropdownButton(
+                          value: selectedForum,
+                          items: snapshot.data != null
+                              ? <DropdownMenuItem<String>>[
+                                  menuItems[0],
+                                  for (ForumListItem forum in snapshot.data!)
+                                    DropdownMenuItem(
+                                      child: Text(forum.forum.title.toString()),
+                                      value: snapshot.data != null
+                                          ? forum.forum.id.toString()
+                                          : selectedForum,
+                                    )
+                                ]
+                              : menuItems,
+                          onChanged: (String? value) {
+                            setState(() {
+                              selectedForum = value.toString();
+                            });
+                          },
+                          iconEnabledColor: CustomColors.mainYellow,
+                          iconDisabledColor: Colors.grey,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: CustomColors.darkText),
+                        );
+                      }),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0, right: 8),
+                child: CustomButton(
+                    widget.choosenForumId == null
+                        ? (contentController.text.isNotEmpty &&
+                                titleController.text.isNotEmpty &&
+                                selectedForum != "empty_response"
                             ? CustomColors.mainYellow
-                            : Colors.grey,
-                      ),
-                    ),
-                  ),
-                ]),
-              ), */
+                            : Colors.grey)
+                        : (contentController.text.isNotEmpty &&
+                                titleController.text.isNotEmpty
+                            ? CustomColors.mainYellow
+                            : Colors.grey),
+                    "Send",
+                    widget.choosenForumId == null
+                        ? (contentController.text.isNotEmpty &&
+                                titleController.text.isNotEmpty &&
+                                selectedForum != "empty_response"
+                            ? _submitPost
+                            : null)
+                        : (contentController.text.isNotEmpty &&
+                                titleController.text.isNotEmpty
+                            ? _submitPost
+                            : null)),
+              ),
             ]),
           ),
         ],
@@ -163,14 +209,36 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   _submitPost() async {
+
+    final forumId = widget.choosenForumId ?? int.parse(selectedForum);
     final response = await postService.addPost(
-        Post(-1, "Welcome", titleValue, "C", 1,
-            AuthService.currentUser!.user.id),
+        Post(-1, titleController.text, contentController.text, "C", forumId,
+            AuthService.currentUser!.user.id, null),
         AuthService.currentUser!);
+
     if (response.statusCode == 200 || response.statusCode == 201) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-        return HomeScreen();
-      }));
+      if (widget.choosenForumId == null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return const HomeScreen();
+        }));
+      } else {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return FutureBuilder(
+              future: forumViewModel.fetchForumById(forumId),
+              builder: (BuildContext context,
+                  AsyncSnapshot<ForumListItem> snapshot) {
+                return snapshot.data != null
+                    ? ForumPageScreen(snapshot.data!)
+                    : Container(
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(
+                          color: CustomColors.mainYellow,
+                        ));
+              });
+        }));
+      }
+
     }
   }
 }

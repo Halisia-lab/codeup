@@ -1,37 +1,41 @@
+import 'package:codeup/entities/comment.dart';
+import 'package:codeup/services/comment_service.dart';
 import 'package:flutter/material.dart';
+import 'package:codeup/ui/comment/viewModel/comment_view_model.dart';
+import 'package:http/http.dart';
 
 import '../../services/auth_service.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
 import '../common/custom_colors.dart';
-import '../common/test_data.dart';
 import '../post/post_box.dart';
 import 'comment_list_item.dart';
 
 class CommentListScreen extends StatefulWidget {
   static const routeName = "/CommentListScreen-screen";
-  final PostBox post;
-  CommentListScreen(this.post);
+  PostBox post;
+
+  CommentListScreen(this.post, {Key? key}) : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
-  _CommentListScreenState createState() => _CommentListScreenState(post);
+  _CommentListScreenState createState() => _CommentListScreenState();
 }
 
 class _CommentListScreenState extends State<CommentListScreen> {
-  _CommentListScreenState(this.post);
-
-  final PostBox post;
+  CommentService commentService = CommentService();
+  CommentViewModel commentViewModel = CommentViewModel();
   final commentController = TextEditingController();
   late String responseContent;
-  List<CommentListItem> comments = [
+  /* List<CommentListItem> comments = [
     CommentListItem(
         TestData.personnes[0], "coucou commentaire", DateTime.now().toString()),
     CommentListItem(
         TestData.personnes[2], "Helloooooooo", DateTime.now().toString())
-  ];
+  ]; */
 
   @override
   void initState() {
+    widget.post = PostBox(widget.post.post, widget.post.languages,
+        widget.post.votes, widget.post.isSaved, widget.post.commiter, false);
     responseContent = "";
     super.initState();
   }
@@ -40,38 +44,44 @@ class _CommentListScreenState extends State<CommentListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Responses to " + post.commiter.user.firstname),
+          title: Text("Responses to " + widget.post.commiter.user.firstname),
         ),
         backgroundColor: CustomColors.lightGrey3,
         body: _getBody(),
         bottomSheet: _getResponseArea());
   }
 
-  void sendResponse() {
-    const snackBar = SnackBar(
-      content: Text('Response sent'),
-      backgroundColor: CustomColors.mainYellow,
-    );
-    FocusScope.of(context).requestFocus(FocusNode());
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    commentController.clear();
-    responseContent = "";
+  void sendResponse() async {
+    Response response = await commentService.addComment(
+        Comment(-1, commentController.text, "1",
+            AuthService.currentUser!.user.id, "?", widget.post.post.id, null),
+        AuthService.currentUser!,
+        widget.post.post);
 
-    //TODO insert a new comment
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      FocusScope.of(context).requestFocus(FocusNode());
+
+      commentController.clear();
+      setState(() {});
+      const snackBar = SnackBar(
+        content: Text('Response sent'),
+        backgroundColor: CustomColors.mainYellow,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   Widget _getResponseArea() {
     return AuthService.currentUser != null
         ? Row(children: [
             Expanded(
-              child: Container(
+              child: SizedBox(
                 height: 80,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, top: 1),
                   child: TextField(
                       controller: commentController,
                       decoration: const InputDecoration(
-                        //labelStyle: TextStyle(color: Colors.orange),
                         hintText: 'Add a reponse...',
                         border: InputBorder.none,
                       ),
@@ -89,11 +99,6 @@ class _CommentListScreenState extends State<CommentListScreen> {
               child: GestureDetector(
                 onTap: responseContent.isNotEmpty
                     ? () => setState(() {
-                          comments.insert(
-                              0,
-                              CommentListItem(post.commiter, responseContent,
-                                  DateTime.now().toString()));
-
                           sendResponse();
                         })
                     : null,
@@ -108,7 +113,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
             ),
           ])
         : GestureDetector(
-          onTap: () => _goToSignInScreen(context),
+            onTap: () => _goToSignInScreen(context),
             child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 40,
@@ -122,23 +127,41 @@ class _CommentListScreenState extends State<CommentListScreen> {
   }
 
   Widget _getBody() {
-    return Padding(
-      padding:
-          const EdgeInsets.only(left: 5.0, right: 5.0, top: 20.0, bottom: 10.0),
-      child: ListView(
-        children: [
-          SingleChildScrollView(
-            child: Column(children: [
-              GestureDetector(
-                child: post,
-                onTap: null,
-              ),
-              for (CommentListItem comment in comments) comment,
-            ]),
-          ),
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: commentViewModel.fetchComments(widget.post.post.id),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<CommentListItem>> snapshot) {
+          return snapshot.data != null
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                      left: 5.0, right: 5.0, top: 20.0, bottom: 80.0),
+                  child: RefreshIndicator(
+                    onRefresh: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+      return CommentListScreen(widget.post);
+    }))  ,
+                    child: ListView(
+                      children: [
+                        SingleChildScrollView(
+                          child: Column(children: [
+                            GestureDetector(
+                              child: widget.post,
+                              onTap: null,
+                            ),
+                            for (CommentListItem comment
+                                in snapshot.data as List<CommentListItem>)
+                              comment,
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Container(
+                  alignment: Alignment.center,
+                  child: const CircularProgressIndicator(
+                    color: CustomColors.mainYellow,
+                  ));
+        });
   }
 
   void _goToSignInScreen(BuildContext context) {

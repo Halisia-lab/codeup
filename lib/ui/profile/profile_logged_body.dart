@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../entities/person.dart';
+import '../../entities/user.dart';
 import '../../services/auth_service.dart';
 import '../../utils/sign_in_field_enum.dart';
 import '../authentication/viewModel/sign_in_fields_view_model.dart';
@@ -9,29 +10,41 @@ import '../authentication/viewModel/soft_keyboard_view_model.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
-import '../home/home_screen.dart';
 import '../menu/menu.dart';
 import '../../../utils/extensions.dart';
+import 'profile_screen.dart';
 
 class ProfileLoggedBody extends StatefulWidget {
   static const routeName = "/profile-screen";
-  const ProfileLoggedBody({Key? key}) : super(key: key);
+  final bool backOption;
+  const ProfileLoggedBody(this.backOption, {Key? key}) : super(key: key);
 
   @override
   State<ProfileLoggedBody> createState() => _ProfileLoggedBodyState();
 }
 
 class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
-  final currentUser = AuthService.currentUser;
+  var currentUser = AuthService.currentUser;
+  AuthService authService = AuthService();
+
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
-  final background_color = CustomColors.white;
+  // ignore: non_constant_identifier_names
+  final background_color = CustomColors.lightGrey3;
 
-  bool _pwdVisibilityToggled = false;
-  FocusNode _usernameFocusNode = FocusNode();
-  FocusNode _firstnameFocusNode = FocusNode();
-  FocusNode _lastnameFocusNode = FocusNode();
-  FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _usernameFocusNode = FocusNode();
+  final FocusNode _firstnameFocusNode = FocusNode();
+  final FocusNode _lastnameFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    _signInFieldsVm.tFirstnameController.text = currentUser!.user.firstname;
+    _signInFieldsVm.tLastnameController.text = currentUser!.user.lastname;
+    _signInFieldsVm.tLoginController.text = currentUser!.user.email;
+    _signInFieldsVm.tUsernameController.text = currentUser!.user.username;
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -59,7 +72,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
       }),
     ));
     return Scaffold(
-        backgroundColor: background_color, drawer: const Menu(), body: body);
+        backgroundColor: background_color,
+        drawer: !widget.backOption ? const Menu() : null,
+        body: body);
   }
 
   Widget _getBody() {
@@ -100,7 +115,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
     );
     return CustomScrollView(
       slivers: [
-        const CustomAppBar("My Profile", false),
+        CustomAppBar("My Profile", false, null),
         SliverList(
           delegate: SliverChildListDelegate([
             Padding(
@@ -110,9 +125,11 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Image.network(currentUser!.photoUrl, height: 120,),
+                    child: Image.network(
+                      currentUser!.photoUrl,
+                      height: 120,
+                    ),
                   ),
-                
                   const Text("Username"),
                   _buildUsername(
                       context,
@@ -195,8 +212,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: currentUser!.user.username,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -226,8 +242,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                   true, false, false, false, false);
               signInFieldsVm.showPwdCursor = false;
 
-              if (!softKeyboardVm.isSoftKeyboardOpened)
+              if (!softKeyboardVm.isSoftKeyboardOpened) {
                 softKeyboardVm.isSoftKeyboardOpened = true;
+              }
             },
           );
         }),
@@ -266,8 +283,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: currentUser!.user.firstname,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -297,8 +313,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                   false, true, false, false, false);
               signInFieldsVm.showPwdCursor = false;
 
-              if (!softKeyboardVm.isSoftKeyboardOpened)
+              if (!softKeyboardVm.isSoftKeyboardOpened) {
                 softKeyboardVm.isSoftKeyboardOpened = true;
+              }
             },
           );
         }),
@@ -337,8 +354,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: currentUser!.user.lastname,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -368,8 +384,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                   false, false, true, false, false);
               signInFieldsVm.showPwdCursor = false;
 
-              if (!softKeyboardVm.isSoftKeyboardOpened)
+              if (!softKeyboardVm.isSoftKeyboardOpened) {
                 softKeyboardVm.isSoftKeyboardOpened = true;
+              }
             },
           );
         }),
@@ -408,8 +425,7 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
             },
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
-              hintText: currentUser!.user.email,
-              hintStyle: GoogleFonts.notoSans(
+              hintStyle: const TextStyle(
                 color: CustomColors.darkText,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -438,8 +454,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                   false, false, false, true, false);
               signInFieldsVm.showPwdCursor = false;
 
-              if (!softKeyboardVm.isSoftKeyboardOpened)
+              if (!softKeyboardVm.isSoftKeyboardOpened) {
                 softKeyboardVm.isSoftKeyboardOpened = true;
+              }
             },
           );
         }),
@@ -466,7 +483,41 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
     }
   }
 
-  _updateProfile() {
-  Navigator.of(context).pushNamed(HomeScreen.routeName);
+  _updateProfile() async {
+    User userUpdated = User(
+        currentUser!.user.id,
+        _signInFieldsVm.tLoginController.text,
+        currentUser!.user.password,
+        _signInFieldsVm.tUsernameController.text,
+        _signInFieldsVm.tFirstnameController.text,
+        _signInFieldsVm.tLastnameController.text);
+
+    print(userUpdated.id.toString() +
+        " " +
+        userUpdated.email +
+        " " +
+        userUpdated.password +
+        " " +
+        userUpdated.username +
+        " " +
+        userUpdated.firstname +
+        " " +
+        userUpdated.lastname);
+
+    final response =
+        await authService.updateAccount(_signInFieldsVm, userUpdated);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      {
+        AuthService.setCurrentUser(Person(userUpdated, currentUser!.photoUrl));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => ProfileScreen(AuthService.currentUser!, false)));
+        const snackBar = SnackBar(
+          content: Text('Changes have been saved'),
+          backgroundColor: CustomColors.orange,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
   }
 }

@@ -16,6 +16,6 @@ factory Forum.fromJson(Map<String, dynamic> json) {
   }
  @override
   String toString() {
-    return "{id: ${this.id}, title: ${this.title}, description: ${this.description}, color: ${this.color}}";
+    return "{id: $id, title: $title, description: $description, color: $color}";
   }
 }

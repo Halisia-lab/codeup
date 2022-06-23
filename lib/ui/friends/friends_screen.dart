@@ -1,3 +1,4 @@
+import 'package:codeup/ui/common/search_bar_type.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
@@ -16,20 +17,21 @@ class FriendsScreen extends StatefulWidget {
 }
 
 class _FriendsScreenState extends State<FriendsScreen> {
+  // ignore: non_constant_identifier_names
   final background_color = CustomColors.lightGrey3;
   @override
   Widget build(BuildContext context) {
      return Scaffold(
       backgroundColor: background_color,
-      drawer: Menu(),
+      drawer: const Menu(),
       body: CustomScrollView(
         slivers: [
-          CustomAppBar("Friends", true),
+          CustomAppBar("Friends", true, SearchBarType.FRIEND),
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
                 decoration: BoxDecoration(color: background_color),
-                height: MediaQuery.of(context).size.height * 4 / 5,
+                height: MediaQuery.of(context).size.height * 8 / 10,
                 child: ListView(children: [
                   for(Person friend in TestData.personnes )
                    FriendsListItem(friend)],),

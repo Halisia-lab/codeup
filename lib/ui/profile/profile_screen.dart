@@ -1,45 +1,38 @@
-import 'package:codeup/entities/person.dart';
-import 'package:codeup/services/auth_service.dart';
-import 'package:codeup/ui/common/custom_button.dart';
-import 'package:codeup/ui/common/test_data.dart';
-import 'package:codeup/ui/profile/profile_logged_body.dart';
-import 'package:codeup/ui/profile/profile_unlogged_body.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/sign_in_field_enum.dart';
+import '../../entities/person.dart';
+import '../../services/auth_service.dart';
 import '../authentication/viewModel/sign_in_fields_view_model.dart';
 import '../authentication/viewModel/soft_keyboard_view_model.dart';
-import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
-import '../home/home_screen.dart';
 import '../menu/menu.dart';
-import '../../../utils/extensions.dart';
+import 'profile_logged_body.dart';
+import 'profile_unlogged_body.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = "/profile-screen";
+  final bool backOption;
   final Person wantedUser;
-  const ProfileScreen(this.wantedUser);
+  const ProfileScreen(this.wantedUser, this.backOption, {Key? key})
+      : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState(this.wantedUser);
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final currentUser = AuthService.currentUser;
-  final Person wantedUser;
+  late final Person wantedUser;
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
+  // ignore: non_constant_identifier_names
   final background_color = CustomColors.lightGrey3;
 
-  bool _pwdVisibilityToggled = false;
-  FocusNode _usernameFocusNode = FocusNode();
-  FocusNode _firstnameFocusNode = FocusNode();
-  FocusNode _lastnameFocusNode = FocusNode();
-  FocusNode _emailFocusNode = FocusNode();
-
-  _ProfileScreenState(this.wantedUser);
+  final FocusNode _usernameFocusNode = FocusNode();
+  final FocusNode _firstnameFocusNode = FocusNode();
+  final FocusNode _lastnameFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
 
   @override
   void dispose() {
@@ -63,7 +56,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
       child: Consumer<SoftKeyboardViewModel>(
           builder: (context, softKeyBoardVm, child) {
-        return this.wantedUser == this.currentUser ? ProfileLoggedBody() : ProfileUnLoggedBody(this.wantedUser);
+        return wantedUser == currentUser
+            ? ProfileLoggedBody(widget.backOption)
+            : ProfileUnLoggedBody(wantedUser, widget.backOption);
       }),
     ));
     return Scaffold(

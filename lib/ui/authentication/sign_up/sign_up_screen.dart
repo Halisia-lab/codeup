@@ -24,9 +24,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     
   final AuthService authService = AuthService(signInFieldsVm: _signInFieldsVm);
-    final navBarTitle = Text("Sign Up", textAlign: TextAlign.center);
+    const navBarTitle = Text("Sign Up", textAlign: TextAlign.center);
     final appBar = AppBar(
-      title: Center(
+      title: const Center(
         child: navBarTitle,
       ),
     );
@@ -52,8 +52,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _getBody(bool isSoftKeyboardOpened, AuthService authService) {
     Widget res;
 
-    const padding1 = 30.0; //left, right, bottom
-    const padding2 = 16.0; //top
+    const padding1 = 30.0;
+    const padding2 = 16.0;
 
     final signInScrollView = CustomScrollView(
       slivers: [
@@ -71,8 +71,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   const SignUpBody(),
                   Flexible(
-                    child: Container(), //Empty widget
-                  ), //Empty widget
+                    child: Container(), 
+                  ), 
                   SignUpBottom(ancestorContext: context, authService: authService)
                 ],
               ),

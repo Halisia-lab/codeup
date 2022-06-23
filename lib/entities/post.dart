@@ -5,8 +5,9 @@ class Post {
   final String code;
   final int forumId;
   final int userId;
+  final creationDate;
 
-  const Post(this.id, this.title, this.content, this.code, this.forumId, this.userId);
+  const Post(this.id, this.title, this.content, this.code, this.forumId, this.userId, this.creationDate);
 
 factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
@@ -16,10 +17,11 @@ factory Post.fromJson(Map<String, dynamic> json) {
       json['code'],
       json['forumId'],
       json['userId'],
+      json['creationDate'],
     );
   }
  @override
   String toString() {
-    return "{id: ${this.id}, title: ${this.title}, content: ${this.content}, code: ${this.code}, forum_id: ${this.forumId}, user_id: ${this.userId}}";
+    return "{id: $id, title: $title, content: $content, code: $code, forum_id: $forumId, user_id: $userId, creation_date: $creationDate}";
   }
 }

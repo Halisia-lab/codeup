@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import '../common/custom_colors.dart';
 import '../common/language_enum.dart';
 
-
 class PostLanguageText extends StatelessWidget {
   final LanguageValue languageValue;
-  const PostLanguageText(this.languageValue);
+  const PostLanguageText(this.languageValue, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +14,14 @@ class PostLanguageText extends StatelessWidget {
       child: Container(
         child: Padding(
           padding: const EdgeInsets.all(5.0),
-          child: Text(LanguageEnum.getValue(languageValue), style: TextStyle(fontSize: 13, color: Colors.white),),
+          child: Text(
+            LanguageEnum.getValue(languageValue),
+            style: const TextStyle(fontSize: 13, color: Colors.white),
+          ),
         ),
         decoration: BoxDecoration(
-            color: CustomColors.mainYellow, borderRadius: BorderRadius.circular(6)),
+            color: CustomColors.mainYellow,
+            borderRadius: BorderRadius.circular(6)),
       ),
     );
   }
