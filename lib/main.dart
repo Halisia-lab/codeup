@@ -1,4 +1,3 @@
-import 'package:codeup/ui/common/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
@@ -15,11 +14,9 @@ import 'ui/post/create_post_screen.dart';
 import 'ui/profile/profile_screen.dart';
 import 'ui/saved_posts/saved_posts_screen.dart';
 
-//TODO: 
+//TODO:
 /*
-Post edition : "crayon" on postboxes when user connected
-dropdown with delete, editing
-requests 
+
 
 Recherche amis
 
@@ -45,20 +42,18 @@ class MyApp extends StatelessWidget {
           primarySwatch: CustomColors.darkText,
           secondaryHeaderColor: CustomColors.mainYellow,
         ),
-        home: HomeScreen(),
+        home: const HomeScreen(),
         initialRoute: launchRoute,
         routes: {
-          HomeScreen.routeName: (ctx) =>  HomeScreen(),
-          SignInScreen.routeName: (ctx) => SignInScreen(false),
+          HomeScreen.routeName: (ctx) => const HomeScreen(),
+          SignInScreen.routeName: (ctx) => const SignInScreen(false),
           SignUpScreen.routeName: (ctx) => const SignUpScreen(),
           ForumsScreen.routeName: (ctx) => const ForumsScreen(),
           FriendsScreen.routeName: (ctx) => const FriendsScreen(),
           SavedPostsScreen.routeName: (ctx) => const SavedPostsScreen(),
           ProfileScreen.routeName: (ctx) => ProfileScreen(currentUser!, true),
-          CreatePostScreen.routeName: (ctx) => CreatePostScreen(),
-          CreateForumScreen.routeName: (ctx) => CreateForumScreen()
+          CreatePostScreen.routeName: (ctx) => const CreatePostScreen(),
+          CreateForumScreen.routeName: (ctx) => const CreateForumScreen()
         });
   }
 }
-
-

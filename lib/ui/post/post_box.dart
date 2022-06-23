@@ -1,4 +1,3 @@
-import 'package:codeup/ui/post/create_post_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
@@ -25,24 +24,17 @@ class PostBox extends StatefulWidget {
   Person commiter;
   bool areCommentsVisible;
   PostBox(this.post, this.languages, this.votes, this.isSaved, this.commiter,
-      this.areCommentsVisible);
+      this.areCommentsVisible,
+      {Key? key})
+      : super(key: key);
 
   @override
-  _PostBoxState createState() =>
-      _PostBoxState(post, languages, votes, isSaved, commiter);
+  _PostBoxState createState() => _PostBoxState();
 }
 
 class _PostBoxState extends State<PostBox> {
   AuthService authService = AuthService();
-  Post post;
-  final List<LanguageValue> languages;
-  int votes;
-  bool isSaved;
-  Person commiter;
   PostViewModel postViewModel = PostViewModel();
-//this.text, this.title, this.languages, this.commiter, this.votes, this.isSaved
-  _PostBoxState(
-      this.post, this.languages, this.votes, this.isSaved, this.commiter);
 
   @override
   void initState() {
@@ -74,7 +66,7 @@ class _PostBoxState extends State<PostBox> {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => _getCommiterProfile(context, commiter),
+                    onTap: () => _getCommiterProfile(context, widget.commiter),
                     child: Row(
                       children: [
                         Padding(
@@ -84,7 +76,7 @@ class _PostBoxState extends State<PostBox> {
                             height: 40,
                             child: CircleAvatar(
                                 backgroundImage:
-                                    NetworkImage(commiter.photoUrl),
+                                    NetworkImage(widget.commiter.photoUrl),
                                 radius: 30),
                           ),
                         ),
@@ -92,16 +84,16 @@ class _PostBoxState extends State<PostBox> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              commiter.user.firstname +
+                              widget.commiter.user.firstname +
                                   " " +
-                                  commiter.user.lastname,
+                                  widget.commiter.user.lastname,
                               style: const TextStyle(
                                 fontSize: 17,
                               ),
                             ),
                             Text(
                               DateHelper.formatDate(
-                                  post.creationDate.toString()),
+                                  widget.post.creationDate.toString()),
                               style: const TextStyle(
                                   fontSize: 15, color: Colors.grey),
                             ),
@@ -114,14 +106,15 @@ class _PostBoxState extends State<PostBox> {
                       AuthService.currentUser!.user.id == widget.post.userId)
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: IconButton(onPressed: () => _editPost(), icon: const Icon(Icons.edit_outlined)),
+                      child: IconButton(
+                          onPressed: () => _editPost(),
+                          icon: const Icon(Icons.edit_outlined)),
                     )
-                    
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
               ),
               Text(
-                post.title,
+                widget.post.title,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -130,7 +123,7 @@ class _PostBoxState extends State<PostBox> {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Row(children: [
-                  for (LanguageValue language in languages)
+                  for (LanguageValue language in widget.languages)
                     PostLanguageText(language),
                 ]),
               ),
@@ -138,8 +131,8 @@ class _PostBoxState extends State<PostBox> {
                 padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   children: [
-                    VotesCounter(votes),
-                    Flexible(child: TextViewer(post.content)),
+                    VotesCounter(widget.votes),
+                    Flexible(child: TextViewer(widget.post.content)),
                   ],
                 ),
               ),
@@ -150,7 +143,8 @@ class _PostBoxState extends State<PostBox> {
                     if (widget.areCommentsVisible)
                       GestureDetector(
                         child: FutureBuilder(
-                            future: commentViewModel.getCommentCount(post),
+                            future:
+                                commentViewModel.getCommentCount(widget.post),
                             builder: (BuildContext context,
                                 AsyncSnapshot<String> snapshot) {
                               return PostBoxAction(
@@ -169,7 +163,9 @@ class _PostBoxState extends State<PostBox> {
                       ),
                     GestureDetector(
                       child: PostBoxAction(
-                          isSaved ? Icons.bookmark : Icons.bookmark_border,
+                          widget.isSaved
+                              ? Icons.bookmark
+                              : Icons.bookmark_border,
                           "Save",
                           () => _save()),
                       onTap: () => _save(),
@@ -188,8 +184,8 @@ class _PostBoxState extends State<PostBox> {
 
   _editPost() {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return EditPostScreen(widget);
-      }));
+      return EditPostScreen(widget);
+    }));
   }
 
   _share() {
@@ -199,11 +195,11 @@ class _PostBoxState extends State<PostBox> {
 
   _save() {
     setState(() {
-      if (isSaved) {
-        isSaved = false;
+      if (widget.isSaved) {
+        widget.isSaved = false;
         SavedPostList.savedPosts.remove(widget);
       } else {
-        isSaved = true;
+        widget.isSaved = true;
         if (!SavedPostList.savedPosts.contains(widget)) {
           SavedPostList.savedPosts.add(widget);
         }

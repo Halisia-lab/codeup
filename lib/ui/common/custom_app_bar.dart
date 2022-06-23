@@ -1,25 +1,24 @@
-import 'package:codeup/ui/common/search_bar_type.dart';
-import 'package:codeup/ui/home/viewModel/home_view_model.dart';
 import 'package:flutter/material.dart';
 
 import '../common/custom_colors.dart';
+import 'search_bar_type.dart';
 
 class CustomAppBar extends StatefulWidget with ChangeNotifier {
   final String title;
+  static String searchValue = "";
+  String valueSearch = "";
   final bool searchBar;
   final SearchBarType? searchBarType;
   TextEditingController textController = TextEditingController();
-  static String searchValue = "";
-  String valueSearch = "";
-  CustomAppBar(this.title, this.searchBar, this.searchBarType);
+
+  CustomAppBar(this.title, this.searchBar, this.searchBarType, {Key? key})
+      : super(key: key);
 
   @override
-  _CustomAppBarState createState() =>
-      _CustomAppBarState();
+  _CustomAppBarState createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-
   _CustomAppBarState();
 
   @override

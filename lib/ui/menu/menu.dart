@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
@@ -9,10 +7,10 @@ import '../authentication/sign_in/sign_in_screen.dart';
 import '../authentication/sign_up/sign_up_screen.dart';
 import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
-import '../common/test_data.dart';
 import '../forums/forums_screen.dart';
 import '../friends/friends_screen.dart';
 import '../home/home_screen.dart';
+import '../post/logged_user_posts_screen.dart';
 import '../profile/profile_screen.dart';
 import '../saved_posts/saved_posts_screen.dart';
 import 'menu_option.dart';
@@ -42,10 +40,28 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
             onTap: () => _getProfilePage(context, currentUser),
             child: Padding(
               padding: const EdgeInsets.only(top: 0.0),
-              child: Image.network(
-                currentUser.photoUrl,
-                height: 100,
-              ),
+              child: Stack(children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.network(
+                    currentUser.photoUrl,
+                    height: 140,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 65.0),
+                  child: Align(
+                    child: Container(
+                      child: const Icon(
+                        Icons.edit_outlined,
+                        color: Colors.black,
+                      ),
+                      color: Colors.white,
+                    ),
+                    alignment: Alignment.bottomRight,
+                  ),
+                )
+              ]),
             ),
           )),
       Center(
@@ -57,17 +73,19 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
         ),
       )),
       MenuOption("Home", Icons.home, () => _getHomePage(context)),
-      MenuOption("Friends", Icons.person, () => _getFriendsPage(context)),
+      MenuOption("My Posts", Icons.article,
+          () => _getLoggedUserPostsPage(context, AuthService.currentUser!)),
       MenuOption(
           "Saved Posts", Icons.bookmark, () => _getFavoritesPage(context)),
+      MenuOption("Friends", Icons.person, () => _getFriendsPage(context)),
       MenuOption("Forums", Icons.chat_bubble_outline_sharp,
           () => _getForumsPage(context)),
       Container(
         margin: const EdgeInsets.only(top: 5, bottom: 10, left: 8, right: 8),
         height: 1,
-        decoration: const BoxDecoration(color: CustomColors.lightGrey4),
+        decoration:
+            const BoxDecoration(color: Color.fromARGB(255, 241, 241, 241)),
       ),
-      //MenuOption("Logout", Icons.logout, () => _logOut(context)),
       CustomButton(CustomColors.mainYellow, "Log out", () => _logOut(context))
     ],
   );
@@ -76,8 +94,6 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
 Widget _unloggedMenuOptions(
   BuildContext context,
 ) {
-
-  
   return ListView(
     padding: EdgeInsets.zero,
     children: [
@@ -94,7 +110,8 @@ Widget _unloggedMenuOptions(
         margin: const EdgeInsets.only(top: 5, bottom: 10, left: 8, right: 8),
         height: 1,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(color: CustomColors.lightGrey4),
+        decoration:
+            const BoxDecoration(color: Color.fromARGB(255, 241, 241, 241)),
       ),
       //MenuOption("Logout", Icons.logout, () => _logOut(context)),
       CustomButton(CustomColors.mainYellow, "Log in", () => _logIn(context)),
@@ -103,10 +120,7 @@ Widget _unloggedMenuOptions(
   );
 }
 
-
-
 _signUp(BuildContext context) {
-  //Navigator.of(context).pop();
   Navigator.of(context).pushNamed(SignUpScreen.routeName);
 }
 
@@ -114,11 +128,13 @@ _logIn(BuildContext context) {
   Navigator.of(context).pushNamed(SignInScreen.routeName);
 }
 
-_logOut(BuildContext context) async  {
+_logOut(BuildContext context) async {
   AuthService.setCurrentUser(null);
   await SecureStorageService.getInstance().clear();
   Navigator.of(context).pop();
-   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)  { return SignInScreen(false);}));
+  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+    return const SignInScreen(false);
+  }));
 }
 
 _getHomePage(BuildContext context) {
@@ -138,8 +154,11 @@ _getFriendsPage(BuildContext context) {
 }
 
 _getProfilePage(BuildContext context, Person currentUser) {
-  Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => ProfileScreen(currentUser, false)));
+  Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => ProfileScreen(currentUser, false)));
 }
 
-
+_getLoggedUserPostsPage(BuildContext context, Person currentUser) {
+  Navigator.of(context)
+      .push(MaterialPageRoute(builder: (_) => LoggedUserPostScreen()));
+}

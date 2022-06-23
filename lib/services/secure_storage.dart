@@ -1,15 +1,14 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
 class SecureStorageService {
   static SecureStorageService? _instance;
   late final FlutterSecureStorage _flutterSecureStorage;
 
-  SecureStorageService._internal(){
-    _flutterSecureStorage = new FlutterSecureStorage();
+  SecureStorageService._internal() {
+    _flutterSecureStorage = const FlutterSecureStorage();
   }
 
-  static SecureStorageService getInstance(){
+  static SecureStorageService getInstance() {
     _instance ??= SecureStorageService._internal();
 
     return _instance!;

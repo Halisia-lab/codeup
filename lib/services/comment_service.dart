@@ -8,7 +8,6 @@ import '../entities/post.dart';
 import 'secure_storage.dart';
 
 class CommentService {
-  
   static String apiUrl = "http://" +
       (dotenv.env.keys.contains("HOST") ? dotenv.env["HOST"]! : "localhost") +
       ":" +
@@ -27,10 +26,11 @@ class CommentService {
     final headers = {
       'Content-Type': 'application/json; charset=UTF-8',
       'cookie': token,
-    }; 
-    final response = await http
-        .get(Uri.parse(apiUrl + "/comment/post/" + postId.toString()), headers: headers);
-       
+    };
+    final response = await http.get(
+        Uri.parse(apiUrl + "/comment/post/" + postId.toString()),
+        headers: headers);
+
     return response;
   }
 
@@ -45,13 +45,14 @@ class CommentService {
       'cookie': token,
     };
     final response = await http.get(
-        Uri.parse(apiUrl + "/comment/post/" + postId.toString() + "/count"), headers: headers);
+        Uri.parse(apiUrl + "/comment/post/" + postId.toString() + "/count"),
+        headers: headers);
     return response;
   }
 
   Future<http.Response> addComment(
       Comment comment, Person user, Post post) async {
-        String token = "";
+    String token = "";
     token = await SecureStorageService.getInstance()
         .get("token")
         .then((value) => token = value.toString());

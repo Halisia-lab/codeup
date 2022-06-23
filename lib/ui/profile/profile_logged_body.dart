@@ -10,7 +10,6 @@ import '../authentication/viewModel/soft_keyboard_view_model.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
-import '../home/home_screen.dart';
 import '../menu/menu.dart';
 import '../../../utils/extensions.dart';
 import 'profile_screen.dart';
@@ -18,7 +17,7 @@ import 'profile_screen.dart';
 class ProfileLoggedBody extends StatefulWidget {
   static const routeName = "/profile-screen";
   final bool backOption;
-  const ProfileLoggedBody(this.backOption);
+  const ProfileLoggedBody(this.backOption, {Key? key}) : super(key: key);
 
   @override
   State<ProfileLoggedBody> createState() => _ProfileLoggedBodyState();
@@ -26,16 +25,17 @@ class ProfileLoggedBody extends StatefulWidget {
 
 class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
   var currentUser = AuthService.currentUser;
+  AuthService authService = AuthService();
+
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
-  AuthService authService = AuthService();
+  // ignore: non_constant_identifier_names
   final background_color = CustomColors.lightGrey3;
 
-  bool _pwdVisibilityToggled = false;
-  FocusNode _usernameFocusNode = FocusNode();
-  FocusNode _firstnameFocusNode = FocusNode();
-  FocusNode _lastnameFocusNode = FocusNode();
-  FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _usernameFocusNode = FocusNode();
+  final FocusNode _firstnameFocusNode = FocusNode();
+  final FocusNode _lastnameFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -242,8 +242,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                   true, false, false, false, false);
               signInFieldsVm.showPwdCursor = false;
 
-              if (!softKeyboardVm.isSoftKeyboardOpened)
+              if (!softKeyboardVm.isSoftKeyboardOpened) {
                 softKeyboardVm.isSoftKeyboardOpened = true;
+              }
             },
           );
         }),
@@ -312,8 +313,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                   false, true, false, false, false);
               signInFieldsVm.showPwdCursor = false;
 
-              if (!softKeyboardVm.isSoftKeyboardOpened)
+              if (!softKeyboardVm.isSoftKeyboardOpened) {
                 softKeyboardVm.isSoftKeyboardOpened = true;
+              }
             },
           );
         }),
@@ -382,8 +384,9 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
                   false, false, true, false, false);
               signInFieldsVm.showPwdCursor = false;
 
-              if (!softKeyboardVm.isSoftKeyboardOpened)
+              if (!softKeyboardVm.isSoftKeyboardOpened) {
                 softKeyboardVm.isSoftKeyboardOpened = true;
+              }
             },
           );
         }),
@@ -482,24 +485,31 @@ class _ProfileLoggedBodyState extends State<ProfileLoggedBody> {
 
   _updateProfile() async {
     User userUpdated = User(
-            currentUser!.user.id,
-            _signInFieldsVm.tLoginController.text,
-            currentUser!.user.password,
-            _signInFieldsVm.tUsernameController.text,
-            _signInFieldsVm.tFirstnameController.text,
-            _signInFieldsVm.tLastnameController.text);
+        currentUser!.user.id,
+        _signInFieldsVm.tLoginController.text,
+        currentUser!.user.password,
+        _signInFieldsVm.tUsernameController.text,
+        _signInFieldsVm.tFirstnameController.text,
+        _signInFieldsVm.tLastnameController.text);
 
-            print(userUpdated.id.toString() + " " + userUpdated.email + " " + userUpdated.password + " " + userUpdated.username + " " + userUpdated.firstname + " " + userUpdated.lastname);
-            
-    final response = await authService.updateAccount(
-        _signInFieldsVm,
-       userUpdated);
+    print(userUpdated.id.toString() +
+        " " +
+        userUpdated.email +
+        " " +
+        userUpdated.password +
+        " " +
+        userUpdated.username +
+        " " +
+        userUpdated.firstname +
+        " " +
+        userUpdated.lastname);
 
-    print(response.body);
-    print(response.statusCode);
+    final response =
+        await authService.updateAccount(_signInFieldsVm, userUpdated);
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       {
-        AuthService.setCurrentUser(Person(userUpdated, currentUser!.photoUrl)) ;
+        AuthService.setCurrentUser(Person(userUpdated, currentUser!.photoUrl));
         Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => ProfileScreen(AuthService.currentUser!, false)));
         const snackBar = SnackBar(

@@ -5,27 +5,27 @@ import '../profile/profile_screen.dart';
 
 class FriendsListItem extends StatelessWidget {
   final Person friend;
-  FriendsListItem(this.friend);
+  const FriendsListItem(this.friend, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: ListTile(
         title: Container(
-          margin: EdgeInsets.only(bottom: 5),
+          margin: const EdgeInsets.only(bottom: 5),
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(0)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade400.withOpacity(0.1),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade400.withOpacity(0.1),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
           child: Row(
             children: [
               Padding(
@@ -45,6 +45,7 @@ class FriendsListItem extends StatelessWidget {
   }
 
   _getFriendPage(BuildContext context, Person friend) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProfileScreen(friend, true)));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => ProfileScreen(friend, true)));
   }
 }

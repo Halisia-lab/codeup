@@ -1,14 +1,14 @@
-import 'package:codeup/services/forum_service.dart';
-import 'package:codeup/ui/forums/forum_page/forum_page_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/post.dart';
 import '../../services/auth_service.dart';
+import '../../services/forum_service.dart';
 import '../../services/post_service.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_button.dart';
 import '../common/custom_colors.dart';
 import '../forums/forum_list_item.dart';
+import '../forums/forum_page/forum_page_screen.dart';
 import '../forums/viewModel/forum_view_model.dart';
 import '../home/home_screen.dart';
 
@@ -16,12 +16,13 @@ class CreatePostScreen extends StatefulWidget {
   final int? choosenForumId;
   static const routeName = "/createPost-screen";
 
-  CreatePostScreen([this.choosenForumId]);
+  const CreatePostScreen([this.choosenForumId]);
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
+  // ignore: non_constant_identifier_names
   final background_color = CustomColors.lightGrey3;
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
@@ -55,83 +56,80 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             delegate: SliverChildListDelegate([
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  // color: CustomColors.white,
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                          height: 80,
-                          child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  AuthService.currentUser!.photoUrl),
-                              radius: 50),
-                        ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        height: 80,
+                        child: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(AuthService.currentUser!.photoUrl),
+                            radius: 50),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 8, bottom: 8, top: 20),
-                        child: TextField(
-                            controller: titleController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: CustomColors.darkText, width: 1.0),
-                              ),
-                              labelText: 'Title',
-                              labelStyle: TextStyle(fontSize: 18),
-                              floatingLabelStyle: TextStyle(
-                                  fontSize: 19,
-                                  color: CustomColors.darkText,
-                                  fontWeight: FontWeight.bold),
-                              fillColor: Colors.white,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: CustomColors.darkText, width: 2.0),
-                              ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8, bottom: 8, top: 20),
+                      child: TextField(
+                          controller: titleController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: CustomColors.darkText, width: 1.0),
                             ),
-                            onChanged: (str) {
-                              setState(() {
-                                responseContent = str;
-                              });
-                            },
-                            onSubmitted: (str) {}),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                            controller: contentController,
-                            maxLines: 7,
-                            decoration: const InputDecoration(
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: CustomColors.darkText, width: 1.0),
-                              ),
-                              labelText: 'Your post content...',
-                              labelStyle: TextStyle(fontSize: 18),
-                              floatingLabelStyle: TextStyle(
-                                  fontSize: 19,
-                                  color: CustomColors.darkText,
-                                  fontWeight: FontWeight.bold),
-                              fillColor: Colors.white,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: CustomColors.darkText, width: 2.0),
-                              ),
+                            labelText: 'Title',
+                            labelStyle: TextStyle(fontSize: 18),
+                            floatingLabelStyle: TextStyle(
+                                fontSize: 19,
+                                color: CustomColors.darkText,
+                                fontWeight: FontWeight.bold),
+                            fillColor: Colors.white,
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: CustomColors.darkText, width: 2.0),
                             ),
-                            onChanged: (str) {
-                              setState(() {
-                                responseContent = str;
-                              });
-                            },
-                            onSubmitted: (str) {}),
-                      ),
-                    ],
-                  ),
+                          ),
+                          onChanged: (str) {
+                            setState(() {
+                              responseContent = str;
+                            });
+                          },
+                          onSubmitted: (str) {}),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                          controller: contentController,
+                          maxLines: 7,
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: CustomColors.darkText, width: 1.0),
+                            ),
+                            labelText: 'Your post content...',
+                            labelStyle: TextStyle(fontSize: 18),
+                            floatingLabelStyle: TextStyle(
+                                fontSize: 19,
+                                color: CustomColors.darkText,
+                                fontWeight: FontWeight.bold),
+                            fillColor: Colors.white,
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: CustomColors.darkText, width: 2.0),
+                            ),
+                          ),
+                          onChanged: (str) {
+                            setState(() {
+                              responseContent = str;
+                            });
+                          },
+                          onSubmitted: (str) {}),
+                    ),
+                  ],
                 ),
               ),
               if (widget.choosenForumId == null)
@@ -210,7 +208,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (widget.choosenForumId == null) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {return HomeScreen();}));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return const HomeScreen();
+        }));
       } else {
         Navigator.of(context).pop();
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {

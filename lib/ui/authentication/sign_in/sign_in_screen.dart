@@ -12,20 +12,19 @@ class SignInScreen extends StatefulWidget {
   final bool backOption;
   static const routeName = "/sign-in";
 
-SignInScreen(this.backOption);
+  const SignInScreen(this.backOption, {Key? key}) : super(key: key);
   @override
-  State<SignInScreen> createState() => _SignInScreenState(this.backOption);
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
-  final bool backOption;
 
-  _SignInScreenState(this.backOption);
   @override
   Widget build(BuildContext context) {
-  final AuthService authService = AuthService(signInFieldsVm: _signInFieldsVm);
+    final AuthService authService =
+        AuthService(signInFieldsVm: _signInFieldsVm);
 
     const navBarTitle = Text("Sign In", textAlign: TextAlign.center);
     final appBar = AppBar(
@@ -47,8 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
       }),
     ));
     return Scaffold(
-      
-      drawer: backOption ? null : const Menu(),
+      drawer: widget.backOption ? null : const Menu(),
       appBar: appBar,
       body: body,
     );
@@ -75,14 +73,18 @@ class _SignInScreenState extends State<SignInScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top:15.0),
-                    child: Image.asset("assets/images/mainLogo/codeup_logo.png"),
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child:
+                        Image.asset("assets/images/mainLogo/codeup_logo.png"),
                   ),
                   const SignInBody(),
                   Flexible(
-                    child: Container(), //Empty widget
-                  ), //Empty widget
-                  SignInBottom(ancestorContext: context, authService: authService,)
+                    child: Container(),
+                  ), 
+                  SignInBottom(
+                    ancestorContext: context,
+                    authService: authService,
+                  )
                 ],
               ),
             ))

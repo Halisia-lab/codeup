@@ -17,12 +17,13 @@ class FriendsScreen extends StatefulWidget {
 }
 
 class _FriendsScreenState extends State<FriendsScreen> {
+  // ignore: non_constant_identifier_names
   final background_color = CustomColors.lightGrey3;
   @override
   Widget build(BuildContext context) {
      return Scaffold(
       backgroundColor: background_color,
-      drawer: Menu(),
+      drawer: const Menu(),
       body: CustomScrollView(
         slivers: [
           CustomAppBar("Friends", true, SearchBarType.FRIEND),

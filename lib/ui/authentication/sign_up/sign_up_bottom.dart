@@ -4,10 +4,8 @@ import 'package:provider/provider.dart';
 import '../../../entities/user.dart';
 import '../../../services/auth_service.dart';
 import '../../../utils/sign_in_field_enum.dart';
-import '../../common/custom_app_bar.dart';
 import '../../common/custom_colors.dart';
 import '../../component/adaptive_button.dart';
-import '../../home/home_screen.dart';
 import '../sign_in/sign_in_screen.dart';
 import '../viewModel/sign_in_fields_view_model.dart';
 import '../viewModel/soft_keyboard_view_model.dart';
@@ -21,13 +19,10 @@ class SignUpBottom extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SignUpBottomState createState() => _SignUpBottomState(this.authService);
+  _SignUpBottomState createState() => _SignUpBottomState();
 }
 
 class _SignUpBottomState extends State<SignUpBottom> {
-  final AuthService authService;
-
-  _SignUpBottomState(this.authService);
   @override
   void initState() {
     super.initState();
@@ -155,20 +150,13 @@ class _SignUpBottomState extends State<SignUpBottom> {
         signInFieldsVm.tLastnameController.text);
 
     if (_validateSignUpFields(signInFieldsVm)) {
-      final response = await authService.register(signInFieldsVm, user);
+      final response = await widget.authService.register(signInFieldsVm, user);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        //login new user directly
-        authService.logIn(signInFieldsVm, user);
+        //widget.authService.logIn(signInFieldsVm, user);
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          /* const snackBar = SnackBar(
-        content: Text('Your account has been created !'),
-      backgroundColor: Colors.lightGreen,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar); */
-          return HomeScreen();
-          
+          return const SignInScreen(false);
         }));
       } else {
         signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.username, "");
@@ -178,10 +166,10 @@ class _SignUpBottomState extends State<SignUpBottom> {
         signInFieldsVm.setSignUpFieldErrorState(SignUpFieldEnum.lastname, "");
 
         const snackBar = SnackBar(
-        content: Text('Email or Username already token'),
-      backgroundColor: CustomColors.redText,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          content: Text('Email or Username already token'),
+          backgroundColor: CustomColors.redText,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
   }
@@ -191,7 +179,7 @@ class _SignUpBottomState extends State<SignUpBottom> {
         Provider.of<SoftKeyboardViewModel>(context, listen: false);
     softKeyboardVm.isSoftKeyboardOpened = false;
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-      return SignInScreen(true);
+      return const SignInScreen(true);
     }));
   }
 }

@@ -1,5 +1,4 @@
 class DateHelper {
-
   static String formatDate(String dateString) {
     String result = "";
 
@@ -13,7 +12,5 @@ class DateHelper {
     result += time;
 
     return result;
-
   }
-  
 }

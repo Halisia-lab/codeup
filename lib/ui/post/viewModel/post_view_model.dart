@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -11,16 +10,13 @@ import '../../common/test_data.dart';
 
 class PostViewModel with ChangeNotifier {
   AuthService authService = AuthService();
-  User? commiter = null;
-  final _random = new Random();
+  User? commiter;
+  final _random = Random();
 
   Future<Person> getCommiter(Post post) async {
-
-    return Person(await authService.getUserById(post.userId), TestData.photos[randomNumber(0, 3)]);
+    return Person(await authService.getUserById(post.userId),
+        TestData.photos[randomNumber(0, 3)]);
   }
 
-    
-int randomNumber(int min, int max) => min + _random.nextInt(max - min);
-
-
+  int randomNumber(int min, int max) => min + _random.nextInt(max - min);
 }

@@ -1,22 +1,27 @@
+
 import 'package:flutter/material.dart';
 
+import '../../services/auth_service.dart';
+import '../../services/post_service.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
 import '../common/search_bar_type.dart';
 import '../menu/menu.dart';
-import 'saved_post_list.dart';
+import 'logged_user_post_list.dart';
 
-class SavedPostsScreen extends StatefulWidget {
-  static const routeName = "/savedPosts-screen";
-  const SavedPostsScreen({Key? key}) : super(key: key);
+class LoggedUserPostScreen extends StatefulWidget {
+  static const routeName = "/loggedUserPosts-screen";
+  const LoggedUserPostScreen({Key? key}) : super(key: key);
 
   @override
-  State<SavedPostsScreen> createState() => _SavedPostsScreenState();
+  _LoggedUserPostScreenState createState() => _LoggedUserPostScreenState();
 }
 
-class _SavedPostsScreenState extends State<SavedPostsScreen> {
+class _LoggedUserPostScreenState extends State<LoggedUserPostScreen> {
+  final PostService postService = PostService();
   // ignore: non_constant_identifier_names
   final background_color = CustomColors.lightGrey3;
+  CustomAppBar homeTop = CustomAppBar("My Posts", true, SearchBarType.POST);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,13 +29,14 @@ class _SavedPostsScreenState extends State<SavedPostsScreen> {
       drawer: const Menu(),
       body: CustomScrollView(
         slivers: [
-          CustomAppBar("Saved Posts", true, SearchBarType.POST),
+          homeTop,
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
+                
                 decoration: BoxDecoration(color: background_color),
                 height: MediaQuery.of(context).size.height * 8 / 10,
-                child: const SavedPostList(),
+                child: LoggedUserPostList(AuthService.currentUser!.user.id, homeTop)
               ),
             ]),
           ),

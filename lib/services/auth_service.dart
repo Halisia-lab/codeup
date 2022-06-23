@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:codeup/services/secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 
@@ -8,16 +7,20 @@ import '../entities/person.dart';
 import '../ui/authentication/viewModel/sign_in_fields_view_model.dart';
 import '../entities/user.dart';
 import '../ui/common/test_data.dart';
+import 'secure_storage.dart';
 
 class AuthService {
-  static String apiUrl = "http://" + (dotenv.env.keys.contains("HOST") ? dotenv.env["HOST"]! : "localhost") + ":" + (dotenv.env.keys.contains("SERVER_PORT") ? dotenv.env["SERVER_PORT"]! : "8080") + "/";
-  //static String apiUrl = "http://" + host + ":8080/";
+  static String apiUrl = "http://" +
+      (dotenv.env.keys.contains("HOST") ? dotenv.env["HOST"]! : "localhost") +
+      ":" +
+      (dotenv.env.keys.contains("SERVER_PORT")
+          ? dotenv.env["SERVER_PORT"]!
+          : "8080") +
+      "/";
   SignInFieldsViewModel? signInFieldsVm;
   static Person? currentUser;
 
   AuthService({this.signInFieldsVm});
-
-  
 
   void getLoggedUser(User userFields) async {
     List<User> users = [];
@@ -28,8 +31,8 @@ class AuthService {
       users.add(user);
     }
 
-  final _random =  Random();
-  int randomNumber(int min, int max) => min + _random.nextInt(max - min);
+    final _random = Random();
+    int randomNumber(int min, int max) => min + _random.nextInt(max - min);
     User loggedUser =
         users.firstWhere((user) => user.username == userFields.username);
     currentUser = Person(loggedUser, TestData.photos[randomNumber(0, 3)]);
@@ -57,7 +60,7 @@ class AuthService {
 
   Future<http.Response> logIn(
       SignInFieldsViewModel signInFieldsVm, User user) async {
-    var response =  await http.post(
+    var response = await http.post(
       Uri.parse(apiUrl + "login"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -69,13 +72,11 @@ class AuthService {
     );
 
     return response;
-    
-   
   }
 
   Future<http.Response> register(
       SignInFieldsViewModel signInFieldsVm, User user) async {
-    final response =  await http.post(
+    final response = await http.post(
       Uri.parse(apiUrl + 'users/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -93,8 +94,8 @@ class AuthService {
 
   Future<http.Response> updateAccount(
       SignInFieldsViewModel signInFieldsVm, User user) async {
-        String token = "";
-      token = await SecureStorageService.getInstance()
+    String token = "";
+    token = await SecureStorageService.getInstance()
         .get("token")
         .then((value) => token = value.toString());
     final response = http.put(
@@ -117,5 +118,4 @@ class AuthService {
   static void setCurrentUser(Person? user) {
     currentUser = user;
   }
-
 }

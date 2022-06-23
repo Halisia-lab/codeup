@@ -1,15 +1,13 @@
-import 'package:codeup/entities/person.dart';
-import 'package:codeup/ui/common/test_data.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../entities/person.dart';
 import '../../utils/sign_in_field_enum.dart';
 import '../authentication/viewModel/sign_in_fields_view_model.dart';
 import '../authentication/viewModel/soft_keyboard_view_model.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
-import '../home/home_screen.dart';
+import '../common/test_data.dart';
 import '../menu/menu.dart';
 
 class ProfileUnLoggedBody extends StatefulWidget {
@@ -17,27 +15,26 @@ class ProfileUnLoggedBody extends StatefulWidget {
 
   final bool backOption;
   final Person wantedUser;
-  const ProfileUnLoggedBody(this.wantedUser, this.backOption);
+  const ProfileUnLoggedBody(this.wantedUser, this.backOption, {Key? key})
+      : super(key: key);
 
   @override
-  State<ProfileUnLoggedBody> createState() => _ProfileUnLoggedBodyState(this.wantedUser, this.backOption);
+  State<ProfileUnLoggedBody> createState() => _ProfileUnLoggedBodyState();
 }
 
 class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
   final currentUser = TestData.personnes[1];
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
+  // ignore: non_constant_identifier_names
   final background_color = CustomColors.white;
-  final Person wantedUser;
-  final backOption;
+  late final Person wantedUser;
+  late final bool backOption;
 
-  bool _pwdVisibilityToggled = false;
-  FocusNode _usernameFocusNode = FocusNode();
-  FocusNode _firstnameFocusNode = FocusNode();
-  FocusNode _lastnameFocusNode = FocusNode();
-  FocusNode _emailFocusNode = FocusNode();
-
-  _ProfileUnLoggedBodyState(this.wantedUser, this.backOption);
+  final FocusNode _usernameFocusNode = FocusNode();
+  final FocusNode _firstnameFocusNode = FocusNode();
+  final FocusNode _lastnameFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
 
   @override
   void dispose() {
@@ -51,7 +48,6 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
 
   @override
   Widget build(BuildContext context) {
-    
     final body = SafeArea(
         child: MultiProvider(
       providers: [
@@ -66,48 +62,18 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
       }),
     ));
     return Scaffold(
-        backgroundColor: background_color, drawer: !backOption ? const Menu() : null, body: body);
+        backgroundColor: background_color,
+        drawer: !backOption ? const Menu() : null,
+        body: body);
   }
 
   Widget _getBody() {
     const textFieldHeight = 50.0;
-    final inputTextStyle = Theme.of(context).textTheme.bodyText1!;
 
-    const InputBorder border = OutlineInputBorder(
-      borderSide: BorderSide(
-        width: 1,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(6)),
-    );
-
-    const InputBorder enabledBorder = OutlineInputBorder(
-      borderSide: BorderSide(width: 1, color: CustomColors.defaultGrey),
-      borderRadius: BorderRadius.all(Radius.circular(6)),
-    );
-
-    const InputBorder errorBorder = OutlineInputBorder(
-      borderSide: BorderSide(width: 1, color: Colors.red),
-      borderRadius: BorderRadius.all(Radius.circular(6)),
-    );
-
-    InputBorder focusedBorder = OutlineInputBorder(
-      borderSide: BorderSide(
-        width: 2,
-        color: Theme.of(context).primaryColor,
-      ),
-      borderRadius: const BorderRadius.all(Radius.circular(6)),
-    );
-
-    InputBorder focusedBorderError = const OutlineInputBorder(
-      borderSide: BorderSide(
-        width: 2,
-        color: Colors.redAccent,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(6)),
-    );
     return CustomScrollView(
       slivers: [
-        CustomAppBar(wantedUser.user.firstname + " " + wantedUser.user.lastname, false, null),
+        CustomAppBar(wantedUser.user.firstname + " " + wantedUser.user.lastname,
+            false, null),
         SliverList(
           delegate: SliverChildListDelegate([
             Padding(
@@ -117,21 +83,19 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Image.network(wantedUser.photoUrl, height: 120,),
+                    child: Image.network(
+                      wantedUser.photoUrl,
+                      height: 120,
+                    ),
                   ),
-                
                   const Text("Username"),
-                  _buildUsername(
-                      textFieldHeight),
+                  _buildUsername(textFieldHeight),
                   const Text("Firstname"),
-                  _buildFirstname(
-                      textFieldHeight),
+                  _buildFirstname(textFieldHeight),
                   const Text("Lastname"),
-                  _buildLastname(
-                      textFieldHeight),
+                  _buildLastname(textFieldHeight),
                   const Text("Email"),
-                  _buildEmail(
-                      textFieldHeight),
+                  _buildEmail(textFieldHeight),
                 ],
               ),
             )
@@ -141,8 +105,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
     );
   }
 
-  Widget _buildUsername(
-      double textFieldHeight) {
+  Widget _buildUsername(double textFieldHeight) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       height: textFieldHeight,
@@ -152,7 +115,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
             builder: (ctx, signInFieldsVm, softKeyboardVm, child) {
           _updateSignInFocusNodes(signInFieldsVm);
           return TextField(
-          enabled: false,
+            enabled: false,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.only(left: 15.0),
               hintText: wantedUser.user.username,
@@ -168,8 +131,7 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
     );
   }
 
-  Widget _buildFirstname(
-      double textFieldHeight) {
+  Widget _buildFirstname(double textFieldHeight) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       height: textFieldHeight,
@@ -188,20 +150,18 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
-            
-          ),);
+            ),
+          );
         }),
       ),
     );
   }
 
-  Widget _buildLastname(
-      double textFieldHeight) {
+  Widget _buildLastname(double textFieldHeight) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       height: textFieldHeight,
       child: Material(
-        //Necessary when rendered in a Cupertino widget
         child: Consumer2<SignInFieldsViewModel, SoftKeyboardViewModel>(
             builder: (ctx, signInFieldsVm, softKeyboardVm, child) {
           _updateSignInFocusNodes(signInFieldsVm);
@@ -215,19 +175,18 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
-          ),);
+            ),
+          );
         }),
       ),
     );
   }
 
-  Widget _buildEmail(
-      double textFieldHeight) {
+  Widget _buildEmail(double textFieldHeight) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       height: textFieldHeight,
       child: Material(
-        //Necessary when rendered in a Cupertino widget
         child: Consumer2<SignInFieldsViewModel, SoftKeyboardViewModel>(
             builder: (ctx, signInFieldsVm, softKeyboardVm, child) {
           _updateSignInFocusNodes(signInFieldsVm);
@@ -241,7 +200,8 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
-          ),);
+            ),
+          );
         }),
       ),
     );
@@ -264,9 +224,5 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
         signInFieldsVm.mapSignInFieldFocus[SignUpFieldEnum.lastname]!) {
       _lastnameFocusNode.requestFocus();
     }
-  }
-
-  _updateProfile() {
-  Navigator.of(context).pushNamed(HomeScreen.routeName);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 
 
 class MenuProfile extends StatelessWidget {
@@ -6,9 +6,10 @@ class MenuProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(icon: Icon(Icons.person_rounded, size: 80, color: Colors.black,), onPressed: () => print("cc"));
+    return IconButton(icon: const Icon(Icons.person_rounded, size: 80, color: Colors.black,), onPressed: () => print("cc"));
    
   }
 
   
 }
+ */

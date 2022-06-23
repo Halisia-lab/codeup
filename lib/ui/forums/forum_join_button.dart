@@ -1,19 +1,15 @@
-import 'package:codeup/ui/common/custom_button.dart';
-import 'package:codeup/ui/common/custom_colors.dart';
-import 'package:codeup/ui/component/adaptive_button.dart';
-import 'package:codeup/ui/forums/forum_list_item.dart';
 import 'package:flutter/material.dart';
 
+import '../common/custom_button.dart';
+import '../common/custom_colors.dart';
+
 class ForumJoinButton extends StatelessWidget {
-  const ForumJoinButton();
+  const ForumJoinButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return 
-         CustomButton(CustomColors.mainYellow, "Join", () => _joinForum());
+    return CustomButton(CustomColors.mainYellow, "Join", () => _joinForum());
   }
 
-  _joinForum() {
-    
-  }
+  _joinForum() {}
 }

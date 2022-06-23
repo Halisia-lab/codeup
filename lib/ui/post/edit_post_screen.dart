@@ -1,9 +1,8 @@
-import 'package:codeup/services/forum_service.dart';
-import 'package:codeup/ui/forums/forum_page/forum_page_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/post.dart';
 import '../../services/auth_service.dart';
+import '../../services/forum_service.dart';
 import '../../services/post_service.dart';
 import '../comment/comment_list_screen.dart';
 import '../common/custom_app_bar.dart';
@@ -18,12 +17,13 @@ class EditPostScreen extends StatefulWidget {
   final PostBox post;
   static const routeName = "/editPost-screen";
 
-  EditPostScreen(this.post);
+  const EditPostScreen(this.post, {Key? key}) : super(key: key);
   @override
   _EditPostScreenState createState() => _EditPostScreenState();
 }
 
 class _EditPostScreenState extends State<EditPostScreen> {
+  // ignore: non_constant_identifier_names
   final background_color = CustomColors.lightGrey3;
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
@@ -44,13 +44,13 @@ class _EditPostScreenState extends State<EditPostScreen> {
   @override
   void initState() {
     titleController.text = widget.post.post.title;
-    contentController.text = widget.post.post.content;selectedForum = widget.post.post.forumId.toString();
+    contentController.text = widget.post.post.content;
+    selectedForum = widget.post.post.forumId.toString();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: background_color,
       body: CustomScrollView(
@@ -60,32 +60,62 @@ class _EditPostScreenState extends State<EditPostScreen> {
             delegate: SliverChildListDelegate([
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  // color: CustomColors.white,
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                          height: 80,
-                          child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  AuthService.currentUser!.photoUrl),
-                              radius: 50),
-                        ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        height: 80,
+                        child: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(AuthService.currentUser!.photoUrl),
+                            radius: 50),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 8, bottom: 8, top: 20),
-                        child: TextFormField(
-                          controller: titleController,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8, bottom: 8, top: 20),
+                      child: TextFormField(
+                        controller: titleController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: CustomColors.darkText, width: 1.0),
+                          ),
+                          labelText: "Title",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          labelStyle: TextStyle(fontSize: 18),
+                          floatingLabelStyle: TextStyle(
+                              fontSize: 19,
+                              color: CustomColors.darkText,
+                              fontWeight: FontWeight.bold),
+                          fillColor: Colors.white,
+                          filled: true,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: CustomColors.darkText, width: 2.0),
+                          ),
+                        ),
+                        onChanged: (str) {
+                          setState(() {
+                            responseContent = str;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                          controller: contentController,
+                          maxLines: 7,
                           decoration: const InputDecoration(
+                            isDense: true,
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: CustomColors.darkText, width: 1.0),
                             ),
-                            labelText: "Title",
                             floatingLabelBehavior: FloatingLabelBehavior.always,
+                            labelText: "Your post content...",
                             labelStyle: TextStyle(fontSize: 18),
                             floatingLabelStyle: TextStyle(
                                 fontSize: 19,
@@ -103,43 +133,9 @@ class _EditPostScreenState extends State<EditPostScreen> {
                               responseContent = str;
                             });
                           },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                            controller: contentController,
-                            maxLines: 7,
-                            decoration: const InputDecoration(
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: CustomColors.darkText, width: 1.0),
-                              ),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              labelText: "Your post content...",
-                              labelStyle: TextStyle(fontSize: 18),
-                              floatingLabelStyle: TextStyle(
-                                  fontSize: 19,
-                                  color: CustomColors.darkText,
-                                  fontWeight: FontWeight.bold),
-                              fillColor: Colors.white,
-                              filled: true,
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: CustomColors.darkText, width: 2.0),
-                              ),
-                            ),
-                            onChanged: (str) {
-                              setState(() {
-                                responseContent = str;
-                              });
-                            },
-                            onSubmitted: (str) {}),
-                      ),
-                    ],
-                  ),
+                          onSubmitted: (str) {}),
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -148,7 +144,6 @@ class _EditPostScreenState extends State<EditPostScreen> {
                     future: forumViewModel.fetchForums(),
                     builder: (BuildContext context,
                         AsyncSnapshot<List<ForumListItem>> snapshot) {
-                     // selectedForum = widget.post.post.forumId.toString();
                       return DropdownButton(
                         value: snapshot.data == null
                             ? "empty_response"
@@ -194,20 +189,26 @@ class _EditPostScreenState extends State<EditPostScreen> {
                         ? _updatePost
                         : null)),
               ),
-             
               Padding(
-                padding: const EdgeInsets.only(right:17.0, top: 25),
+                padding: const EdgeInsets.only(right: 17.0, top: 25),
                 child: Align(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Icon(Icons.delete_outline, color: CustomColors.redText,size: 19,),
+                      const Icon(
+                        Icons.delete_outline,
+                        color: CustomColors.redText,
+                        size: 19,
+                      ),
                       TextButton(
                           onPressed: () => _showMyDialog(),
                           child: const Text(
-                              "Delete post", style: TextStyle(color: CustomColors.redText, fontSize: 15),)),
+                            "Delete post",
+                            style: TextStyle(
+                                color: CustomColors.redText, fontSize: 15),
+                          )),
                     ],
-                  ), 
+                  ),
                 ),
               ),
             ]),
@@ -220,7 +221,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Delete post'),
@@ -228,7 +229,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
             child: Column(
               children: const [
                 Text(
-                    'Do you really want to delete this post ? This action is irreversible.'),
+                    'Are you sure you want to delete this post ? This action is irreversible.'),
               ],
             ),
           ),
@@ -259,7 +260,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     if (response.statusCode == 200 || response.statusCode == 201) {
       {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return HomeScreen();
+          return const HomeScreen();
         }));
       }
     }
@@ -280,14 +281,13 @@ class _EditPostScreenState extends State<EditPostScreen> {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       {
-        
-        
-        await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return HomeScreen();
+        await Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) {
+          return const HomeScreen();
         }));
-         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-      return CommentListScreen(widget.post);
-    }));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return CommentListScreen(widget.post);
+        }));
       }
     }
   }

@@ -9,7 +9,7 @@ import '../viewModel/forum_view_model.dart';
 class ForumPostsList extends StatelessWidget with ChangeNotifier {
   final int id;
   final CustomAppBar forumPageTop;
-   ForumPostsList(this.id, this.forumPageTop);
+   ForumPostsList(this.id, this.forumPageTop, {Key? key}) : super(key: key);
 
   ForumViewModel forumViewModel = ForumViewModel();
   @override
@@ -22,12 +22,15 @@ class ForumPostsList extends StatelessWidget with ChangeNotifier {
           return snapshot.data != null
               ? Consumer<CustomAppBar>(
                 builder: (context, appBar, child) {
-                  return Column(
-                      children: [
-                        for (PostBox post in snapshot.data as List<PostBox>) 
-                        (post.post.title.toLowerCase().contains(appBar.valueSearch.toLowerCase()) || post.post.content.toLowerCase().contains(appBar.valueSearch.toLowerCase())) ? post : Container()
-                      ],
-                    );
+                  return RefreshIndicator(
+                    onRefresh: () async { await _refreshPosts(); },
+                    child: Column(
+                        children: [
+                          for (PostBox post in snapshot.data as List<PostBox>) 
+                          (post.post.title.toLowerCase().contains(appBar.valueSearch.toLowerCase()) || post.post.content.toLowerCase().contains(appBar.valueSearch.toLowerCase())) ? post : Container()
+                        ],
+                      ),
+                  );
                 }
               )
               : Container(
@@ -39,5 +42,9 @@ class ForumPostsList extends StatelessWidget with ChangeNotifier {
         },
       ),
     );
+  }
+
+    Future<List<PostBox>> _refreshPosts() {
+  return forumViewModel.fetchForumPosts(id);
   }
 }

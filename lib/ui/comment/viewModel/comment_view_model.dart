@@ -14,37 +14,36 @@ import '../../../services/auth_service.dart';
 import '../../common/test_data.dart';
 
 class CommentViewModel with ChangeNotifier {
-  CommentService commentService = CommentService();
-  AuthService authService = AuthService();
-  User? commiter = null;
-  final _random = new Random();
+  final CommentService commentService = CommentService();
+  final AuthService authService = AuthService();
+
+  User? commiter;
+  final _random = Random();
 
   Future<Person> getCommiter(Comment comment) async {
-    return Person(await authService.getUserById(comment.userId), TestData.photos[randomNumber(0, 3)]);
+    return Person(await authService.getUserById(comment.userId),
+        TestData.photos[randomNumber(0, 3)]);
   }
 
-    
-int randomNumber(int min, int max) => min + _random.nextInt(max - min);
-
+  int randomNumber(int min, int max) => min + _random.nextInt(max - min);
 
   Future<List<CommentListItem>> fetchComments(int postId) async {
-  List<CommentListItem> allComments = [];
+    List<CommentListItem> allComments = [];
     await commentService.fetchCommentsOfPost(postId).then((data) async {
-      
       for (dynamic element in jsonDecode(data.body)) {
         Comment comment = Comment.fromJson(element);
         CommentListItem commentListItem = CommentListItem(
-            comment,
-            await getCommiter(comment), DateTime.now().toString());
+            comment, await getCommiter(comment));
         allComments.add(commentListItem);
       }
     });
-    return allComments.reversed.toList();
+    return allComments.toList();
   }
 
-  Future<Comment?> insertComment(Comment comment, Person user, Post post) async {
-    
-    final Response response = await commentService.addComment(comment, user, post);
+  Future<Comment?> insertComment(
+      Comment comment, Person user, Post post) async {
+    final Response response =
+        await commentService.addComment(comment, user, post);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return comment;
     } else {
@@ -53,9 +52,7 @@ int randomNumber(int min, int max) => min + _random.nextInt(max - min);
   }
 
   Future<String> getCommentCount(Post post) async {
-    final response =  await commentService.getCommentsCount(post.id);
+    final response = await commentService.getCommentsCount(post.id);
     return response.body.length == 1 ? response.body : "1";
   }
-
 }
-
