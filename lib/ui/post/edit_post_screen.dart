@@ -270,7 +270,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     final forumId = int.parse(selectedForum);
     final response = await postService.updatePost(
         Post(
-            widget.post.post.id,
+            widget.post.post.id,   
             titleController.text,
             contentController.text,
             widget.post.post.code,
