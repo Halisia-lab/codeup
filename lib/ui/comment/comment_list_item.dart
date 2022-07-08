@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../entities/comment.dart';
 import '../../entities/person.dart';
+import '../../utils/date_helper.dart';
 import '../common/custom_colors.dart';
 import '../post/votes_counter.dart';
 import '../profile/profile_screen.dart';
@@ -35,36 +36,55 @@ class CommentListItem extends StatelessWidget {
             Expanded(
                 child: Column(
               children: [
-                Align(
-                  child: Text(
-                    comment.content,
-                    style: const TextStyle(fontSize: 17),
+                Padding(
+                  padding: const EdgeInsets.only(top:20.0, left: 10.0),
+                  child: Align(
+                    child: Text(
+                      comment.content,
+                      style: const TextStyle(fontSize: 17),
+                    ),
+                    alignment: Alignment.topLeft,
                   ),
-                  alignment: Alignment.topLeft,
                 ),
 
                 GestureDetector(
                   onTap: () => _getCommiterProfile(context, commiter),
                   child: Align(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: 25,
-                          child: CircleAvatar(
-                              backgroundImage: NetworkImage(commiter.photoUrl),
-                              radius: 15),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: Text(
-                              commiter.user.firstname +
-                                  " " +
-                                  commiter.user.lastname,
-                              style: const TextStyle(
-                                  color: CustomColors.mainPurple)),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: 25,
+                                child: CircleAvatar(
+                                    backgroundImage: NetworkImage(commiter.photoUrl),
+                                    radius: 15),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 6.0),
+                                child: Text(
+                                    commiter.user.firstname +
+                                        " " +
+                                        commiter.user.lastname,
+                                    style: const TextStyle(
+                                        color: CustomColors.mainPurple)),
+                              ),
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.end,
+                          ),
+                           if (comment.creationDate != null)
+                           Align(
+                            alignment: Alignment.bottomRight,
+                             child: Text(
+                                  DateHelper.formatDate(comment.creationDate.toString()),
+                                  style: const TextStyle(
+                                      fontSize: 15, color: Colors.grey),
+                                ),
+                           ),
+                        ],
+                      ),
                     ),
                     alignment: Alignment.bottomRight,
                   ),

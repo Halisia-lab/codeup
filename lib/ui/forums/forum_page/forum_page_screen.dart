@@ -24,7 +24,7 @@ class ForumPageScreen extends StatefulWidget {
 class _ForumPageScreenState extends State<ForumPageScreen> {
   // ignore: non_constant_identifier_names
   final Color background_color = CustomColors.lightGrey3;
-  final Color _randomColor = Colors.orange;
+  final Color _randomColor = CustomColors.mainYellow;
   ForumViewModel forumViewModel = ForumViewModel();
   _ForumPageScreenState();
 

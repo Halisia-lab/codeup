@@ -25,12 +25,6 @@ class _CommentListScreenState extends State<CommentListScreen> {
   CommentViewModel commentViewModel = CommentViewModel();
   final commentController = TextEditingController();
   late String responseContent;
-  /* List<CommentListItem> comments = [
-    CommentListItem(
-        TestData.personnes[0], "coucou commentaire", DateTime.now().toString()),
-    CommentListItem(
-        TestData.personnes[2], "Helloooooooo", DateTime.now().toString())
-  ]; */
 
   @override
   void initState() {
@@ -53,8 +47,8 @@ class _CommentListScreenState extends State<CommentListScreen> {
 
   void sendResponse() async {
     Response response = await commentService.addComment(
-        Comment(-1, commentController.text, "1",
-            AuthService.currentUser!.user.id, "?", widget.post.post.id, null),
+        Comment(-1, commentController.text, "null",
+            AuthService.currentUser!.user.id, "?", widget.post.post.id, null), 
         AuthService.currentUser!,
         widget.post.post);
 

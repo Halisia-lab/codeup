@@ -66,7 +66,7 @@ class CommentService {
       headers: headers,
       body: jsonEncode({
         'content': comment.content,
-        'commentParentId': comment.commentParentId,
+        'commentParentId': null,
         'userId': user.user.id,
         'code': comment.code,
         'postId': post.id

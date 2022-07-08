@@ -30,8 +30,8 @@ class _CreateForumScreenState extends State<CreateForumScreen> {
   String selectedForum = "empty_response";
 
   Color backgroundColor = CustomColors.lightGrey3;
-  Color pickerColor = const Color(0xFFFF9600);
-  Color currentColor = Colors.orange;
+  Color pickerColor = CustomColors.mainYellow;
+  Color currentColor = CustomColors.mainYellow;
 
   List<DropdownMenuItem<String>> menuItems = [
     const DropdownMenuItem(

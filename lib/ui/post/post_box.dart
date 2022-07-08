@@ -123,8 +123,8 @@ class _PostBoxState extends State<PostBox> {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Row(children: [
-                  for (LanguageValue language in widget.languages)
-                    PostLanguageText(language),
+                  //for (LanguageValue language in widget.languages)
+                    PostLanguageText(widget.post.forumId),
                 ]),
               ),
               Padding(

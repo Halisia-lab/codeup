@@ -37,7 +37,7 @@ class CommentViewModel with ChangeNotifier {
         allComments.add(commentListItem);
       }
     });
-    return allComments.toList();
+    return allComments.reversed.toList();
   }
 
   Future<Comment?> insertComment(
