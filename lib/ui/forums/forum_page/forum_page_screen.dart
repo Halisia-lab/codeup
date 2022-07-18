@@ -36,11 +36,12 @@ class _ForumPageScreenState extends State<ForumPageScreen> {
         future: _isJoined(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           return Scaffold(
-            floatingActionButton: FloatingActionButton(
+            
+            floatingActionButton: widget.forum.isJoined ? FloatingActionButton(
               onPressed: (() => _createPost()),
               child: const Icon(Icons.add),
               backgroundColor: CustomColors.mainYellow,
-            ),
+            ) : null,
             backgroundColor: background_color,
             //drawer: Menu(),
             body: CustomScrollView(

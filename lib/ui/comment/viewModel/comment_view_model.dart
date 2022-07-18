@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:codeup/entities/comment_global.dart';
+import 'package:codeup/entities/comment_response.dart';
 import 'package:codeup/services/comment_service.dart';
 import 'package:codeup/ui/comment/comment_list_item.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +33,17 @@ class CommentViewModel with ChangeNotifier {
     List<CommentListItem> allComments = [];
     await commentService.fetchCommentsOfPost(postId).then((data) async {
       for (dynamic element in jsonDecode(data.body)) {
-        Comment comment = Comment.fromJson(element);
+        CommentResponse commentResponse = CommentResponse.fromJson(element);
+        
+        CommentGlobal commentGlobal = commentResponse.commentGlobal;
+        Comment comment = commentGlobal.comment;
+        
         CommentListItem commentListItem = CommentListItem(
             comment, await getCommiter(comment));
         allComments.add(commentListItem);
       }
     });
+    
     return allComments.reversed.toList();
   }
 

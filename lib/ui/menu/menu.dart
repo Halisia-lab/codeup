@@ -77,8 +77,8 @@ Widget _loggedMenuOptions(BuildContext context, Person currentUser) {
       MenuOption("Home", Icons.home, () => _getHomePage(context)),
       MenuOption("My Posts", Icons.article,
           () => _getLoggedUserPostsPage(context, AuthService.currentUser!)),
-      MenuOption(
-          "Saved Posts", Icons.bookmark, () => _getFavoritesPage(context)),
+     /*  MenuOption(
+          "Saved Posts", Icons.bookmark, () => _getFavoritesPage(context)), */
       MenuOption("Friends", Icons.person, () => _getFriendsPage(context)),
       MenuOption("Forums", Icons.chat_bubble_outline_sharp,
           () => _getForumsPage(context)),

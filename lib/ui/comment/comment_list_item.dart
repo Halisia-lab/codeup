@@ -1,19 +1,43 @@
+import 'package:codeup/services/comment_service.dart';
+import 'package:codeup/ui/common/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 import '../../entities/comment.dart';
 import '../../entities/person.dart';
+import '../../services/auth_service.dart';
 import '../../utils/date_helper.dart';
 import '../common/custom_colors.dart';
 import '../post/votes_counter.dart';
 import '../profile/profile_screen.dart';
 
-class CommentListItem extends StatelessWidget {
-  final Comment comment;
+class CommentListItem extends StatefulWidget {
+
+final Comment comment;
   Person commiter;
   final int _votes = 0;
 
   CommentListItem(this.comment, this.commiter, {Key? key}) : super(key: key);
 
+
+  @override
+  State<CommentListItem> createState() => _CommentListItemState();
+}
+
+class _CommentListItemState extends State<CommentListItem> {
+
+  
+  bool editMode = false;
+  String responseContent = "";
+  TextEditingController contentController = TextEditingController();
+  CommentService commentService = CommentService();
+
+  @override
+  void initState() {
+    contentController.text = widget.comment.content;
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,67 +56,109 @@ class CommentListItem extends StatelessWidget {
         padding: const EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 8),
         child: Row(
           children: [
-            VotesCounter(_votes),
+            VotesCounter(widget._votes),
             Expanded(
                 child: Column(
               children: [
+              /*if (AuthService.currentUser != null &&
+                      AuthService.currentUser!.user.id == widget.comment.userId)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 0),
+                        child: IconButton(
+                            onPressed: () => setState(() {
+                              editMode = true;
+                            }),
+                            icon: editMode ? IconButton(onPressed: () => _editComment(context), icon: Icon(Icons.save), color: CustomColors.mainYellow,): const Icon(Icons.edit_outlined)),
+                      ),
+                    ), */
                 Padding(
-                  padding: const EdgeInsets.only(top:20.0, left: 10.0),
+                  padding: const EdgeInsets.only(top:10.0, left: 10.0),
                   child: Align(
-                    child: Text(
-                      comment.content,
+                    child: editMode ? TextFormField(
+                        controller: contentController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: CustomColors.darkText, width: 1.0),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          labelStyle: TextStyle(fontSize: 18),
+                          floatingLabelStyle: TextStyle(
+                              fontSize: 19,
+                              color: CustomColors.darkText,
+                              fontWeight: FontWeight.bold),
+                          fillColor: Colors.white,
+                          filled: true,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: CustomColors.darkText, width: 2.0),
+                          ),
+                        ),
+                        onChanged: (str) {
+                          setState(() {
+                            responseContent = str;
+                          });
+                        },
+                      ) : Text(
+                      widget.comment.content,
                       style: const TextStyle(fontSize: 17),
                     ),
                     alignment: Alignment.topLeft,
                   ),
                 ),
-
-                GestureDetector(
-                  onTap: () => _getCommiterProfile(context, commiter),
-                  child: Align(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Row(
+  
+                
+                    GestureDetector(
+                      onTap: () => _getCommiterProfile(context, widget.commiter),
+                      child: Align(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Column(
                             children: [
-                              SizedBox(
-                                height: 25,
-                                child: CircleAvatar(
-                                    backgroundImage: NetworkImage(commiter.photoUrl),
-                                    radius: 15),
+                              
+                              Row(
+                                children: [
+                                  
+                                  SizedBox(
+                                    height: 25,
+                                    child: CircleAvatar(
+                                        backgroundImage: NetworkImage(widget.commiter.photoUrl),
+                                        radius: 15),
+                                  ),
+                                  
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 6.0),
+                                    child: Text(
+                                        widget.commiter.user.firstname +
+                                            " " +
+                                            widget.commiter.user.lastname,
+                                        style: const TextStyle(
+                                            color: CustomColors.mainPurple)),
+                                  ),
+                                ],
+                                mainAxisAlignment: MainAxisAlignment.end,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 6.0),
-                                child: Text(
-                                    commiter.user.firstname +
-                                        " " +
-                                        commiter.user.lastname,
-                                    style: const TextStyle(
-                                        color: CustomColors.mainPurple)),
-                              ),
+                               if (widget.comment.creationDate != null)
+                               Align(
+                                alignment: Alignment.bottomRight,
+                                 child: Text(
+                                      DateHelper.formatDate(widget.comment.creationDate.toString()),
+                                      style: const TextStyle(
+                                          fontSize: 15, color: Colors.grey),
+                                    ),
+                               ),
+                               
                             ],
-                            mainAxisAlignment: MainAxisAlignment.end,
                           ),
-                           if (comment.creationDate != null)
-                           Align(
-                            alignment: Alignment.bottomRight,
-                             child: Text(
-                                  DateHelper.formatDate(comment.creationDate.toString()),
-                                  style: const TextStyle(
-                                      fontSize: 15, color: Colors.grey),
-                                ),
-                           ),
-                        ],
+                        ),
+                        alignment: Alignment.bottomRight,
                       ),
                     ),
-                    alignment: Alignment.bottomRight,
-                  ),
-                ),
-                //TODO: add when date is available
-                //Align(child: Text(date,  style: TextStyle(color: Colors.black45)), alignment: Alignment.bottomRight,)
-              ],
+                ],
             )),
+            
           ],
         ),
       ),
@@ -102,5 +168,30 @@ class CommentListItem extends StatelessWidget {
   _getCommiterProfile(BuildContext context, Person user) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (_) => ProfileScreen(user, true)));
+  }
+
+  _editComment(BuildContext context) async {
+    Comment comment = Comment(widget.comment.id, responseContent, null,
+            AuthService.currentUser!.user.id, "?", widget.comment.postId, widget.comment.creationDate);
+            print(comment.postId);
+     Response response = await commentService.updateComment(
+        comment, 
+        AuthService.currentUser!);
+        print(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      setState(() {
+      editMode = false;
+    });
+     /*  {
+        await Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) {
+          return const HomeScreen();
+        }));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return CommentListScreen(widget.post);
+        }));
+      } */
+    }
+    
   }
 }

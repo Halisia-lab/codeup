@@ -27,6 +27,8 @@ class ForumService {
     return response;
   }
 
+  
+
   Future<http.Response> addForum(Forum forum) async {
     return await http.post(
       Uri.parse(apiUrl + 'forums/add'),

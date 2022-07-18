@@ -17,9 +17,27 @@ class PostService {
   PostService();
 
   Future<http.Response> fetchPosts() async {
+
     final response =
         await http.get(Uri.parse(apiUrl + "posts/all/limit/100/offset/0"));
 
+    return response;
+  }
+
+  Future<http.Response> fetchPostsByForumId(int forumId) async {
+    String token = "";
+    token = await SecureStorageService.getInstance()
+        .get("token")
+        .then((value) => token = value.toString());
+
+    final headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'cookie': token,
+    };
+    final response = await http.get(
+        Uri.parse(apiUrl + "posts/forum/" + forumId.toString()),
+        headers: headers);
+        print(response.body);
     return response;
   }
 

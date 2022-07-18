@@ -47,7 +47,7 @@ class _CommentListScreenState extends State<CommentListScreen> {
 
   void sendResponse() async {
     Response response = await commentService.addComment(
-        Comment(-1, commentController.text, "null",
+        Comment(-1, commentController.text, null,
             AuthService.currentUser!.user.id, "?", widget.post.post.id, null), 
         AuthService.currentUser!,
         widget.post.post);

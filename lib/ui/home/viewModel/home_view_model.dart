@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:codeup/ui/forums/forum_list_item.dart';
+import 'package:codeup/ui/forums/viewModel/forum_view_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../entities/post.dart';
@@ -11,6 +13,7 @@ import '../../post/viewModel/post_view_model.dart';
 class HomeViewModel with ChangeNotifier {
   PostViewModel postViewModel = PostViewModel();
   PostService postService = PostService();
+  ForumViewModel forumViewModel = ForumViewModel();
 
   Future<List<PostBox>> fetchPosts() async {
     List<PostBox> allPosts = [];
@@ -25,6 +28,29 @@ class HomeViewModel with ChangeNotifier {
             await postViewModel.getCommiter(post),
             true);
         allPosts.add(postBoxWidget);
+      }
+    });
+    return allPosts;
+  }
+
+  Future<List<PostBox>> fetchHomePosts() async {
+    List<PostBox> allPosts = [];
+
+    await forumViewModel.fetchForumsOfUser().then((data) async {
+      for (ForumListItem forumListItem in data) {
+        await postService.fetchPostsByForumId(forumListItem.forum.id).then((data) async {
+          for (dynamic element in jsonDecode(data.body)) {
+            Post post = Post.fromJson(element);
+            PostBox postBoxWidget = PostBox(
+                post,
+                const [LanguageValue.C, LanguageValue.JAVA],
+                post.userId,
+                false,
+                await postViewModel.getCommiter(post),
+                true);
+            allPosts.add(postBoxWidget);
+          }
+        });
       }
     });
     return allPosts;

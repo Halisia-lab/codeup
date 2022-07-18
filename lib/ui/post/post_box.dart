@@ -161,7 +161,7 @@ class _PostBoxState extends State<PostBox> {
                             }),
                         onTap: () => _openComments(context),
                       ),
-                    GestureDetector(
+                    /* GestureDetector(
                       child: PostBoxAction(
                           widget.isSaved
                               ? Icons.bookmark
@@ -169,7 +169,7 @@ class _PostBoxState extends State<PostBox> {
                           "Save",
                           () => _save()),
                       onTap: () => _save(),
-                    ),
+                    ), */
                     GestureDetector(
                         child: PostBoxAction(
                             Icons.share_outlined, "Share", () => _share()),

@@ -51,7 +51,7 @@ class ForumViewModel with ChangeNotifier {
 
   Future<List<PostBox>> fetchForumPosts(int id) async {
     List<PostBox> allPosts = [];
-    await postService.fetchPosts().then((data) async {
+    await postService.fetchPostsByForumId(id).then((data) async {
       for (dynamic element in jsonDecode(data.body)) {
         Post post = Post.fromJson(element);
         PostBox postBoxWidget = PostBox(

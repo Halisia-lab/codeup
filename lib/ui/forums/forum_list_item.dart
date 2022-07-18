@@ -63,8 +63,8 @@ class _ForumListItemState extends State<ForumListItem> {
                                 child: Text(
                                   "Joined",
                                   style: TextStyle(
-                                      color: Color.fromARGB(255, 206, 206, 206),
-                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors.darkText,
+                                      fontWeight: FontWeight.normal,
                                       fontSize: 16),
                                 ),
                               ))

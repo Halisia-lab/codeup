@@ -76,6 +76,44 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             radius: 50),
                       ),
                     ),
+                    if (widget.choosenForumId == null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left:10,top:20.0),
+                    child: FutureBuilder(
+                        future: forumViewModel.fetchForumsOfUser(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<ForumListItem>> snapshot) {
+                          return DropdownButton(
+                            value: selectedForum,
+                            items: snapshot.data != null
+                                ? <DropdownMenuItem<String>>[
+                                    menuItems[0],
+                                    for (ForumListItem forum in snapshot.data!)
+                                      DropdownMenuItem(
+                                        child: Text(forum.forum.title.toString()),
+                                        value: snapshot.data != null
+                                            ? forum.forum.id.toString()
+                                            : selectedForum,
+                                      )
+                                  ]
+                                : menuItems,
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedForum = value.toString();
+                              });
+                            },
+                            iconEnabledColor: CustomColors.mainYellow,
+                            iconDisabledColor: Colors.grey,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: CustomColors.darkText),
+                          );
+                        }),
+                  ),
+                ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 8.0, right: 8, bottom: 8, top: 20),
@@ -141,43 +179,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ],
                 ),
               ),
-              if (widget.choosenForumId == null)
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: FutureBuilder(
-                      future: forumViewModel.fetchForums(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<ForumListItem>> snapshot) {
-                        return DropdownButton(
-                          value: selectedForum,
-                          items: snapshot.data != null
-                              ? <DropdownMenuItem<String>>[
-                                  menuItems[0],
-                                  for (ForumListItem forum in snapshot.data!)
-                                    DropdownMenuItem(
-                                      child: Text(forum.forum.title.toString()),
-                                      value: snapshot.data != null
-                                          ? forum.forum.id.toString()
-                                          : selectedForum,
-                                    )
-                                ]
-                              : menuItems,
-                          onChanged: (String? value) {
-                            setState(() {
-                              selectedForum = value.toString();
-                            });
-                          },
-                          iconEnabledColor: CustomColors.mainYellow,
-                          iconDisabledColor: Colors.grey,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: CustomColors.darkText),
-                        );
-                      }),
-                ),
+              
               Padding(
-                padding: const EdgeInsets.only(top: 4.0, right: 8),
+                padding: const EdgeInsets.only(top: 4.0, right: 8, left:8),
                 child: CustomButton(
                     widget.choosenForumId == null
                         ? (contentController.text.isNotEmpty &&

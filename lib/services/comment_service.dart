@@ -73,4 +73,26 @@ class CommentService {
       }),
     );
   }
+
+  Future<http.Response> updateComment(Comment comment, Person user) async {
+    String token = "";
+    token = await SecureStorageService.getInstance()
+        .get("token")
+        .then((value) => token = value.toString());
+    final response = http.put(
+      Uri.parse(apiUrl + "comments"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'cookie': token,
+      },
+      body: jsonEncode({
+        'content': comment.content,
+        'commentParentId': null,
+        'userId': user.user.id,
+        'code': comment.code,
+        'postId': comment.postId
+      }),
+    );
+    return response;
+  }
 }
