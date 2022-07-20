@@ -1,8 +1,11 @@
+import 'package:codeup/services/post_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../entities/person.dart';
 import '../../entities/post.dart';
+import '../../entities/post_vote.dart';
 import '../../services/auth_service.dart';
+import '../../services/post_vote_service.dart';
 import '../../utils/date_helper.dart';
 import '../comment/comment_list_screen.dart';
 import '../comment/viewModel/comment_view_model.dart';
@@ -35,6 +38,7 @@ class PostBox extends StatefulWidget {
 class _PostBoxState extends State<PostBox> {
   AuthService authService = AuthService();
   PostViewModel postViewModel = PostViewModel();
+  PostVoteService postVoteService = PostVoteService();
 
   @override
   void initState() {
@@ -45,6 +49,8 @@ class _PostBoxState extends State<PostBox> {
   Widget build(BuildContext context) {
     CommentViewModel commentViewModel = CommentViewModel();
     commentViewModel.getCommentCount(widget.post);
+    var response = postViewModel.userHasVoted(widget.post);
+    
     return Padding(
       padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
       child: Container(
@@ -131,7 +137,7 @@ class _PostBoxState extends State<PostBox> {
                 padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   children: [
-                    VotesCounter(widget.votes),
+                    VotesCounter(widget.post.note, widget.post),
                     Flexible(child: TextViewer(widget.post.content)),
                   ],
                 ),
@@ -161,15 +167,7 @@ class _PostBoxState extends State<PostBox> {
                             }),
                         onTap: () => _openComments(context),
                       ),
-                    /* GestureDetector(
-                      child: PostBoxAction(
-                          widget.isSaved
-                              ? Icons.bookmark
-                              : Icons.bookmark_border,
-                          "Save",
-                          () => _save()),
-                      onTap: () => _save(),
-                    ), */
+                    
                     GestureDetector(
                         child: PostBoxAction(
                             Icons.share_outlined, "Share", () => _share()),
@@ -180,6 +178,18 @@ class _PostBoxState extends State<PostBox> {
             ],
           )),
     );
+  }
+
+  _upvote() async {
+    final response = await postVoteService.editUserVoteForPost
+    (PostVote(-1,true,widget.post.id, AuthService.currentUser!.user.id ));
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      
+    }
+  }
+
+  _downvote() async {
+    
   }
 
   _editPost() {

@@ -1,66 +1,97 @@
+import 'package:codeup/services/post_vote_service.dart';
+import 'package:codeup/ui/post/viewModel/post_view_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../entities/post.dart';
+import '../../entities/post_vote.dart';
 import '../../services/auth_service.dart';
 import '../authentication/sign_in/sign_in_screen.dart';
 
 class VotesCounter extends StatefulWidget {
   int counter;
+  late 
+  Post post;
 
-  VotesCounter(this.counter, {Key? key}) : super(key: key);
+  VotesCounter(this.counter, this.post, {Key? key}) : super(key: key);
   @override
   _VotesCounterState createState() => _VotesCounterState();
 }
 
 class _VotesCounterState extends State<VotesCounter> {
   int _initialCounter = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: AuthService.currentUser != null
-                ? (_initialCounter < widget.counter
-                    ? _resetCounter
-                    : _incrementCounter)
-                : () => _getSignInScreen(context),
-            child: Icon(
-              Icons.keyboard_arrow_up,
-              size: 28,
-              color: _initialCounter < widget.counter
-                  ? Colors.green
-                  : Colors.black,
-            ),
-          ),
-          Text(
-            widget.counter.toString(),
-            style: TextStyle(fontSize: 17, color: _getCounterColor()),
-          ),
-          GestureDetector(
-            onTap: AuthService.currentUser != null
-                ? (_initialCounter > widget.counter
-                    ? _resetCounter
-                    : _decrementCounter)
-                : () => _getSignInScreen(context),
-            child: Icon(
-              Icons.keyboard_arrow_down,
-              size: 28,
-              color:
-                  _initialCounter > widget.counter ? Colors.red : Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  PostViewModel postViewModel = PostViewModel();
+  PostVoteService postVoteService = PostVoteService();
 
   @override
   void initState() {
     super.initState();
+   int initial_note = widget.counter;
     _initialCounter = widget.counter;
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: postViewModel.userHasVoted(widget.post),
+        builder: (BuildContext context, AsyncSnapshot<bool> hasVoted) {
+          return FutureBuilder(
+              future: postViewModel.userHasUpVoted(widget.post),
+              builder: (BuildContext context, AsyncSnapshot<bool> hasUpVoted) {
+                return InkWell(
+                  onTap: () {},
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: AuthService.currentUser != null
+                            ? (hasVoted.data != null &&
+                                    hasVoted.data! == true
+                                ?  () => _resetCounter(true)
+                                : _incrementCounter)
+                            : () => _getSignInScreen(context),
+                        child: Icon(
+                          Icons.keyboard_arrow_up,
+                          size: 28,
+                          color:
+                              hasVoted.data != null && hasVoted.data! == true
+                                  ? (hasUpVoted.data != null &&
+                                          hasUpVoted.data! == true
+                                      ? Colors.green
+                                      : Colors.black)
+                                  : Colors.black,
+                        ),
+                      ),
+                      Text(
+                        widget.counter.toString(),
+                        style:
+                            TextStyle(fontSize: 17, color: _getCounterColor()),
+                      ),
+                      GestureDetector(
+                        onTap: AuthService.currentUser != null
+                            ? (hasVoted.data != null &&
+                                    hasVoted.data! == true 
+                                ? () => _resetCounter(false)
+                                : _decrementCounter)
+                            : () => _getSignInScreen(context),
+                        child: Icon(
+                          Icons.keyboard_arrow_down,
+                          size: 28,
+                          color:
+                              hasVoted.data != null && hasVoted.data! != false
+                                  ? (hasUpVoted.data != null &&
+                                          hasUpVoted.data! == false
+                                      ? Colors.red
+                                      : Colors.black)
+                                  : Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              });
+        });
+  }
+
+  
 
   Color _getCounterColor() {
     if (widget.counter > 0) return Colors.green;
@@ -68,26 +99,39 @@ class _VotesCounterState extends State<VotesCounter> {
     return Colors.black;
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _initialCounter >= widget.counter
-          ? widget.counter++
-          : widget.counter = widget.counter;
-    });
+  void _incrementCounter() async {
+    print("incr");
+    final response = await postVoteService.editUserVoteForPost(
+        PostVote(-1, true, widget.post.id, AuthService.currentUser!.user.id));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      setState(() {
+        widget.counter++;
+      });
+    }
   }
 
-  void _decrementCounter() {
-    setState(() {
-      _initialCounter <= widget.counter
-          ? widget.counter--
-          : widget.counter = widget.counter;
-    });
+  void _decrementCounter() async {
+    print("decr");
+    final response = await postVoteService.editUserVoteForPost(
+        PostVote(-1, false, widget.post.id, AuthService.currentUser!.user.id));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      setState(() {
+        widget.counter--;
+      });
+    }
   }
 
-  void _resetCounter() {
-    setState(() {
-      widget.counter = _initialCounter;
-    });
+  void _resetCounter(bool up) async {
+    int first = widget.post.note;
+    print("reset");
+   final postVote = await postViewModel.fetchUserVoteByPostId(widget.post.id);
+   final response = await postVoteService.deleteUserVoteForPost(postVote);
+   if(response.statusCode == 200 || response.statusCode == 201) {
+     setState(() {
+       widget.counter = first;
+     });
+   }
   }
 
   void _getSignInScreen(BuildContext context) {

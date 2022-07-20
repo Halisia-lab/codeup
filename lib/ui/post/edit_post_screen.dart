@@ -276,7 +276,8 @@ class _EditPostScreenState extends State<EditPostScreen> {
             widget.post.post.code,
             forumId,
             AuthService.currentUser!.user.id,
-            widget.post.post.creationDate),
+            widget.post.post.creationDate,
+            widget.post.post.note),
         AuthService.currentUser!);
 
     if (response.statusCode == 200 || response.statusCode == 201) {

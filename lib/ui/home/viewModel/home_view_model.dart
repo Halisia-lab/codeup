@@ -17,17 +17,22 @@ class HomeViewModel with ChangeNotifier {
 
   Future<List<PostBox>> fetchPosts() async {
     List<PostBox> allPosts = [];
-    await postService.fetchPosts().then((data) async {
-      for (dynamic element in jsonDecode(data.body)) {
-        Post post = Post.fromJson(element);
-        PostBox postBoxWidget = PostBox(
-            post,
-            const [LanguageValue.C, LanguageValue.JAVA],
-            post.userId,
-            false,
-            await postViewModel.getCommiter(post),
-            true);
-        allPosts.add(postBoxWidget);
+
+    await forumViewModel.fetchForums().then((data) async {
+      for (ForumListItem forumListItem in data) {
+        await postService.fetchPostsByForumId(forumListItem.forum.id).then((data) async {
+          for (dynamic element in jsonDecode(data.body)) {
+            Post post = Post.fromJson(element);
+            PostBox postBoxWidget = PostBox(
+                post,
+                const [LanguageValue.C, LanguageValue.JAVA],
+                post.userId,
+                false,
+                await postViewModel.getCommiter(post),
+                true);
+            allPosts.add(postBoxWidget);
+          }
+        });
       }
     });
     return allPosts;
@@ -38,7 +43,10 @@ class HomeViewModel with ChangeNotifier {
 
     await forumViewModel.fetchForumsOfUser().then((data) async {
       for (ForumListItem forumListItem in data) {
+            print("element");
+
         await postService.fetchPostsByForumId(forumListItem.forum.id).then((data) async {
+
           for (dynamic element in jsonDecode(data.body)) {
             Post post = Post.fromJson(element);
             PostBox postBoxWidget = PostBox(

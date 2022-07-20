@@ -56,7 +56,7 @@ class _CommentListItemState extends State<CommentListItem> {
         padding: const EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 8),
         child: Row(
           children: [
-            VotesCounter(widget._votes),
+            //VotesCounter(0, null),
             Expanded(
                 child: Column(
               children: [

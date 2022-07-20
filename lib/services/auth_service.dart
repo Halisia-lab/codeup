@@ -71,7 +71,7 @@ class AuthService {
         'password': user.password
       }),
     );
-
+print(response.body);
     return response;
   }
 

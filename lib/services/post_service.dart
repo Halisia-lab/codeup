@@ -37,7 +37,6 @@ class PostService {
     final response = await http.get(
         Uri.parse(apiUrl + "posts/forum/" + forumId.toString()),
         headers: headers);
-        print(response.body);
     return response;
   }
 
