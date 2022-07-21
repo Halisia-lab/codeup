@@ -5,9 +5,10 @@ class Comment {
   final int userId;
   final String code;
   final int postId;
-  final creationDate;
+  final String creationDate;
+  final int note;
 
-  Comment(this.id,  this.content, this.commentParentId,  this.userId,  this.code,  this.postId, this.creationDate);
+  Comment(this.id,  this.content, this.commentParentId,  this.userId,  this.code,  this.postId, this.creationDate, this.note);
  
 factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
@@ -17,12 +18,13 @@ factory Comment.fromJson(Map<String, dynamic> json) {
       json['userId'],
       json['code'],
       json['postId'],
-      json['creationDate']
+      json['creationDate'],
+      json['note']
     );
   }
 
   @override
   String toString() {
-    return "{id: $id, content: $content, commentParentId: $commentParentId, userId: $userId, code: $code, postId: $postId, creationDate: $creationDate}";
+    return "{id: $id, content: $content, commentParentId: $commentParentId, userId: $userId, code: $code, postId: $postId, creationDate: $creationDate, note: $note}";
   }
 }
