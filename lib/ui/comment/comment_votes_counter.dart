@@ -79,7 +79,7 @@ class _CommentVotesCounterState extends State<CommentVotesCounter> {
                           Icons.keyboard_arrow_down,
                           size: 28,
                           color:
-                              hasVoted.data != null && hasVoted.data! != false && AuthService.currentUser != null
+                              AuthService.currentUser != null && hasVoted.data != null && hasVoted.data! != false 
                                   ? (hasUpVoted.data != null &&
                                           hasUpVoted.data! == false
                                       ? Colors.red
@@ -129,7 +129,10 @@ class _CommentVotesCounterState extends State<CommentVotesCounter> {
     int first = widget.comment.note;
     print("reset");
    final commentVote = await commentViewModel.fetchUserVoteByCommentId(widget.comment.id);
+    //print(commentVote);
    final response = await commentVoteService.deleteUserVoteForComment(commentVote);
+  
+   print(response.statusCode);
    if(response.statusCode == 200 || response.statusCode == 201) {
      setState(() {
        widget.counter = first;

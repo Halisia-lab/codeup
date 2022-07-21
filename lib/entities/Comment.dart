@@ -5,7 +5,7 @@ class Comment {
   final int userId;
   final String code;
   final int postId;
-  final String creationDate;
+  final dynamic creationDate;
   final int note;
 
   Comment(this.id,  this.content, this.commentParentId,  this.userId,  this.code,  this.postId, this.creationDate, this.note);

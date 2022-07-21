@@ -10,6 +10,7 @@ import '../../utils/date_helper.dart';
 import '../common/custom_colors.dart';
 import '../post/post_votes_counter.dart';
 import '../profile/profile_screen.dart';
+import 'comment_votes_counter.dart';
 
 class CommentListItem extends StatefulWidget {
 
@@ -55,8 +56,9 @@ class _CommentListItemState extends State<CommentListItem> {
       child: Padding(
         padding: const EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 8),
         child: Row(
+         
           children: [
-            //VotesCounter(0, null),
+            CommentVotesCounter(widget.comment.note, widget.comment),
             Expanded(
                 child: Column(
               children: [
@@ -105,7 +107,7 @@ class _CommentListItemState extends State<CommentListItem> {
                       widget.comment.content,
                       style: const TextStyle(fontSize: 17),
                     ),
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.centerLeft,
                   ),
                 ),
   
@@ -172,7 +174,7 @@ class _CommentListItemState extends State<CommentListItem> {
 
   _editComment(BuildContext context) async {
     Comment comment = Comment(widget.comment.id, responseContent, null,
-            AuthService.currentUser!.user.id, "?", widget.comment.postId, widget.comment.creationDate);
+            AuthService.currentUser!.user.id, "?", widget.comment.postId, widget.comment.creationDate, widget.comment.note);
             print(comment.postId);
      Response response = await commentService.updateComment(
         comment, 

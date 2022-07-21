@@ -15,8 +15,7 @@ class TestData {
           ];
 
    static var photos = [ 
-    
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBx_P1zJcOHhpA_PDhyNMToHfAIgOdkaMUzA&usqp=CAU",
+     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBx_P1zJcOHhpA_PDhyNMToHfAIgOdkaMUzA&usqp=CAU",
    "https://previews.123rf.com/images/gmast3r/gmast3r1710/gmast3r171002129/88668387-female-avatar-profile-vector-illustration.jpg",
         "https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg"
   ];

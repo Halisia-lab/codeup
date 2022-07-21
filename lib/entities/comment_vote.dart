@@ -11,7 +11,7 @@ factory CommentVote.fromJson(Map<String, dynamic> json) {
       json['id'],
       json['upvote'],
       json['userId'],
-      json['comment_id']
+      json['commentId']
     );
   }
  @override
