@@ -76,7 +76,7 @@ class _VotesCounterState extends State<VotesCounter> {
                           Icons.keyboard_arrow_down,
                           size: 28,
                           color:
-                              hasVoted.data != null && hasVoted.data! != false
+                              hasVoted.data != null && hasVoted.data! != false && AuthService.currentUser != null
                                   ? (hasUpVoted.data != null &&
                                           hasUpVoted.data! == false
                                       ? Colors.red
@@ -102,7 +102,7 @@ class _VotesCounterState extends State<VotesCounter> {
   void _incrementCounter() async {
     print("incr");
     final response = await postVoteService.editUserVoteForPost(
-        PostVote(-1, true, widget.post.id, AuthService.currentUser!.user.id));
+        PostVote(-1, true, AuthService.currentUser!.user.id, widget.post.id));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       setState(() {
@@ -114,7 +114,7 @@ class _VotesCounterState extends State<VotesCounter> {
   void _decrementCounter() async {
     print("decr");
     final response = await postVoteService.editUserVoteForPost(
-        PostVote(-1, false, widget.post.id, AuthService.currentUser!.user.id));
+        PostVote(-1, false, AuthService.currentUser!.user.id, widget.post.id));
     if (response.statusCode == 200 || response.statusCode == 201) {
       setState(() {
         widget.counter--;

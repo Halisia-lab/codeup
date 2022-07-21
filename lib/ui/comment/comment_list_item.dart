@@ -8,7 +8,7 @@ import '../../entities/person.dart';
 import '../../services/auth_service.dart';
 import '../../utils/date_helper.dart';
 import '../common/custom_colors.dart';
-import '../post/votes_counter.dart';
+import '../post/post_votes_counter.dart';
 import '../profile/profile_screen.dart';
 
 class CommentListItem extends StatefulWidget {

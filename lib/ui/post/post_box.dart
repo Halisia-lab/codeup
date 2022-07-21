@@ -17,7 +17,7 @@ import 'post_language_text.dart';
 import 'post_box_action.dart';
 import 'text_viewer.dart';
 import 'viewModel/post_view_model.dart';
-import 'votes_counter.dart';
+import 'post_votes_counter.dart';
 
 class PostBox extends StatefulWidget {
   Post post;
