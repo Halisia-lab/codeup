@@ -8,7 +8,7 @@ import '../../entities/person.dart';
 import '../../services/auth_service.dart';
 import '../../utils/date_helper.dart';
 import '../common/custom_colors.dart';
-import '../post/votes_counter.dart';
+import '../post/post_votes_counter.dart';
 import '../profile/profile_screen.dart';
 
 class CommentListItem extends StatefulWidget {
@@ -56,7 +56,7 @@ class _CommentListItemState extends State<CommentListItem> {
         padding: const EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 8),
         child: Row(
           children: [
-            VotesCounter(widget._votes),
+            //VotesCounter(0, null),
             Expanded(
                 child: Column(
               children: [

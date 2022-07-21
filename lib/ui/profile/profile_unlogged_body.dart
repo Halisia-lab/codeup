@@ -7,7 +7,6 @@ import '../authentication/viewModel/sign_in_fields_view_model.dart';
 import '../authentication/viewModel/soft_keyboard_view_model.dart';
 import '../common/custom_app_bar.dart';
 import '../common/custom_colors.dart';
-import '../common/test_data.dart';
 import '../menu/menu.dart';
 
 class ProfileUnLoggedBody extends StatefulWidget {
@@ -23,16 +22,15 @@ class ProfileUnLoggedBody extends StatefulWidget {
 }
 
 class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
-  final currentUser = TestData.personnes[1];
   final SoftKeyboardViewModel _softKeyboardVm = SoftKeyboardViewModel();
   final SignInFieldsViewModel _signInFieldsVm = SignInFieldsViewModel();
-  // ignore: non_constant_identifier_names
-  final background_color = CustomColors.white;
-
   final FocusNode _usernameFocusNode = FocusNode();
   final FocusNode _firstnameFocusNode = FocusNode();
   final FocusNode _lastnameFocusNode = FocusNode();
   final FocusNode _emailFocusNode = FocusNode();
+  // ignore: non_constant_identifier_names
+  final background_color = CustomColors.white;
+
 
   @override
   void dispose() {
@@ -134,7 +132,6 @@ class _ProfileUnLoggedBodyState extends State<ProfileUnLoggedBody> {
       margin: const EdgeInsets.only(bottom: 24),
       height: textFieldHeight,
       child: Material(
-        //Necessary when rendered in a Cupertino widget
         child: Consumer2<SignInFieldsViewModel, SoftKeyboardViewModel>(
             builder: (ctx, signInFieldsVm, softKeyboardVm, child) {
           _updateSignInFocusNodes(signInFieldsVm);

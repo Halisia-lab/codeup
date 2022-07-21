@@ -217,7 +217,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     final forumId = widget.choosenForumId ?? int.parse(selectedForum);
     final response = await postService.addPost(
         Post(-1, titleController.text, contentController.text, "C", forumId,
-            AuthService.currentUser!.user.id, null),
+            AuthService.currentUser!.user.id, null, 0),
         AuthService.currentUser!);
 
     if (response.statusCode == 200 || response.statusCode == 201) {

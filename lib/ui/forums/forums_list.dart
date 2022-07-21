@@ -37,7 +37,7 @@ class _ForumListState extends State<ForumList> {
           builder: (BuildContext context,
               AsyncSnapshot<List<ForumListItem>> snapshot) {
             return snapshot.data != null
-                ? Consumer<CustomAppBar>(builder: (context, appBar, child) {
+                ? (snapshot.data!.isNotEmpty ? Consumer<CustomAppBar>(builder: (context, appBar, child) {
                     return ListView(
                       children: [
                         if (AuthService.currentUser != null)
@@ -75,7 +75,15 @@ class _ForumListState extends State<ForumList> {
                               : Container()
                       ],
                     );
-                  })
+                  }) : const Center(
+                    child: Text(
+                        "No forums to show",
+                        style: TextStyle(
+                            color: CustomColors.darkText,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                  ))
                 : Container(
                     alignment: Alignment.center,
                     child: const CircularProgressIndicator(

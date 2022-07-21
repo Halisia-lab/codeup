@@ -1,3 +1,4 @@
+import 'package:codeup/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,7 @@ class _PostBoxListState extends State<PostBoxList> {
     return ChangeNotifierProvider(
       create: (context) => widget.homeTop,
       child: FutureBuilder(
-        future: homeViewModel.fetchHomePosts(), //posts,
+        future: AuthService.currentUser != null ? homeViewModel.fetchHomePosts() : homeViewModel.fetchPosts(), //posts,
         builder: (BuildContext context, AsyncSnapshot<List<PostBox>> snapshot) {
           return snapshot.data != null
               ? (snapshot.data!.length != 0
